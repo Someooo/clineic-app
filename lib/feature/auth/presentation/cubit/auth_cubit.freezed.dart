@@ -55,13 +55,14 @@ extension AuthStatePatterns on AuthState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( AuthInitial value)?  initial,TResult Function( AuthLoading value)?  loading,TResult Function( AuthLoaded value)?  loaded,TResult Function( AuthError value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( AuthInitial value)?  initial,TResult Function( AuthLoading value)?  loading,TResult Function( AuthLoaded value)?  loaded,TResult Function( AuthLoginSuccess value)?  loginSuccess,TResult Function( AuthError value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case AuthInitial() when initial != null:
 return initial(_that);case AuthLoading() when loading != null:
 return loading(_that);case AuthLoaded() when loaded != null:
-return loaded(_that);case AuthError() when error != null:
+return loaded(_that);case AuthLoginSuccess() when loginSuccess != null:
+return loginSuccess(_that);case AuthError() when error != null:
 return error(_that);case _:
   return orElse();
 
@@ -80,13 +81,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( AuthInitial value)  initial,required TResult Function( AuthLoading value)  loading,required TResult Function( AuthLoaded value)  loaded,required TResult Function( AuthError value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( AuthInitial value)  initial,required TResult Function( AuthLoading value)  loading,required TResult Function( AuthLoaded value)  loaded,required TResult Function( AuthLoginSuccess value)  loginSuccess,required TResult Function( AuthError value)  error,}){
 final _that = this;
 switch (_that) {
 case AuthInitial():
 return initial(_that);case AuthLoading():
 return loading(_that);case AuthLoaded():
-return loaded(_that);case AuthError():
+return loaded(_that);case AuthLoginSuccess():
+return loginSuccess(_that);case AuthError():
 return error(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -104,13 +106,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( AuthInitial value)?  initial,TResult? Function( AuthLoading value)?  loading,TResult? Function( AuthLoaded value)?  loaded,TResult? Function( AuthError value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( AuthInitial value)?  initial,TResult? Function( AuthLoading value)?  loading,TResult? Function( AuthLoaded value)?  loaded,TResult? Function( AuthLoginSuccess value)?  loginSuccess,TResult? Function( AuthError value)?  error,}){
 final _that = this;
 switch (_that) {
 case AuthInitial() when initial != null:
 return initial(_that);case AuthLoading() when loading != null:
 return loading(_that);case AuthLoaded() when loaded != null:
-return loaded(_that);case AuthError() when error != null:
+return loaded(_that);case AuthLoginSuccess() when loginSuccess != null:
+return loginSuccess(_that);case AuthError() when error != null:
 return error(_that);case _:
   return null;
 
@@ -128,12 +131,13 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( AuthEntity user,  String message)?  loaded,TResult Function( String message,  String? title)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( AuthEntity user,  String message)?  loaded,TResult Function( String message)?  loginSuccess,TResult Function( String message,  String? title)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case AuthInitial() when initial != null:
 return initial();case AuthLoading() when loading != null:
 return loading();case AuthLoaded() when loaded != null:
-return loaded(_that.user,_that.message);case AuthError() when error != null:
+return loaded(_that.user,_that.message);case AuthLoginSuccess() when loginSuccess != null:
+return loginSuccess(_that.message);case AuthError() when error != null:
 return error(_that.message,_that.title);case _:
   return orElse();
 
@@ -152,12 +156,13 @@ return error(_that.message,_that.title);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( AuthEntity user,  String message)  loaded,required TResult Function( String message,  String? title)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( AuthEntity user,  String message)  loaded,required TResult Function( String message)  loginSuccess,required TResult Function( String message,  String? title)  error,}) {final _that = this;
 switch (_that) {
 case AuthInitial():
 return initial();case AuthLoading():
 return loading();case AuthLoaded():
-return loaded(_that.user,_that.message);case AuthError():
+return loaded(_that.user,_that.message);case AuthLoginSuccess():
+return loginSuccess(_that.message);case AuthError():
 return error(_that.message,_that.title);case _:
   throw StateError('Unexpected subclass');
 
@@ -175,12 +180,13 @@ return error(_that.message,_that.title);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( AuthEntity user,  String message)?  loaded,TResult? Function( String message,  String? title)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( AuthEntity user,  String message)?  loaded,TResult? Function( String message)?  loginSuccess,TResult? Function( String message,  String? title)?  error,}) {final _that = this;
 switch (_that) {
 case AuthInitial() when initial != null:
 return initial();case AuthLoading() when loading != null:
 return loading();case AuthLoaded() when loaded != null:
-return loaded(_that.user,_that.message);case AuthError() when error != null:
+return loaded(_that.user,_that.message);case AuthLoginSuccess() when loginSuccess != null:
+return loginSuccess(_that.message);case AuthError() when error != null:
 return error(_that.message,_that.title);case _:
   return null;
 
@@ -328,6 +334,72 @@ $AuthEntityCopyWith<$Res> get user {
     return _then(_self.copyWith(user: value));
   });
 }
+}
+
+/// @nodoc
+
+
+class AuthLoginSuccess implements AuthState {
+  const AuthLoginSuccess(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AuthLoginSuccessCopyWith<AuthLoginSuccess> get copyWith => _$AuthLoginSuccessCopyWithImpl<AuthLoginSuccess>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthLoginSuccess&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'AuthState.loginSuccess(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $AuthLoginSuccessCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory $AuthLoginSuccessCopyWith(AuthLoginSuccess value, $Res Function(AuthLoginSuccess) _then) = _$AuthLoginSuccessCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$AuthLoginSuccessCopyWithImpl<$Res>
+    implements $AuthLoginSuccessCopyWith<$Res> {
+  _$AuthLoginSuccessCopyWithImpl(this._self, this._then);
+
+  final AuthLoginSuccess _self;
+  final $Res Function(AuthLoginSuccess) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(AuthLoginSuccess(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
 }
 
 /// @nodoc

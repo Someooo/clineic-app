@@ -8,6 +8,8 @@ class AuthState with _$AuthState {
 
   const factory AuthState.loaded(AuthEntity user, String message) = AuthLoaded;
 
+  const factory AuthState.loginSuccess(String message) = AuthLoginSuccess;
+
   const factory AuthState.error({required String message, String? title}) =
       AuthError;
 }

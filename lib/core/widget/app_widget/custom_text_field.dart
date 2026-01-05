@@ -249,7 +249,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             widget.label!,
             style: widget.labelTextStyle ?? AppTextStyle.style14,
           ),
-          15.gap,
+          7.5.gap,
         ],
         ValueListenableBuilder<TextEditingValue>(
           valueListenable: _effectiveController,

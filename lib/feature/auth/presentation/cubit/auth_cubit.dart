@@ -35,7 +35,7 @@ class AuthCubit extends Cubit<AuthState> with CubitLifecycleMixin<AuthState> {
 
     safeEmit(const AuthState.loading());
     final result = await _login(
-      identify: emailController.text.trim(),
+      email: emailController.text.trim(),
       password: passwordController.text.trim(),
       cancelToken: cancelToken,
     );
@@ -43,8 +43,13 @@ class AuthCubit extends Cubit<AuthState> with CubitLifecycleMixin<AuthState> {
     result.fold(
       (failure) => safeEmit(AuthState.error(message: failure.message)),
       (response) {
-        _reset();
-        safeEmit(AuthState.loaded(response.data!, response.description));
+        // On successful login, just navigate to home without fetching user data
+        if (response.token != null) {
+          _reset();
+          safeEmit(AuthState.loginSuccess(response.description));
+        } else {
+          safeEmit(AuthState.error(message: response.description));
+        }
       },
     );
   }

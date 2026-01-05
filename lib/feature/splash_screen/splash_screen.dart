@@ -80,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen>
               child: FadeTransition(
                 opacity: _fadeAnimation,
                 child: Image.asset(
-                  'assets/images/play_store_512-removebg-preview (1).png',
+                  AppAssets.imagesPlayStore512Alt,
                   width: 250,
                   height: 250,
                   fit: BoxFit.contain,

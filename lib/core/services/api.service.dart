@@ -16,7 +16,7 @@ class ApiServices {
   Future<void> _configureDio() async {
     final headers = await getHeaders;
     _dio.options = BaseOptions(
-      baseUrl: EnvConstant.server,
+      baseUrl: ApiPath.baseUrl,
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
       headers: headers,

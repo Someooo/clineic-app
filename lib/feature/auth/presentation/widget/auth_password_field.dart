@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constant/app_strings.dart';
+import '../../../../core/utils/border_radius.dart';
 import '../../../../core/widget/app_widget/custom_text_field.dart';
 import '../cubit/password_visibility_cubit.dart';
 
@@ -18,7 +19,11 @@ class AuthPasswordField extends StatelessWidget {
       builder: (context, isVisible) {
         return CustomTextField(
           controller: controller,
-          customBorder: InputBorder.none,
+          fillColor: Colors.grey.shade50,
+          customBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppBorderRadius.md12),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
           label: AppStrings.password.tr(),
           hintText: AppStrings.enterPasswordHint.tr(),
           obscureText: !isVisible,
@@ -28,6 +33,7 @@ class AuthPasswordField extends StatelessWidget {
             context.read<PasswordVisibilityCubit>().toggleVisibility();
           },
           validator: validator,
+          contentVerticalPadding: 16.0,
         );
       },
     );

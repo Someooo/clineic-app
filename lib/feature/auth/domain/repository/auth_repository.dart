@@ -2,7 +2,7 @@ import '../../../../global_imports.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, ApiResponse<AuthEntity>>> login({
-    required String identify,
+    required String email,
     required String password,
     required CancelToken cancelToken,
   });

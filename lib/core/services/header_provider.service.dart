@@ -12,6 +12,7 @@ class HeadersProvider {
     final headers = <String, String>{
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      'Cache-Control': 'no-cache',
       _acceptLanguage: language,
       if (extra != null) ...extra,
     };

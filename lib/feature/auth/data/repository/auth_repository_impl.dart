@@ -68,21 +68,31 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, ApiResponse<AuthEntity>>> login({
-    required String identify,
+    required String email,
     required String password,
     required CancelToken cancelToken,
   }) async {
     try {
       final apiResponse = await remote.login(
-        identify: identify,
+        email: email,
         password: password,
         cancelToken: cancelToken,
       );
 
-      if (!apiResponse.hasError && apiResponse.data != null) {
-        final entityResponse = apiResponse.map((model) => model.toEntity());
-
+      if (!apiResponse.hasError && apiResponse.token != null) {
+        // Save the token
         await local.saveToken(apiResponse.token!);
+        
+        // Since login response only contains token (no user data),
+        // we return a response with null data but with the token saved
+        // The cubit will need to handle this case or fetch user data separately
+        final entityResponse = ApiResponse<AuthEntity>(
+          hasError: false,
+          description: apiResponse.description,
+          code: apiResponse.code,
+          token: apiResponse.token,
+          data: null, // No user data in login response
+        );
 
         return right(entityResponse);
       } else {

@@ -5,12 +5,13 @@ class AuthLoginCase {
 
   AuthLoginCase(this.repository);
 
-  Future<Either<Failure, ApiResponse<AuthEntity>>> call(
-      {required String identify,
-      required String password,
-      required CancelToken cancelToken}) {
+  Future<Either<Failure, ApiResponse<AuthEntity>>> call({
+    required String email,
+    required String password,
+    required CancelToken cancelToken,
+  }) {
     return repository.login(
-      identify: identify,
+      email: email,
       password: password,
       cancelToken: cancelToken,
     );

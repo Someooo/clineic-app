@@ -51,6 +51,7 @@ abstract class AppStrings {
   static const String emptyUserNameHint = "emptyUserNameHint";
   static const String emptyMobileHint = "emptyMobileHint";
   static const String dontHaveAccount = "dontHaveAccount";
+  static const String goToRegister = "goToRegister";
   static const String userNameHint = "userNameHint";
 
   //

@@ -2,7 +2,7 @@ import '../../../../global_imports.dart';
 
 abstract class AuthRemoteDataSource {
   Future<ApiResponse<AuthUserModel>> login({
-    required String identify,
+    required String email,
     required String password,
     required CancelToken cancelToken,
   });
@@ -25,21 +25,33 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<ApiResponse<AuthUserModel>> login({
-    required String identify,
+    required String email,
     required String password,
     required CancelToken cancelToken,
   }) async {
-    // final fcmToken = OneSignal.User.pushSubscription.id;
     final response = await apiServices.postData(
       AuthEndpoint.login,
-      {"login": identify, "password": password},
+      {"email": email, "password": password},
       cancelToken: cancelToken,
     );
-    final apiResponse = ApiResponse<AuthUserModel>.fromJson(
-      response,
-      (data) => AuthUserModel.fromJson(data),
+   
+    final status = response['status'] as String?;
+    final message = response['message'] as String? ?? '';
+    final data = response['data'] as Map<String, dynamic>?;
+    final token = data?['token'] as String?;
+    
+    // Map status to hasError (success = false hasError, error = true hasError)
+    final hasError = status != 'success';
+    
+    // Create ApiResponse with token extracted from data.token
+    // Since no user data is returned, data will be null
+    return ApiResponse<AuthUserModel>(
+      hasError: hasError,
+      description: message,
+      code: hasError ? 400 : 200,
+      token: token,
+      data: null, // No user data in login response
     );
-    return apiResponse;
   }
 
   @override
