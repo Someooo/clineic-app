@@ -11,7 +11,6 @@ class HomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        // TODO: Implement widget UI
         return const Center(
           child: Text('Home Widget - TODO: Implement UI'),
         );
