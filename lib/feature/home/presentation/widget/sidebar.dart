@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/utils/color.dart';
+import '../../../profile/presentation/pages/profile_settings_screen.dart';
 
 class CustomSidebar extends StatelessWidget {
   const CustomSidebar({super.key});
@@ -39,7 +40,7 @@ class CustomSidebar extends StatelessWidget {
                     icon: Icons.person,
                     title: 'Profile',
                     onTap: () {
-                      // TODO: Navigate to Profile
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileSettingsScreen()));
                     },
                   ),
                   _MenuItem(
