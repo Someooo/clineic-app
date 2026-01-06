@@ -141,13 +141,57 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, ApiResponse<AuthEntity>>> register({
-    required String name,
+    required String firstName,
+    required String lastName,
     required String email,
-    required String phone,
     required String password,
+    required String passwordConfirmation,
+    required int locationId,
     required CancelToken cancelToken,
-  }) {
-    // TODO: implement register
-    throw UnimplementedError();
+  }) async {
+    try {
+      final apiResponse = await remote.register(
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+        passwordConfirmation: passwordConfirmation,
+        locationId: locationId,
+        cancelToken: cancelToken,
+      );
+
+      if (!apiResponse.hasError && apiResponse.token != null) {
+        // Save the token
+        await local.saveToken(apiResponse.token!);
+        
+        // Save user data if available
+        if (apiResponse.data != null) {
+          await local.saveUser(apiResponse.data!);
+        }
+        
+        // Since register response only contains token (no user data),
+        // we return a response with null data but with the token saved
+        final entityResponse = ApiResponse<AuthEntity>(
+          hasError: false,
+          description: apiResponse.description,
+          code: apiResponse.code,
+          token: apiResponse.token,
+          data: apiResponse.data != null 
+              ? apiResponse.data!.toEntity() 
+              : null, // No user data in register response
+        );
+
+        return right(entityResponse);
+      } else {
+        return left(
+          ServerFailure(
+            message: apiResponse.description,
+            title: apiResponse.error,
+          ),
+        );
+      }
+    } catch (e, t) {
+      return handleRepoDataError(e, t);
+    }
   }
 }

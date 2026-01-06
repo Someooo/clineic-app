@@ -7,6 +7,16 @@ abstract class AuthRemoteDataSource {
     required CancelToken cancelToken,
   });
 
+  Future<ApiResponse<AuthUserModel>> register({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+    required String passwordConfirmation,
+    required int locationId,
+    required CancelToken cancelToken,
+  });
+
   Future<ApiResponse<AuthUserModel>> logout({
     required String token,
     required CancelToken cancelToken,
@@ -51,6 +61,48 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       code: hasError ? 400 : 200,
       token: token,
       data: null, // No user data in login response
+    );
+  }
+
+  @override
+  Future<ApiResponse<AuthUserModel>> register({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+    required String passwordConfirmation,
+    required int locationId,
+    required CancelToken cancelToken,
+  }) async {
+    final response = await apiServices.postData(
+      AuthEndpoint.register,
+      {
+        "first_name": firstName,
+        "last_name": lastName,
+        "email": email,
+        "password": password,
+        "password_confirmation": passwordConfirmation,
+        "location_id": locationId,
+      },
+      cancelToken: cancelToken,
+    );
+   
+    final status = response['status'] as String?;
+    final message = response['message'] as String? ?? '';
+    final data = response['data'] as Map<String, dynamic>?;
+    final token = data?['token'] as String?;
+    
+    // Map status to hasError (success = false hasError, error = true hasError)
+    final hasError = status != 'success';
+    
+    // Create ApiResponse with token extracted from data.token
+    // Since no user data is returned in register response, data will be null
+    return ApiResponse<AuthUserModel>(
+      hasError: hasError,
+      description: message,
+      code: hasError ? 400 : 200,
+      token: token,
+      data: null, // No user data in register response
     );
   }
 

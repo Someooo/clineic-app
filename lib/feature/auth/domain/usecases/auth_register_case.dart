@@ -6,17 +6,21 @@ class AuthRegisterCase {
   AuthRegisterCase(this.repository);
 
   Future<Either<Failure, ApiResponse<AuthEntity>>> call({
-    required String name,
+    required String firstName,
+    required String lastName,
     required String email,
-    required String phone,
     required String password,
+    required String passwordConfirmation,
+    required int locationId,
     required CancelToken cancelToken,
   }) {
     return repository.register(
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
-      phone: phone,
       password: password,
+      passwordConfirmation: passwordConfirmation,
+      locationId: locationId,
       cancelToken: cancelToken,
     );
   }

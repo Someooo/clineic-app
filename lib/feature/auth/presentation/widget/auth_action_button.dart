@@ -30,7 +30,7 @@ class AuthActionButton extends StatelessWidget {
           loginSuccess: (message) {
             showBar(
               context,
-              title: AppStrings.login.tr(),
+              title: AppStrings.register.tr(),
               message: message,
               contentType: BarContentType.success,
             );

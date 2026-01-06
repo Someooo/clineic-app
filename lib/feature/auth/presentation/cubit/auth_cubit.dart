@@ -60,12 +60,21 @@ class AuthCubit extends Cubit<AuthState> with CubitLifecycleMixin<AuthState> {
 
   Future<void> register() async {
     if (!formKey.currentState!.validate()) return;
+    
+    // Validate location_id is selected
+    if (locationId == null) {
+      safeEmit(AuthState.error(message: "Please select a location"));
+      return;
+    }
+    
     safeEmit(const AuthState.loading());
     final result = await _register(
+      firstName: firstNameController.text.trim(),
+      lastName: lastNameController.text.trim(),
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
-      name: userNameController.text.trim(),
-      phone: phoneController.text.trim(),
+      passwordConfirmation: passwordConfirmationController.text.trim(),
+      locationId: locationId!,
       cancelToken: cancelToken,
     );
     if (isClosed) return;
@@ -74,8 +83,18 @@ class AuthCubit extends Cubit<AuthState> with CubitLifecycleMixin<AuthState> {
         AuthState.error(message: failure.message, title: failure.title),
       ),
       (response) {
-        _reset();
-        safeEmit(AuthState.loaded(response.data!, response.description));
+        // If token is returned, save it and navigate (similar to login)
+        if (response.token != null) {
+          _reset();
+          safeEmit(AuthState.loginSuccess(response.description));
+        } else if (response.data != null) {
+          _reset();
+          safeEmit(AuthState.loaded(response.data!, response.description));
+        } else {
+          // Registration successful but no user data returned
+          _reset();
+          safeEmit(AuthState.loginSuccess(response.description));
+        }
       },
     );
   }
