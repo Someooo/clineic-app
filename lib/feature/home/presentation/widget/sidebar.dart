@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/utils/color.dart';
+import '../../../../global_imports.dart';
 import '../../../profile/presentation/pages/profile_settings_screen.dart';
 
 class CustomSidebar extends StatelessWidget {
@@ -47,7 +48,12 @@ class CustomSidebar extends StatelessWidget {
                     icon: Icons.language,
                     title: 'Change Language',
                     onTap: () {
-                      // TODO: Open Language Selection
+                      final currentLocale = context.locale;
+                      final newLocale = currentLocale.languageCode == 'ar'
+                          ? const Locale('en')
+                          : const Locale('ar');
+                      context.setLocale(newLocale);
+                      // The orientation (RTL/LTR) will be handled automatically by EasyLocalization
                     },
                   ),
                   _MenuItem(
