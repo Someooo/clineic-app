@@ -15,6 +15,10 @@ class AuthCubit extends Cubit<AuthState> with CubitLifecycleMixin<AuthState> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController passwordConfirmationController = TextEditingController();
+  int? locationId;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   AuthCubit({
@@ -96,6 +100,10 @@ class AuthCubit extends Cubit<AuthState> with CubitLifecycleMixin<AuthState> {
     passwordController.clear();
     phoneController.clear();
     userNameController.clear();
+    firstNameController.clear();
+    lastNameController.clear();
+    passwordConfirmationController.clear();
+    locationId = null;
   }
 
   Future<void> getUser() async {
@@ -117,5 +125,8 @@ class AuthCubit extends Cubit<AuthState> with CubitLifecycleMixin<AuthState> {
     passwordController.dispose();
     phoneController.dispose();
     userNameController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    passwordConfirmationController.dispose();
   }
 }

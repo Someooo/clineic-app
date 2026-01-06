@@ -52,7 +52,7 @@ class AuthLoginWidget extends StatelessWidget with FormValidationMixin {
                         width: 120,
                       ),
                     ),
-                    32.gap,
+                    24.gap,
                     // Welcome Text
                     Text(
                       AppStrings.login.tr(),
@@ -61,9 +61,11 @@ class AuthLoginWidget extends StatelessWidget with FormValidationMixin {
                         fontWeight: FontWeight.bold,
                         color: AppColor.black,
                       ),
-                      textAlign: TextAlign.center,
+                      textAlign: context.locale.languageCode == 'ar' 
+                          ? TextAlign.right 
+                          : TextAlign.left,
                     ),
-                    32.gap,
+                    24.gap,
                     // Email Field
                     CustomTextField(
                       fillColor: Colors.grey.shade50,
@@ -77,7 +79,7 @@ class AuthLoginWidget extends StatelessWidget with FormValidationMixin {
                       validator: validateEmailOrPhone,
                       contentVerticalPadding: 16.0,
                     ),
-                    20.gap,
+                    16.gap,
                     // Password Field
                     AuthPasswordField(
                       controller: cubit.passwordController,
@@ -85,13 +87,13 @@ class AuthLoginWidget extends StatelessWidget with FormValidationMixin {
                         return validateLength(value: val, minLength: 5, maxLength: 20);
                       },
                     ),
-                    35.gap,
+                    24.gap,
                     // Login Button
                     AuthActionButton(
                       onTap: cubit.login,
                       text: AppStrings.login.tr(),
                     ),
-                     45.gap,
+                     20.gap,
                   ],
                 ),
               ),

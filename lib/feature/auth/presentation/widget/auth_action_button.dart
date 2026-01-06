@@ -4,8 +4,14 @@ import '../../../../core/utils/border_radius.dart';
 class AuthActionButton extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
+  final bool showRegisterLink;
 
-  const AuthActionButton({super.key, required this.onTap, required this.text});
+  const AuthActionButton({
+    super.key,
+    required this.onTap,
+    required this.text,
+    this.showRegisterLink = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -79,31 +85,33 @@ class AuthActionButton extends StatelessWidget {
                 ),
               ),
             ),
-            25.gap,
-            GestureDetector(
-              onTap: () {
-                context.go(AppRoutes.register);
-              },
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),
-                  children: [
-                    TextSpan(text: AppStrings.dontHaveAccount.tr()),
-                    TextSpan(
-                      text: AppStrings.goToRegister.tr(),
-                      style: TextStyle(
-                        color: AppColor.blueColor,
-                        fontWeight: FontWeight.w600,
-                      ),
+            if (showRegisterLink) ...[
+              25.gap,
+              GestureDetector(
+                onTap: () {
+                  context.go(AppRoutes.register);
+                },
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black,
                     ),
-                  ],
+                    children: [
+                      TextSpan(text: AppStrings.dontHaveAccount.tr()),
+                      TextSpan(
+                        text: AppStrings.goToRegister.tr(),
+                        style: TextStyle(
+                          color: AppColor.blueColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ],
         );
       },
