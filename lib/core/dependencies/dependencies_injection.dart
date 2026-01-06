@@ -1,4 +1,5 @@
 import '../../../../global_imports.dart';
+import '../../feature/home/di/home_di.dart';
 
 final getIt = GetIt.instance;
 
@@ -27,4 +28,5 @@ Future<void> initGetIt() async {
   //======================== Features  =========================================
 
   initAuthDI();
+  initHomeDI();
 }
