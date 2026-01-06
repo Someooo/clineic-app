@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/constant/app_assets.dart';
 import '../../../../core/utils/color.dart';
 
 class CustomSidebar extends StatelessWidget {
@@ -18,12 +19,11 @@ class CustomSidebar extends StatelessWidget {
                 children: [
                   // Logo Image
                   Image.asset(
-                    'assets/images/ECLINIC – 1.png',
-                    width: 120,
-                    height: 60,
-                    fit: BoxFit.contain,
-                  ),
-              
+                  AppAssets.imagesPlayStore512Alt,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.contain,
+                ),
                 ],
               ),
             ),
