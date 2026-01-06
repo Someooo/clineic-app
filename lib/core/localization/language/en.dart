@@ -184,4 +184,17 @@ const Map<String, String> enLan = {
   "orthodontist": "Orthodontist",
   "dermatologist": "Dermatologist",
   "cardiologist": "Cardiologist",
+  
+  // Services Section
+  "allServices": "All Services",
+  "primaryCare": "Primary Care",
+  "primaryCareDesc": "Cold, flu, infections, Gastro problems and",
+  "familyMedicine": "Family Medicine",
+  "familyMedicineDesc": "Routine Check-ups, Vaccination,",
+  "internalMedicine": "Internal Medicine",
+  "internalMedicineDesc": "Chronic diseases, blood and",
+  "urgentCare": "Urgent Care",
+  "urgentCareDesc": "Minor injuries, cuts, burns and allergies",
+  "pediatrics": "Pediatrics",
+  "pediatricsDesc": "World class pediatric services",
 };

@@ -164,4 +164,17 @@ const Map<String, String> arLan = {
   "orthodontist": "تقويم الأسنان",
   "dermatologist": "طبيب الجلدية",
   "cardiologist": "طبيب القلب",
+  
+  // Services Section
+  "allServices": "جميع الخدمات",
+  "primaryCare": "الرعاية الأولية",
+  "primaryCareDesc": "نزلات البرد، الإنفلونزا، الالتهابات، مشاكل الجهاز الهضمي و",
+  "familyMedicine": "طب الأسرة",
+  "familyMedicineDesc": "فحوصات روتينية، التطعيم،",
+  "internalMedicine": "الطب الباطني",
+  "internalMedicineDesc": "الأمراض المزمنة، الدم و",
+  "urgentCare": "الرعاية العاجلة",
+  "urgentCareDesc": "إصابات بسيطة، جروح، حروق وحساسية",
+  "pediatrics": "طب الأطفال",
+  "pediatricsDesc": "خدمات أطفال عالمية المستوى",
 };

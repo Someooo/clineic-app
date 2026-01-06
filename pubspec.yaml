@@ -26,6 +26,7 @@ dependencies:
   flutter_dotenv:
   shimmer:
   flutter_carousel_widget:
+  curved_navigation_bar: ^1.0.6
 
 
   # State Management
