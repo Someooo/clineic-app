@@ -39,33 +39,32 @@ class CustomSidebar extends StatelessWidget {
                 children: [
                   _MenuItem(
                     icon: Icons.person,
-                    title: 'Profile',
+                    title: 'profile'.tr(),
                     onTap: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileSettingsScreen()));
                     },
                   ),
                   _MenuItem(
                     icon: Icons.language,
-                    title: 'Change Language',
+                    title: 'changeLanguage'.tr(),
                     onTap: () {
                       final currentLocale = context.locale;
                       final newLocale = currentLocale.languageCode == 'ar'
                           ? const Locale('en')
                           : const Locale('ar');
                       context.setLocale(newLocale);
-                      // The orientation (RTL/LTR) will be handled automatically by EasyLocalization
                     },
                   ),
                   _MenuItem(
                     icon: Icons.privacy_tip,
-                    title: 'Privacy Policy',
+                    title: 'privacyPolicy'.tr(),
                     onTap: () {
                       // TODO: Navigate to Privacy Policy
                     },
                   ),
                   _MenuItem(
                     icon: Icons.contact_support,
-                    title: 'Contact Us',
+                    title: 'contactUs'.tr(),
                     onTap: () {
                       // TODO: Navigate to Contact Us
                     },
@@ -75,7 +74,7 @@ class CustomSidebar extends StatelessWidget {
                   const SizedBox(height: 8),
                   _MenuItem(
                     icon: Icons.logout,
-                    title: 'Logout',
+                    title: 'logout'.tr(),
                     onTap: () {
                       // TODO: Handle Logout
                     },

@@ -10,7 +10,7 @@ class AuthLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      title: "E-Clinic",
+      title: "appName".tr(),
       showBackButton: false,
       gradient: const LinearGradient(
         colors: [AppColor.tealColor, AppColor.blueColor],
@@ -18,7 +18,7 @@ class AuthLoginPage extends StatelessWidget {
         end: Alignment.centerRight,
       ),
       appBar: AppBar(
-        title: const Text("E-Clinic"),
+        title: Text("appName".tr()),
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: Container(

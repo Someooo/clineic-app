@@ -4,6 +4,7 @@ import '../../core/extension/space_extension.dart';
 import '../../core/utils/color.dart';
 import '../../core/utils/text_style.dart';
 import '../../core/widget/app_widget/custom_text_field.dart';
+import '../../global_imports.dart';
 import 'presentation/widget/category_card.dart';
 import 'presentation/widget/doctor_card.dart';
 import 'presentation/widget/sidebar.dart';
@@ -35,18 +36,18 @@ class _HomePageState extends State<HomePage> {
     // Fake data for categories
     final categories = [
       {
-        'title': 'Dental',
+        'title': 'dental',
         'icon': Icons.local_hospital,
         'color': const Color(0xFF4CAF50),
       },
-      {'title': 'Derma', 'icon': Icons.face, 'color': const Color(0xFFE91E63)},
+      {'title': 'derma', 'icon': Icons.face, 'color': const Color(0xFFE91E63)},
       {
-        'title': 'Cardiology',
+        'title': 'cardiology',
         'icon': Icons.favorite,
         'color': const Color(0xFFF44336),
       },
       {
-        'title': 'Neurology',
+        'title': 'neurology',
         'icon': Icons.psychology,
         'color': const Color(0xFF9C27B0),
       },
@@ -56,21 +57,21 @@ class _HomePageState extends State<HomePage> {
     final doctors = [
       {
         'name': 'Annie Lee',
-        'specialty': 'Orthodontist',
+        'specialty': 'orthodontist',
         'icon': Icons.person,
         'color': const Color(0xFF2196F3),
         'isBookmarked': false,
       },
       {
         'name': 'Dr. Sarah Johnson',
-        'specialty': 'Dermatologist',
+        'specialty': 'dermatologist',
         'icon': Icons.person,
         'color': const Color(0xFFE91E63),
         'isBookmarked': true,
       },
       {
         'name': 'Dr. Michael Chen',
-        'specialty': 'Cardiologist',
+        'specialty': 'cardiologist',
         'icon': Icons.person,
         'color': const Color(0xFFF44336),
         'isBookmarked': false,
@@ -118,14 +119,14 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Welcome Denis H!',
+                                  'welcomeUserDenis'.tr(),
                                   style: AppTextStyle.style24B.copyWith(
                                     color: AppColor.white,
                                   ),
                                 ),
                                 8.gap,
                                 Text(
-                                  'Lorem ipsum dolor sit amet,',
+                                  'welcomeSubtitle'.tr(),
                                   style: AppTextStyle.style14.copyWith(
                                     color: AppColor.white,
                                   ),
@@ -169,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                       // Search Bar
                       CustomTextField(
                         controller: searchController,
-                        hintText: 'Search for categories',
+                        hintText: 'searchForCategories'.tr(),
                         prefixIconAssetName: Icons.search,
                         fillColor: Colors.grey[100],
                         filled: true,
@@ -188,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Categories',
+                            'categories'.tr(),
                             style: AppTextStyle.style18B.copyWith(
                               color: const Color(0xFF00B8B3),
                             ),
@@ -204,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                           itemBuilder: (context, index) {
                             final category = categories[index];
                             return CategoryCard(
-                              title: category['title'] as String,
+                              title: (category['title'] as String).tr(),
                               icon: category['icon'] as IconData,
                               color: category['color'] as Color,
                               onTap: () {
@@ -217,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                       32.gap,
                       // Doctors Section
                       Text(
-                        'Doctors',
+                        'doctors'.tr(),
                         style: AppTextStyle.style18B.copyWith(
                           color: const Color(0xFF00B8B3),
                         ),
@@ -231,7 +232,7 @@ class _HomePageState extends State<HomePage> {
                           final doctor = doctors[index];
                           return DoctorCard(
                             name: doctor['name'] as String,
-                            specialty: doctor['specialty'] as String,
+                            specialty: (doctor['specialty'] as String).tr(),
                             icon: doctor['icon'] as IconData,
                             avatarColor: doctor['color'] as Color,
                             isBookmarked: doctor['isBookmarked'] as bool,

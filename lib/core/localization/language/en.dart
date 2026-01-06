@@ -160,4 +160,28 @@ const Map<String, String> enLan = {
   "noInternet": "No Internet",
   "internetConnectionRestored": "Internet Connection Restored",
   "connected": "Connected",
+  
+  // App Name
+  "appName": "E-Clinic",
+  
+  // Home Page
+  "welcomeUser": "Welcome {}!",
+  "welcomeUserDenis": "Welcome Denis H!",
+  "welcomeSubtitle": "Lorem ipsum dolor sit amet,",
+  "searchForCategories": "Search for categories",
+  "doctors": "Doctors",
+  "profile": "Profile",
+  "changeLanguage": "Change Language",
+  "privacyPolicy": "Privacy Policy",
+  
+  // Medical Categories
+  "dental": "Dental",
+  "derma": "Derma",
+  "cardiology": "Cardiology",
+  "neurology": "Neurology",
+  
+  // Doctor Specialties
+  "orthodontist": "Orthodontist",
+  "dermatologist": "Dermatologist",
+  "cardiologist": "Cardiologist",
 };

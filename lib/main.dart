@@ -52,7 +52,7 @@ Future<void> main() async {
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],
-      startLocale: const Locale('ar', "SA"),
+      startLocale: const Locale('ar'),
       fallbackLocale: const Locale('en'),
       saveLocale: true,
       path: '/',
@@ -62,9 +62,14 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -83,6 +88,7 @@ class MyApp extends StatelessWidget {
                   return ScreenUtilInit(
                     builder: (_, child) {
                       return MaterialApp.router(
+                        key: ValueKey('locale_${context.locale.toString()}'),
                         debugShowCheckedModeBanner: false,
                         localizationsDelegates: context.localizationDelegates,
                         supportedLocales: context.supportedLocales,

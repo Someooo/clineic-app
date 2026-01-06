@@ -89,9 +89,9 @@ class _SplashScreenState extends State<SplashScreen>
             ),
             FadeTransition(
               opacity: _fadeAnimation,
-              child: const Text(
-                "E-Clinic",
-                style: TextStyle(
+              child: Text(
+                "appName".tr(),
+                style: const TextStyle(
                   fontSize: 34,
                   color: Colors.black,
                 ),

@@ -140,4 +140,28 @@ const Map<String, String> arLan = {
   "noInternet": "لا يوجد إتصال",
   "internetConnectionRestored": "تم إستعادة الاتصال بالانترنت",
   "connected": "تم الإتصال",
+  
+  // App Name
+  "appName": "العيادة الإلكترونية",
+  
+  // Home Page
+  "welcomeUser": "مرحباً {}!",
+  "welcomeUserDenis": "مرحباً دينيس هـ!",
+  "welcomeSubtitle": "لوريم إيبسوم دولار سيت أميت،",
+  "searchForCategories": "البحث عن التصنيفات",
+  "doctors": "الأطباء",
+  "profile": "الملف الشخصي",
+  "changeLanguage": "تغيير اللغة",
+  "privacyPolicy": "سياسة الخصوصية",
+  
+  // Medical Categories
+  "dental": "طب الأسنان",
+  "derma": "طب الجلد",
+  "cardiology": "طب القلب",
+  "neurology": "طب الأعصاب",
+  
+  // Doctor Specialties
+  "orthodontist": "تقويم الأسنان",
+  "dermatologist": "طبيب الجلدية",
+  "cardiologist": "طبيب القلب",
 };

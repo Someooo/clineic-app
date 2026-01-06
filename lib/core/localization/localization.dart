@@ -9,7 +9,11 @@ class Translation {
 class CodeAssetLoader extends AssetLoader {
   @override
   Future<Map<String, dynamic>> load(String path, Locale locale) async {
-    return Translation.translations[locale.languageCode] ??
-        Translation.translations['en']!;
+    final translations = Translation.translations[locale.languageCode];
+    if (translations != null) {
+      return translations;
+    }
+    // Fallback to English if locale not found
+    return Translation.translations['en']!;
   }
 }
