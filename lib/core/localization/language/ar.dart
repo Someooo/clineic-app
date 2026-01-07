@@ -142,7 +142,7 @@ const Map<String, String> arLan = {
   "connected": "تم الإتصال",
   
   // App Name
-  "appName": "العيادة الإلكترونية",
+  "appName": "E-Clinic",
   
   // Home Page
   "welcomeUser": "مرحباً {}!",
