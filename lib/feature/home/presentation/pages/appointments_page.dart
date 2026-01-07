@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import '../../../../core/widget/status_widget/no_data_widget.dart';
 
 class AppointmentsPage extends StatelessWidget {
   const AppointmentsPage({super.key});
@@ -54,38 +55,16 @@ class AppointmentsPage extends StatelessWidget {
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                color: AppColor.white,
+                color: Color(0xFFF2F7FA),
+
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
                 ),
               ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/no-data-avaolble.png',
-                      width: 250,
-                      height: 250,
-                      fit: BoxFit.contain,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'No appointments',
-                      style: AppTextStyle.style18B.copyWith(
-                        color: AppColor.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Book your first appointment',
-                      style: AppTextStyle.style14.copyWith(
-                        color: AppColor.grey.withOpacity(0.7),
-                      ),
-                    ),
-                  ],
-                ),
+              child: const NoDataWidget(
+                title: 'No appointments',
+                subtitle: 'Book your first appointment',
               ),
             ),
           ),

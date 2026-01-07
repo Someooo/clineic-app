@@ -177,7 +177,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
-                color: AppColor.white,
+                color: Color(0xFFF2F7FA),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),

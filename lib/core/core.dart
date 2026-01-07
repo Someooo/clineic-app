@@ -49,4 +49,5 @@ export 'widget/button/app_button.dart';
 export 'widget/dropdown/drop_down_list.dart';
 export 'widget/inner_setting_tile/setting_tile.dart';
 export 'widget/status_widget/error.dart';
+export 'widget/status_widget/no_data_widget.dart';
 export 'widget/status_widget/widget_loading.dart';

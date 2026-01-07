@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
             isSelected: _currentIndex == 2,
           ),
         ],
-        color: AppColor.white,
+        color: Colors.white,
         buttonBackgroundColor: AppColor.blueColor,
         backgroundColor: Colors.transparent,
         animationCurve: Curves.easeInOut,

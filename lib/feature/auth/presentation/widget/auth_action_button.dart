@@ -86,7 +86,7 @@ class AuthActionButton extends StatelessWidget {
               ),
             ),
             if (showRegisterLink) ...[
-              25.gap,
+              35.gap,
               GestureDetector(
                 onTap: () {
                   context.go(AppRoutes.register);
@@ -107,10 +107,12 @@ class AuthActionButton extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
+                   
                     ],
                   ),
                 ),
               ),
+             30.gap,
             ],
           ],
         );
