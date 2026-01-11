@@ -1,7 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/utils/color.dart';
+import '../../global_imports.dart';
+import 'presentation/cubit/home_cubit.dart';
 import 'presentation/pages/appointments_page.dart';
 import 'presentation/pages/favorites_page.dart';
 import 'presentation/pages/home_content_page.dart';
@@ -25,10 +28,16 @@ class _HomePageState extends State<HomePage> {
   /// Index 0: Favorites (left)
   /// Index 1: Home (center)
   /// Index 2: Appointments (right)
-  final List<Widget> _pages = const [
-    FavoritesPage(),
-    HomeContentPage(),
-    AppointmentsPage(),
+  List<Widget> get _pages => [
+    BlocProvider(
+      create: (context) => getIt<HomeCubit>()..init(),
+      child: const FavoritesPage(),
+    ),
+    BlocProvider(
+      create: (context) => getIt<HomeCubit>()..init(),
+      child: const HomeContentPage(),
+    ),
+    const AppointmentsPage(),
   ];
 
   void _onNavTap(int index) {
@@ -52,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         height: 65,
         items: [
           _buildNavItem(
-            icon: Icons.favorite,
+            icon: Icons.person,
             isSelected: _currentIndex == 0,
           ),
           _buildNavItem(

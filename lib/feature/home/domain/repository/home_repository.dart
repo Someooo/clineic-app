@@ -1,8 +1,8 @@
+import '../../../../global_imports.dart';
+import '../entities/doctor_entity.dart';
+
 abstract class HomeRepository {
-  // TODO: Add repository interface methods
-  // Example:
-  // Future<Either<Failure, ApiResponse<HomeEntity>>> getHomeData({
-  //   required DataSource dataSource,
-  //   required CancelToken cancelToken,
-  // });
+  Future<Either<Failure, ApiResponse<DoctorEntity>>> getDoctorsList({
+    required CancelToken cancelToken,
+  });
 }

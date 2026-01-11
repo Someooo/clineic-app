@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extension/space_extension.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../../core/widget/app_widget/custom_text_field.dart';
 import '../../../../global_imports.dart';
+import '../cubit/home_cubit.dart';
 import '../widget/category_card.dart';
 import '../widget/doctor_card.dart';
 import '../widget/service_card.dart';
@@ -53,29 +55,14 @@ class _HomeContentPageState extends State<HomeContentPage> {
       },
     ];
 
-    // Fake data for doctors
-    final doctors = [
-      {
-        'name': 'Annie Lee',
-        'specialty': 'orthodontist',
-        'icon': Icons.person,
-        'color': const Color(0xFF2196F3),
-        'isBookmarked': false,
-      },
-      {
-        'name': 'Dr. Sarah Johnson',
-        'specialty': 'dermatologist',
-        'icon': Icons.person,
-        'color': const Color(0xFFE91E63),
-        'isBookmarked': true,
-      },
-      {
-        'name': 'Dr. Michael Chen',
-        'specialty': 'cardiologist',
-        'icon': Icons.person,
-        'color': const Color(0xFFF44336),
-        'isBookmarked': false,
-      },
+    // Color palette for doctor avatars
+    final avatarColors = [
+      const Color(0xFF2196F3),
+      const Color(0xFFE91E63),
+      const Color(0xFFF44336),
+      const Color(0xFF4CAF50),
+      const Color(0xFF9C27B0),
+      const Color(0xFFFF9800),
     ];
 
     // Services data
@@ -244,24 +231,72 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         color: const Color(0xFF00B8B3),
                       ),
                     ),
-                    16.gap,
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: doctors.length,
-                      itemBuilder: (context, index) {
-                        final doctor = doctors[index];
-                        return DoctorCard(
-                          name: doctor['name'] as String,
-                          specialty: (doctor['specialty'] as String).tr(),
-                          icon: doctor['icon'] as IconData,
-                          avatarColor: doctor['color'] as Color,
-                          isBookmarked: doctor['isBookmarked'] as bool,
-                          onTap: () {
-                            // Handle doctor tap
-                          },
-                          onBookmarkTap: () {
-                            // Handle bookmark tap
+                    // 16.gap,
+                    BlocBuilder<HomeCubit, HomeState>(
+                      builder: (context, state) {
+                        if (state.status == 'loading') {
+                          return const Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                        
+                        if (state.status == 'error') {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                state.message ?? 'error'.tr(),
+                                style: AppTextStyle.style14.copyWith(
+                                  color: AppColor.red,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        
+                        final doctors = state.doctors;
+                        
+                        if (doctors.isEmpty) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text(
+                                'noDoctorsAvailable'.tr(),
+                                style: AppTextStyle.style14.copyWith(
+                                  color: AppColor.grey,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                        
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: doctors.length,
+                          itemBuilder: (context, index) {
+                            final doctor = doctors[index];
+                            final specialty = doctor.specialities != null && 
+                                doctor.specialities!.isNotEmpty
+                                ? doctor.specialities!.first.toString()
+                                : 'generalPractitioner'.tr();
+                            
+                            return DoctorCard(
+                              name: doctor.fullName,
+                              specialty: specialty,
+                              icon: Icons.person,
+                              avatarColor: avatarColors[index % avatarColors.length],
+                              isBookmarked: false,
+                              onTap: () {
+                                // Handle doctor tap
+                              },
+                              onBookmarkTap: () {
+                                // Handle bookmark tap
+                              },
+                            );
                           },
                         );
                       },

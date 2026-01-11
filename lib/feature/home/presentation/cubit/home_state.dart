@@ -1,24 +1,16 @@
 part of 'home_cubit.dart';
 
-// TODO: Uncomment and configure when ready (requires freezed setup)
-// @freezed
-// class HomeState with _$HomeState {
-//   const factory HomeState.initial() = HomeInitial;
-//   const factory HomeState.loading() = HomeLoading;
-//   const factory HomeState.loaded(HomeEntity data, String message) = HomeLoaded;
-//   const factory HomeState.error({required String message, String? title}) = HomeError;
-// }
-
-// Placeholder - replace with actual state when using freezed
 class HomeState {
   final String status;
   final String? message;
   final dynamic data;
+  final List<DoctorEntity> doctors;
 
   const HomeState({
     required this.status,
     this.message,
     this.data,
+    this.doctors = const [],
   });
 
   static const HomeState initial = HomeState(status: 'initial');
@@ -26,6 +18,14 @@ class HomeState {
   
   static HomeState loaded(dynamic data, String message) {
     return HomeState(status: 'loaded', data: data, message: message);
+  }
+  
+  static HomeState doctorsLoaded(List<DoctorEntity> doctors, String message) {
+    return HomeState(
+      status: 'doctors_loaded',
+      doctors: doctors,
+      message: message,
+    );
   }
   
   static HomeState error({required String message, String? title}) {
