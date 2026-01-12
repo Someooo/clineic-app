@@ -173,6 +173,7 @@ const Map<String, String> enLan = {
   "hospital": "Hospital",
   "hospitals": "Hospitals",
   "listOfHospitals": "List of Hospitals",
+  "specialities": "Specialities",
   "profile": "Profile",
   "changeLanguage": "Change Language",
   "privacyPolicy": "Privacy Policy",

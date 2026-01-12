@@ -1,6 +1,8 @@
 import '../../../../global_imports.dart';
+import '../../../../core/constant/api_path.dart';
 import '../model/doctor_model.dart';
 import '../model/hospital_model.dart';
+import '../model/speciality_model.dart';
 import '../endpoint/home_endpoint.dart';
 
 abstract class HomeRemoteDataSource {
@@ -9,6 +11,10 @@ abstract class HomeRemoteDataSource {
   });
   
   Future<ApiResponse<HospitalModel>> getHospitalsList({
+    required CancelToken cancelToken,
+  });
+  
+  Future<ApiResponse<SpecialityModel>> getSpecialitiesList({
     required CancelToken cancelToken,
   });
 }
@@ -88,5 +94,57 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       code: 200,
       list: hospitalsList,
     );
+  }
+
+  @override
+  Future<ApiResponse<SpecialityModel>> getSpecialitiesList({
+    required CancelToken cancelToken,
+  }) async {
+    try {
+      // The API returns a direct array (List), not wrapped in Map
+      // So we need to use Dio directly instead of getData which expects Map
+      final dio = Dio();
+      final headers = await ApiServices.getHeaders;
+      dio.options = BaseOptions(
+        baseUrl: ApiPath.baseUrl,
+        headers: headers,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+      );
+      
+      final response = await dio.get(
+        HomeEndpoint.getSpecialitiesList,
+        cancelToken: cancelToken,
+      );
+      
+      final data = response.data;
+      
+      if (data == null || data is! List) {
+        return ApiResponse<SpecialityModel>(
+          hasError: true,
+          description: 'Invalid response format',
+          code: 400,
+          list: [],
+        );
+      }
+
+      final specialitiesList = data
+          .map((item) => SpecialityModel.fromJson(item as Map<String, dynamic>))
+          .toList();
+
+      return ApiResponse<SpecialityModel>(
+        hasError: false,
+        description: 'Success',
+        code: 200,
+        list: specialitiesList,
+      );
+    } catch (e) {
+      return ApiResponse<SpecialityModel>(
+        hasError: true,
+        description: e.toString(),
+        code: 400,
+        list: [],
+      );
+    }
   }
 }

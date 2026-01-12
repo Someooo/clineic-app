@@ -11,4 +11,5 @@ abstract class AppRoutes {
   static const contactUs = "/contactUs";
   static const profileSettings = "/profile-settings";
   static const hospitals = "/hospitals";
+  static const specialities = "/specialities";
 }

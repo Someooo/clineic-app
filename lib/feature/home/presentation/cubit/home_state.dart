@@ -6,6 +6,7 @@ class HomeState {
   final dynamic data;
   final List<DoctorEntity> doctors;
   final List<HospitalEntity> hospitals;
+  final List<SpecialityEntity> specialities;
 
   const HomeState({
     required this.status,
@@ -13,6 +14,7 @@ class HomeState {
     this.data,
     this.doctors = const [],
     this.hospitals = const [],
+    this.specialities = const [],
   });
 
   static const HomeState initial = HomeState(status: 'initial');
@@ -34,6 +36,14 @@ class HomeState {
     return HomeState(
       status: 'hospitals_loaded',
       hospitals: hospitals,
+      message: message,
+    );
+  }
+  
+  static HomeState specialitiesLoaded(List<SpecialityEntity> specialities, String message) {
+    return HomeState(
+      status: 'specialities_loaded',
+      specialities: specialities,
       message: message,
     );
   }

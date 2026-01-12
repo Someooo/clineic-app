@@ -153,6 +153,7 @@ const Map<String, String> arLan = {
   "hospital": "مستشفى",
   "hospitals": "المستشفيات",
   "listOfHospitals": "قائمة المستشفيات",
+  "specialities": "التخصصات",
   "profile": "الملف الشخصي",
   "changeLanguage": "تغيير اللغة",
   "privacyPolicy": "سياسة الخصوصية",

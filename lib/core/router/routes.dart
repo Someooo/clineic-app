@@ -4,6 +4,7 @@ import '../../feature/auth/presentation/pages/auth_login_screen.dart';
 import '../../feature/auth/presentation/pages/auth_register_screen.dart';
 import '../../feature/home/home.dart';
 import '../../feature/home/presentation/pages/hospitals_page.dart';
+import '../../feature/home/presentation/pages/specialities_page.dart';
 import '../../feature/profile/presentation/pages/profile_settings_screen.dart';
 
 GoRouter goRouters = GoRouter(
@@ -17,6 +18,7 @@ GoRouter goRouters = GoRouter(
     GoRoute(path: AppRoutes.register, builder: (context, state) => const AuthRegisterPage()),
     GoRoute(path: AppRoutes.home, builder: (context, state) => const HomePage()),
     GoRoute(path: AppRoutes.hospitals, builder: (context, state) => const HospitalsPage()),
+    GoRoute(path: AppRoutes.specialities, builder: (context, state) => const SpecialitiesPage()),
     GoRoute(path: AppRoutes.profileSettings, builder: (context, state) => const ProfileSettingsScreen()),
   ],
 );

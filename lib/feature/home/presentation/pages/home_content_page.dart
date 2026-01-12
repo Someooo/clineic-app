@@ -41,6 +41,12 @@ class _HomeContentPageState extends State<HomeContentPage> {
         'type': 'hospital',
       },
       {
+        'title': 'specialities',
+        'icon': Icons.medical_services,
+        'color': const Color(0xFF4CAF50),
+        'type': 'specialities',
+      },
+      {
         'title': 'dental',
         'icon': Icons.local_hospital,
         'color': const Color(0xFF4CAF50),
@@ -216,6 +222,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                             onTap: () {
                               if (categoryType == 'hospital') {
                                 context.push(AppRoutes.hospitals);
+                              } else if (categoryType == 'specialities') {
+                                context.push(AppRoutes.specialities);
                               }
                               // Handle other category taps
                             },

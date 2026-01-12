@@ -2,8 +2,10 @@ import '../../../../global_imports.dart';
 import '../../domain/repository/home_repository.dart';
 import '../../domain/entities/doctor_entity.dart';
 import '../../domain/entities/hospital_entity.dart';
+import '../../domain/entities/speciality_entity.dart';
 import '../../domain/mappers/doctor_mapper.dart';
 import '../../domain/mappers/hospital_mapper.dart';
+import '../../domain/mappers/speciality_mapper.dart';
 import '../datasource/home_remote_data_source.dart';
 import '../datasource/home_local_data_source.dart';
 
@@ -56,6 +58,32 @@ class HomeRepositoryImpl implements HomeRepository {
       }
 
       final apiResponse = await remote.getHospitalsList(
+        cancelToken: cancelToken,
+      );
+
+      if (!apiResponse.hasError && apiResponse.list != null) {
+        final entityResponse = apiResponse.map((model) => model.toEntity());
+        return right(entityResponse);
+      } else {
+        return left(ServerFailure(message: apiResponse.description));
+      }
+    } catch (e, t) {
+      return handleRepoDataError(e, t);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApiResponse<SpecialityEntity>>> getSpecialitiesList({
+    required CancelToken cancelToken,
+  }) async {
+    try {
+      final hasConnection = await networkInfo.isConnected;
+      
+      if (!hasConnection) {
+        return left(ServerFailure(message: 'No internet connection'));
+      }
+
+      final apiResponse = await remote.getSpecialitiesList(
         cancelToken: cancelToken,
       );
 
