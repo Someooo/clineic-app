@@ -5,12 +5,14 @@ class HomeState {
   final String? message;
   final dynamic data;
   final List<DoctorEntity> doctors;
+  final List<HospitalEntity> hospitals;
 
   const HomeState({
     required this.status,
     this.message,
     this.data,
     this.doctors = const [],
+    this.hospitals = const [],
   });
 
   static const HomeState initial = HomeState(status: 'initial');
@@ -24,6 +26,14 @@ class HomeState {
     return HomeState(
       status: 'doctors_loaded',
       doctors: doctors,
+      message: message,
+    );
+  }
+  
+  static HomeState hospitalsLoaded(List<HospitalEntity> hospitals, String message) {
+    return HomeState(
+      status: 'hospitals_loaded',
+      hospitals: hospitals,
       message: message,
     );
   }

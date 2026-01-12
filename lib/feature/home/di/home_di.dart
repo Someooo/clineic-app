@@ -5,6 +5,7 @@ import '../data/repository/home_repository_impl.dart';
 import '../domain/repository/home_repository.dart';
 import '../domain/usecases/get_home_data_case.dart';
 import '../domain/usecases/get_doctors_list_case.dart';
+import '../domain/usecases/get_hospitals_list_case.dart';
 import '../presentation/cubit/home_cubit.dart';
 
 void initHomeDI() {
@@ -38,12 +39,17 @@ void initHomeDI() {
   getIt.registerLazySingleton<GetDoctorsListCase>(
     () => GetDoctorsListCase(getIt()),
   );
+  
+  getIt.registerLazySingleton<GetHospitalsListCase>(
+    () => GetHospitalsListCase(getIt()),
+  );
 
   // Register Cubit (Factory - creates new instance each time)
   getIt.registerFactory(
     () => HomeCubit(
       getHomeDataCase: getIt(),
       getDoctorsListCase: getIt(),
+      getHospitalsListCase: getIt(),
     ),
   );
 }

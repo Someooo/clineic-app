@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
       child: const FavoritesPage(),
     ),
     BlocProvider(
-      create: (context) => getIt<HomeCubit>()..init(),
+      create: (context) => getIt<HomeCubit>(),
       child: const HomeContentPage(),
     ),
     const AppointmentsPage(),
