@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/extension/space_extension.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
-import '../../../../core/widget/app_widget/custom_text_field.dart';
 import '../../../../global_imports.dart';
 import '../widget/category_card.dart';
-import '../widget/service_card.dart';
 
 class HomeContentPage extends StatefulWidget {
   const HomeContentPage({super.key});
@@ -39,60 +37,6 @@ class _HomeContentPageState extends State<HomeContentPage> {
         'icon': Icons.local_hospital,
         'color': const Color(0xFF2196F3),
         'type': 'hospital',
-      },
-      {
-        'title': 'specialities',
-        'icon': Icons.medical_services,
-        'color': const Color(0xFF4CAF50),
-        'type': 'specialities',
-      },
-      {
-        'title': 'dental',
-        'icon': Icons.local_hospital,
-        'color': const Color(0xFF4CAF50),
-        'type': 'category',
-      },
-      {'title': 'derma', 'icon': Icons.face, 'color': const Color(0xFFE91E63), 'type': 'category'},
-      {
-        'title': 'cardiology',
-        'icon': Icons.favorite,
-        'color': const Color(0xFFF44336),
-        'type': 'category',
-      },
-      {
-        'title': 'neurology',
-        'icon': Icons.psychology,
-        'color': const Color(0xFF9C27B0),
-        'type': 'category',
-      },
-    ];
-
-    // Services data
-    final services = [
-      {
-        'title': 'primaryCare',
-        'description': 'primaryCareDesc',
-        'icon': Icons.medical_services,
-      },
-      {
-        'title': 'familyMedicine',
-        'description': 'familyMedicineDesc',
-        'icon': Icons.family_restroom,
-      },
-      {
-        'title': 'internalMedicine',
-        'description': 'internalMedicineDesc',
-        'icon': Icons.local_hospital,
-      },
-      {
-        'title': 'urgentCare',
-        'description': 'urgentCareDesc',
-        'icon': Icons.emergency,
-      },
-      {
-        'title': 'pediatrics',
-        'description': 'pediatricsDesc',
-        'icon': Icons.child_care,
       },
     ];
 
@@ -143,16 +87,17 @@ class _HomeContentPageState extends State<HomeContentPage> {
                           ),
                         ),
                         Builder(
-                          builder: (context) => IconButton(
-                            onPressed: () {
-                              Scaffold.of(context).openDrawer();
-                            },
-                            icon: const Icon(
-                              Icons.grid_view,
-                              color: AppColor.white,
-                              size: 28,
-                            ),
-                          ),
+                          builder:
+                              (context) => IconButton(
+                                onPressed: () {
+                                  Scaffold.of(context).openDrawer();
+                                },
+                                icon: const Icon(
+                                  Icons.grid_view,
+                                  color: AppColor.white,
+                                  size: 28,
+                                ),
+                              ),
                         ),
                       ],
                     ),
@@ -177,23 +122,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Search Bar
-                    CustomTextField(
-                      controller: searchController,
-                      hintText: 'searchForCategories'.tr(),
-                      prefixIconAssetName: Icons.search,
-                      fillColor: Colors.grey[100],
-                      filled: true,
-                      customBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      hintStyle: AppTextStyle.style14.copyWith(
-                        color: Colors.grey[600],
-                      ),
-                      contentVerticalPadding: 16,
-                    ),
-                    24.gap,
+                    10.gap,
                     // Categories Section
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,18 +143,12 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         itemCount: categories.length,
                         itemBuilder: (context, index) {
                           final category = categories[index];
-                          final categoryType = category['type'] as String?;
                           return CategoryCard(
                             title: (category['title'] as String).tr(),
                             icon: category['icon'] as IconData,
                             color: category['color'] as Color,
                             onTap: () {
-                              if (categoryType == 'hospital') {
-                                context.push(AppRoutes.hospitals);
-                              } else if (categoryType == 'specialities') {
-                                context.push(AppRoutes.specialities);
-                              }
-                              // Handle other category taps
+                              context.push(AppRoutes.hospitals);
                             },
                           );
                         },
@@ -250,28 +173,74 @@ class _HomeContentPageState extends State<HomeContentPage> {
                       ],
                     ),
                     16.gap,
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 0.85,
-                      ),
-                      itemCount: services.length,
-                      itemBuilder: (context, index) {
-                        final service = services[index];
-                        return ServiceCard(
-                          title: (service['title'] as String).tr(),
-                          description: (service['description'] as String).tr(),
-                          icon: service['icon'] as IconData,
-                          onTap: () {
-                            // Handle service tap
-                          },
-                        );
+                    // Speciality Card
+                    GestureDetector(
+                      onTap: () {
+                        context.push(AppRoutes.specialities);
                       },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF4CAF50), Color(0xFF45A049)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF4CAF50).withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 8,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 56,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                color: AppColor.white.withOpacity(0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.medical_services,
+                                color: AppColor.white,
+                                size: 28,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'specialities'.tr(),
+                                    style: AppTextStyle.style18B.copyWith(
+                                      color: AppColor.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Browse all specialities',
+                                    style: AppTextStyle.style14.copyWith(
+                                      color: AppColor.white.withOpacity(0.9),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: AppColor.white,
+                              size: 20,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     // Add bottom padding for navigation bar
                     80.gap,
@@ -285,4 +254,3 @@ class _HomeContentPageState extends State<HomeContentPage> {
     );
   }
 }
-

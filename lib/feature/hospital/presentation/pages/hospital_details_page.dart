@@ -1,17 +1,10 @@
-import 'package:flutter/material.dart';
-
-import '../../../../core/utils/color.dart';
-import '../../../../core/utils/text_style.dart';
 import '../../../../global_imports.dart';
 import '../../domain/entities/hospital_entity.dart';
 
 class HospitalDetailsPage extends StatelessWidget {
   final HospitalEntity hospital;
 
-  const HospitalDetailsPage({
-    super.key,
-    required this.hospital,
-  });
+  const HospitalDetailsPage({super.key, required this.hospital});
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +31,7 @@ class HospitalDetailsPage extends StatelessWidget {
                 child: Row(
                   children: [
                     IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: AppColor.white,
-                      ),
+                      icon: const Icon(Icons.arrow_back, color: AppColor.white),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                     Expanded(
@@ -205,11 +195,7 @@ class HospitalDetailsPage extends StatelessWidget {
               color: AppColor.primaryColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(
-              icon,
-              color: AppColor.primaryColor,
-              size: 24,
-            ),
+            child: Icon(icon, color: AppColor.primaryColor, size: 24),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -239,4 +225,3 @@ class HospitalDetailsPage extends StatelessWidget {
     );
   }
 }
-
