@@ -12,4 +12,7 @@ export 'domain/mappers/doctor_detail_mapper.dart';
 export 'domain/repository/doctor_detail_repository.dart';
 export 'domain/usecases/get_doctor_detail_case.dart';
 export 'presentation/cubit/doctor_detail_cubit.dart';
+export 'presentation/cubit/doctor_list_cubit.dart';
 export 'presentation/pages/doctor_detail_page.dart';
+export 'presentation/pages/dr_list.dart';
+export 'presentation/widget/doctor_card.dart';

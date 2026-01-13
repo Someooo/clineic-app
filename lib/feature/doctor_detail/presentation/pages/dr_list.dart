@@ -1,16 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/utils/color.dart';
-import '../../../../core/utils/text_style.dart';
-import '../../../../core/widget/status_widget/no_data_widget.dart';
 import '../../../../global_imports.dart';
-import '../cubit/home_cubit.dart';
-import '../../../doctor_detail/presentation/pages/doctor_detail_page.dart';
+import '../cubit/doctor_list_cubit.dart';
+import 'doctor_detail_page.dart';
 import '../widget/doctor_card.dart';
 
-class FavoritesPage extends StatelessWidget {
-  const FavoritesPage({super.key});
+class DoctorListPage extends StatelessWidget {
+  const DoctorListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +62,7 @@ class FavoritesPage extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: BlocBuilder<HomeCubit, HomeState>(
+                child: BlocBuilder<DoctorListCubit, DoctorListState>(
                   builder: (context, state) {
                     if (state.status == 'loading') {
                       return const Center(child: CircularProgressIndicator());

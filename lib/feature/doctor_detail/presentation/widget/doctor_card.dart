@@ -1,11 +1,8 @@
-import 'package:flutter/material.dart';
-import '../../../../core/utils/color.dart';
-import '../../../../core/utils/text_style.dart';
 import '../../../../global_imports.dart';
-import '../../domain/entities/doctor_entity.dart';
+import '../../domain/entities/doctor_list_entity.dart';
 
 class DoctorCard extends StatelessWidget {
-  final DoctorEntity doctor;
+  final DoctorListEntity doctor;
   final bool isBookmarked;
   final VoidCallback? onTap;
   final VoidCallback? onBookmarkTap;

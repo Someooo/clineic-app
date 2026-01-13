@@ -1,10 +1,15 @@
 import '../../../../global_imports.dart';
 import '../endpoint/doctor_detail_endpoint.dart';
 import '../model/doctor_detail_model.dart';
+import '../model/doctor_list_model.dart';
 
 abstract class DoctorDetailRemoteDataSource {
   Future<ApiResponse<DoctorDetailModel>> getDoctorDetail({
     required int doctorId,
+    required CancelToken cancelToken,
+  });
+
+  Future<ApiResponse<DoctorListModel>> getDoctorsList({
     required CancelToken cancelToken,
   });
 }
@@ -48,6 +53,45 @@ class DoctorDetailRemoteDataSourceImpl implements DoctorDetailRemoteDataSource {
       description: message,
       code: hasError ? 400 : 200,
       data: detailModel,
+    );
+  }
+
+  @override
+  Future<ApiResponse<DoctorListModel>> getDoctorsList({
+    required CancelToken cancelToken,
+  }) async {
+    final response = await apiServices.getData(
+      DoctorDetailEndpoint.getDoctorsList,
+      cancelToken: cancelToken,
+    );
+
+    final status = response['status'] as String?;
+    final message = response['message'] as String? ?? '';
+    final data = response['data'] as List<dynamic>?;
+
+    final hasError = status != 'success';
+
+    if (hasError || data == null) {
+      return ApiResponse<DoctorListModel>(
+        hasError: true,
+        description: message,
+        code: hasError ? 400 : 200,
+        list: [],
+      );
+    }
+
+    final doctorsList =
+        data
+            .map(
+              (item) => DoctorListModel.fromJson(item as Map<String, dynamic>),
+            )
+            .toList();
+
+    return ApiResponse<DoctorListModel>(
+      hasError: false,
+      description: message,
+      code: 200,
+      list: doctorsList,
     );
   }
 }

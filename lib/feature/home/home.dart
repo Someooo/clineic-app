@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/utils/color.dart';
 import '../../global_imports.dart';
+import '../doctor_detail/presentation/pages/dr_list.dart';
+import '../doctor_detail/presentation/cubit/doctor_list_cubit.dart';
 import 'presentation/cubit/home_cubit.dart';
 import 'presentation/pages/appointments_page.dart';
-import 'presentation/pages/favorites_page.dart';
 import 'presentation/pages/home_content_page.dart';
 import 'presentation/widget/sidebar.dart';
 
@@ -30,8 +31,8 @@ class _HomePageState extends State<HomePage> {
   /// Index 2: Appointments (right)
   List<Widget> get _pages => [
     BlocProvider(
-      create: (context) => getIt<HomeCubit>()..init(),
-      child: const FavoritesPage(),
+      create: (context) => getIt<DoctorListCubit>()..init(),
+      child: const DoctorListPage(),
     ),
     BlocProvider(
       create: (context) => getIt<HomeCubit>(),
@@ -51,23 +52,14 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: const CustomSidebar(),
       extendBody: true,
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: CurvedNavigationBar(
         key: _bottomNavKey,
         index: _currentIndex,
         height: 65,
         items: [
-          _buildNavItem(
-            icon: Icons.person,
-            isSelected: _currentIndex == 0,
-          ),
-          _buildNavItem(
-            icon: Icons.home,
-            isSelected: _currentIndex == 1,
-          ),
+          _buildNavItem(icon: Icons.person, isSelected: _currentIndex == 0),
+          _buildNavItem(icon: Icons.home, isSelected: _currentIndex == 1),
           _buildNavItem(
             icon: Icons.calendar_month,
             isSelected: _currentIndex == 2,
@@ -84,10 +76,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// Builds individual navigation bar item with proper icon styling
-  Widget _buildNavItem({
-    required IconData icon,
-    required bool isSelected,
-  }) {
+  Widget _buildNavItem({required IconData icon, required bool isSelected}) {
     return Icon(
       icon,
       size: 28,
