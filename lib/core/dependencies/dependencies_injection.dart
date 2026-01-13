@@ -1,6 +1,7 @@
 import '../../../../global_imports.dart';
 import '../../feature/home/di/home_di.dart';
 import '../../feature/profile/di/profile_di.dart';
+import '../../feature/doctor_detail/di/doctor_detail_di.dart';
 
 final getIt = GetIt.instance;
 
@@ -31,4 +32,5 @@ Future<void> initGetIt() async {
   initAuthDI();
   initHomeDI();
   initProfileDI();
+  initDoctorDetailDI();
 }

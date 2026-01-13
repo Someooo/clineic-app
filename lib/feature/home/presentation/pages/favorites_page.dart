@@ -6,7 +6,7 @@ import '../../../../core/utils/text_style.dart';
 import '../../../../core/widget/status_widget/no_data_widget.dart';
 import '../../../../global_imports.dart';
 import '../cubit/home_cubit.dart';
-import 'doctor_detail_page.dart';
+import '../../../doctor_detail/presentation/pages/doctor_detail_page.dart';
 import '../widget/doctor_card.dart';
 
 class FavoritesPage extends StatelessWidget {

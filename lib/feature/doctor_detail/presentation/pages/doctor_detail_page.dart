@@ -1,8 +1,13 @@
-import 'package:flutter/widgets.dart' as flutter_widgets show ConnectionState;
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utils/color.dart';
+import '../../../../core/utils/text_style.dart';
 import '../../../../global_imports.dart';
+import '../../domain/entities/doctor_hospital_entity.dart';
+import '../../domain/entities/doctor_profile_entity.dart';
+import '../cubit/doctor_detail_cubit.dart';
 
-class DoctorDetailPage extends StatefulWidget {
+class DoctorDetailPage extends StatelessWidget {
   final int doctorId;
   final String doctorName;
 
@@ -13,116 +18,95 @@ class DoctorDetailPage extends StatefulWidget {
   });
 
   @override
-  State<DoctorDetailPage> createState() => _DoctorDetailPageState();
-}
-
-class _DoctorDetailPageState extends State<DoctorDetailPage> {
-  late final Future<DoctorDetail> _detailFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _detailFuture = _fetchDoctorDetail();
-  }
-
-  Future<DoctorDetail> _fetchDoctorDetail() async {
-    final apiServices = getIt<ApiServices>();
-    final response = await apiServices.getData(
-      '/api/doctor/profile/${widget.doctorId}',
-    );
-    final data = response['data'] as Map<String, dynamic>?;
-
-    if (data == null) {
-      throw Exception('Doctor profile is not available');
-    }
-
-    return DoctorDetail.fromJson(data);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.doctorName),
-        backgroundColor: Colors.transparent,
-        foregroundColor: AppColor.white,
-        elevation: 0,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [AppColor.tealColor, AppColor.blueColor],
+    return BlocProvider(
+      create:
+          (context) => getIt<DoctorDetailCubit>()..getDoctorDetail(doctorId),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(doctorName),
+          backgroundColor: Colors.transparent,
+          foregroundColor: AppColor.white,
+          elevation: 0,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [AppColor.tealColor, AppColor.blueColor],
+              ),
             ),
           ),
         ),
-      ),
-      backgroundColor: AppColor.white,
-      body: FutureBuilder<DoctorDetail>(
-        future: _detailFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState ==
-              flutter_widgets.ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+        backgroundColor: AppColor.white,
+        body: BlocBuilder<DoctorDetailCubit, DoctorDetailState>(
+          builder: (context, state) {
+            if (state.status == 'loading') {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                snapshot.error?.toString() ?? 'error'.tr(),
-                style: AppTextStyle.style14.copyWith(color: AppColor.red),
-              ),
-            );
-          }
-
-          final detail = snapshot.data;
-          if (detail == null) {
-            return Center(
-              child: Text(
-                'Invalid response data',
-                style: AppTextStyle.style14.copyWith(color: AppColor.grey),
-              ),
-            );
-          }
-
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildProfileHeader(detail.profile),
-                const SizedBox(height: 20),
-                Text(
-                  'Hospitals',
-                  style: AppTextStyle.style18B.copyWith(color: AppColor.black),
+            if (state.status == 'error') {
+              return Center(
+                child: Text(
+                  state.message ?? 'error'.tr(),
+                  style: AppTextStyle.style14.copyWith(color: AppColor.red),
                 ),
-                const SizedBox(height: 12),
-                if (detail.hospitals.isEmpty)
+              );
+            }
+
+            final detail = state.doctorDetail;
+            if (detail == null) {
+              return Center(
+                child: Text(
+                  'Invalid response data',
+                  style: AppTextStyle.style14.copyWith(color: AppColor.grey),
+                ),
+              );
+            }
+
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildProfileHeader(detail.profile),
+                  const SizedBox(height: 20),
                   Text(
-                    'No hospitals available',
-                    style: AppTextStyle.style14.copyWith(color: AppColor.grey),
-                  )
-                else
-                  Column(
-                    children:
-                        detail.hospitals
-                            .map(
-                              (hospital) => Padding(
-                                padding: const EdgeInsets.only(bottom: 12),
-                                child: _buildHospitalCard(hospital),
-                              ),
-                            )
-                            .toList(),
+                    'Hospitals',
+                    style: AppTextStyle.style18B.copyWith(
+                      color: AppColor.black,
+                    ),
                   ),
-              ],
-            ),
-          );
-        },
+                  const SizedBox(height: 12),
+                  if (detail.hospitals.isEmpty)
+                    Text(
+                      'No hospitals available',
+                      style: AppTextStyle.style14.copyWith(
+                        color: AppColor.grey,
+                      ),
+                    )
+                  else
+                    Column(
+                      children:
+                          detail.hospitals
+                              .map(
+                                (hospital) => Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: _buildHospitalCard(hospital),
+                                ),
+                              )
+                              .toList(),
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildProfileHeader(DoctorProfile profile) {
+  Widget _buildProfileHeader(DoctorProfileEntity profile) {
     return Container(
       decoration: BoxDecoration(
         color: AppColor.white,
@@ -234,7 +218,7 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
     );
   }
 
-  Widget _buildHospitalCard(DoctorHospital hospital) {
+  Widget _buildHospitalCard(DoctorHospitalEntity hospital) {
     return Container(
       decoration: BoxDecoration(
         color: AppColor.white,
@@ -389,157 +373,4 @@ class _DoctorDetailPageState extends State<DoctorDetailPage> {
       ],
     );
   }
-}
-
-@immutable
-class DoctorDetail {
-  final DoctorProfile profile;
-  final List<DoctorHospital> hospitals;
-
-  const DoctorDetail({required this.profile, required this.hospitals});
-
-  factory DoctorDetail.fromJson(Map<String, dynamic> json) {
-    final profileJson = json['profile'] as Map<String, dynamic>?;
-    final hospitalsJson = json['doctor_hospitals'] as List<dynamic>?;
-
-    if (profileJson == null) {
-      throw Exception('No profile data returned');
-    }
-
-    return DoctorDetail(
-      profile: DoctorProfile.fromJson(profileJson),
-      hospitals:
-          (hospitalsJson ?? <dynamic>[])
-              .map((item) {
-                if (item is Map<String, dynamic>) {
-                  return DoctorHospital.fromJson(item);
-                }
-                return DoctorHospital.empty;
-              })
-              .where((hospital) => hospital.id != 0)
-              .toList(),
-    );
-  }
-}
-
-@immutable
-class DoctorProfile {
-  final int id;
-  final String fullName;
-  final String? subHeading;
-  final String? avatar;
-  final String? averageRating;
-  final int? totalRating;
-  final String? location;
-  final List<String> specialities;
-  final List<String> services;
-  final List<String> availableDays;
-  final String? workingTime;
-  final int? votes;
-
-  const DoctorProfile({
-    required this.id,
-    required this.fullName,
-    this.subHeading,
-    this.avatar,
-    this.averageRating,
-    this.totalRating,
-    this.location,
-    this.specialities = const [],
-    this.services = const [],
-    this.availableDays = const [],
-    this.workingTime,
-    this.votes,
-  });
-
-  factory DoctorProfile.fromJson(Map<String, dynamic> json) {
-    return DoctorProfile(
-      id: json['id'] as int,
-      fullName: json['full_name'] as String,
-      subHeading: json['sub_heading'] as String?,
-      avatar: json['avatar'] as String?,
-      averageRating: json['average_rating'] as String?,
-      totalRating: (json['total_rating'] as num?)?.toInt(),
-      location: json['location'] as String?,
-      specialities: _toStringList(json['specialities']),
-      services: _toStringList(json['services']),
-      availableDays: _parseAvailableDays(json['available_days']),
-      workingTime: json['working_time'] as String?,
-      votes: (json['votes'] as num?)?.toInt(),
-    );
-  }
-}
-
-@immutable
-class DoctorHospital {
-  final int id;
-  final String fullName;
-  final String? subHeading;
-  final String? avatar;
-  final String? location;
-  final List<String> availableDays;
-  final String? workingTime;
-  final int? approvedTeams;
-
-  const DoctorHospital({
-    required this.id,
-    required this.fullName,
-    this.subHeading,
-    this.avatar,
-    this.location,
-    this.availableDays = const [],
-    this.workingTime,
-    this.approvedTeams,
-  });
-
-  factory DoctorHospital.fromJson(Map<String, dynamic> json) {
-    return DoctorHospital(
-      id: json['id'] as int,
-      fullName: json['full_name'] as String,
-      subHeading: json['sub_heading'] as String?,
-      avatar: json['avatar'] as String?,
-      location: json['location'] as String?,
-      availableDays: _parseAvailableDays(json['available_days']),
-      workingTime: json['working_time'] as String?,
-      approvedTeams: (json['approvedTeams'] as num?)?.toInt(),
-    );
-  }
-
-  static const DoctorHospital empty = DoctorHospital(id: 0, fullName: '');
-}
-
-List<String> _toStringList(dynamic value) {
-  if (value is List) {
-    return value
-        .whereType<String>()
-        .map((e) => e.trim())
-        .where((e) => e.isNotEmpty)
-        .toList();
-  }
-
-  if (value is String) {
-    return value
-        .split(',')
-        .map((item) => item.trim())
-        .where((item) => item.isNotEmpty)
-        .toList();
-  }
-
-  return [];
-}
-
-List<String> _parseAvailableDays(dynamic value) {
-  if (value is List) {
-    return value.whereType<String>().toList();
-  }
-
-  if (value is String) {
-    return value
-        .split(',')
-        .map((item) => item.trim())
-        .where((item) => item.isNotEmpty)
-        .toList();
-  }
-
-  return [];
 }
