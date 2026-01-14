@@ -38,6 +38,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
         'color': const Color(0xFF2196F3),
         'type': 'hospital',
       },
+      
     ];
 
     return Container(
@@ -76,13 +77,13 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                   color: AppColor.white,
                                 ),
                               ),
-                              8.gap,
-                              Text(
-                                'welcomeSubtitle'.tr(),
-                                style: AppTextStyle.style14.copyWith(
-                                  color: AppColor.white,
-                                ),
-                              ),
+                              // 8.gap,
+                              // Text(
+                              //   'welcomeSubtitle'.tr(),
+                              //   style: AppTextStyle.style14.copyWith(
+                              //     color: AppColor.white,
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -125,12 +126,17 @@ class _HomeContentPageState extends State<HomeContentPage> {
                     10.gap,
                     // Categories Section
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                           Icon(
+                          Icons.medical_services,
+                          color:  Colors.blue,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
                         Text(
                           'categories'.tr(),
                           style: AppTextStyle.style18B.copyWith(
-                            color: const Color(0xFF00B8B3),
+                            color: AppColor.black,
                           ),
                         ),
                       ],
@@ -160,7 +166,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                       children: [
                         Icon(
                           Icons.medical_services,
-                          color: const Color(0xFF00B8B3),
+                          color:  Colors.blue,
                           size: 20,
                         ),
                         const SizedBox(width: 8),
@@ -183,14 +189,14 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFF4CAF50), Color(0xFF45A049)],
+                            colors: [Color(0xFF2196F3), Color(0xFF64B5F6)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF4CAF50).withOpacity(0.3),
+                              color: const Color(0xFF90CAF9).withOpacity(0.3),
                               spreadRadius: 1,
                               blurRadius: 8,
                               offset: const Offset(0, 4),
@@ -223,21 +229,11 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                       color: AppColor.white,
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    'Browse all specialities',
-                                    style: AppTextStyle.style14.copyWith(
-                                      color: AppColor.white.withOpacity(0.9),
-                                    ),
-                                  ),
+                                
                                 ],
                               ),
                             ),
-                            const Icon(
-                              Icons.arrow_forward_ios,
-                              color: AppColor.white,
-                              size: 20,
-                            ),
+                           
                           ],
                         ),
                       ),

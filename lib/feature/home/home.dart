@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
         color: Colors.white,
-        buttonBackgroundColor: AppColor.blueColor,
+        buttonBackgroundColor: Colors.blue,
         backgroundColor: Colors.transparent,
         animationCurve: Curves.easeInOut,
         animationDuration: const Duration(milliseconds: 400),
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
     return Icon(
       icon,
       size: 28,
-      color: isSelected ? AppColor.white : AppColor.blueColor,
+      color: isSelected ? AppColor.white : Colors.blue,
     );
   }
 }
