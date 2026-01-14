@@ -287,7 +287,7 @@ class DoctorDetailPage extends StatelessWidget {
                 Text(
                   '${hospital.approvedTeams} teams',
                   style: AppTextStyle.style12.copyWith(
-                    color: AppColor.tealColor,
+                    color: Colors.blue,
                   ),
                 ),
             ],
