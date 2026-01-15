@@ -13,3 +13,4 @@ abstract class SpecialityEntity with _$SpecialityEntity {
   }) = _SpecialityEntity;
 }
 
+

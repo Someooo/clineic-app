@@ -17,3 +17,4 @@ abstract class SpecialityModel with _$SpecialityModel {
       _$SpecialityModelFromJson(json);
 }
 
+

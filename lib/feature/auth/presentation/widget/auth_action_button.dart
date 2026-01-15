@@ -21,7 +21,7 @@ class AuthActionButton extends StatelessWidget {
           loaded: (auth, message) {
             showBar(
               context,
-              title: AppStrings.hello.tr(args: [auth.name]),
+              title: AppStrings.hello.tr(args: [auth.fullName]),
               message: message,
               contentType: BarContentType.success,
             );
@@ -94,7 +94,7 @@ class AuthActionButton extends StatelessWidget {
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    style: TextStyle(
+                    style:const TextStyle(
                       fontSize: 14,
                       color: Colors.black,
                     ),
@@ -102,7 +102,7 @@ class AuthActionButton extends StatelessWidget {
                       TextSpan(text: AppStrings.dontHaveAccount.tr()),
                       TextSpan(
                         text: AppStrings.goToRegister.tr(),
-                        style: TextStyle(
+                        style:const TextStyle(
                           color: AppColor.blueColor,
                           fontWeight: FontWeight.w600,
                         ),

@@ -61,10 +61,13 @@ class ProfileSettingsCubit extends Cubit<ProfileSettingsState>
   /// - phoneNumber: from TextEditingController
   /// - notificationPreferences: from Switch widget
   Future<void> saveProfileSettings({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String phoneNumber,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phoneNumber,
+    String? address,
+    String? latitude,
+    String? longitude,
     required bool notificationPreferences,
   }) async {
     safeEmit(ProfileSettingsState.loading());
@@ -75,6 +78,9 @@ class ProfileSettingsCubit extends Cubit<ProfileSettingsState>
       lastName: lastName,
       email: email,
       phoneNumber: phoneNumber,
+      address: address,
+      latitude: latitude,
+      longitude: longitude,
       notificationPreferences: notificationPreferences,
     );
 

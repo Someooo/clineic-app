@@ -1,10 +1,11 @@
 
 import '../../global_imports.dart';
+import '../../hive_registrar.g.dart';
 
 class HiveServices {
   Future<void> init() async {
     await Hive.initFlutter();
-    // Hive.registerAdapters();
+    Hive.registerAdapters();
 
     await Future.wait([
       _initAppBox(),

@@ -9,6 +9,7 @@ abstract class ProfileSettingsRemoteDataSource {
   /// Endpoint: GET /v1/profile/setting
   /// Requires: Authorization header with Bearer token
   Future<ApiResponse<ProfileSettingsModel>> getProfileSettings({
+    required int userId,
     required String token,
     required CancelToken cancelToken,
   });
@@ -18,6 +19,7 @@ abstract class ProfileSettingsRemoteDataSource {
   /// Requires: Authorization header with Bearer token
   /// Body: ProfileSettingsModel data
   Future<ApiResponse<ProfileSettingsModel>> storeProfileSettings({
+    required int userId,
     required ProfileSettingsModel settings,
     required String token,
     required CancelToken cancelToken,
@@ -32,6 +34,7 @@ class ProfileSettingsRemoteDataSourceImpl
 
   @override
   Future<ApiResponse<ProfileSettingsModel>> getProfileSettings({
+    required int userId,
     required String token,
     required CancelToken cancelToken,
   }) async {
@@ -40,18 +43,24 @@ class ProfileSettingsRemoteDataSourceImpl
       ProfileEndpoint.getProfileSettings,
       cancelToken: cancelToken,
       token: token,
+      queryParameters: {
+        'id': userId,
+      },
     );
 
-    // Parse API response
-    // Response structure: { status, message, data: { first_name, last_name, email, ... } }
-    final status = response['status'] as String?;
-    final message = response['message'] as String? ?? '';
-    final data = response['data'] as Map<String, dynamic>?;
+    // API may return either:
+    // 1) Wrapped: {status, message, data: {...}}
+    // 2) Unwrapped: {...fields}
+    final bool isWrapped = response.containsKey('status') || response.containsKey('data');
 
-    // Map status to hasError (success = false hasError, error = true hasError)
-    final hasError = status != 'success';
+    final String? status = isWrapped ? response['status'] as String? : 'success';
+    final String message = isWrapped ? (response['message'] as String? ?? '') : '';
+    final Map<String, dynamic>? data = isWrapped
+        ? (response['data'] as Map<String, dynamic>?)
+        : response;
 
-    // Create ProfileSettingsModel from response data
+    final bool hasError = status != 'success';
+
     ProfileSettingsModel? settingsModel;
     if (data != null) {
       settingsModel = ProfileSettingsModel.fromJson(data);
@@ -67,6 +76,7 @@ class ProfileSettingsRemoteDataSourceImpl
 
   @override
   Future<ApiResponse<ProfileSettingsModel>> storeProfileSettings({
+    required int userId,
     required ProfileSettingsModel settings,
     required String token,
     required CancelToken cancelToken,
@@ -77,22 +87,30 @@ class ProfileSettingsRemoteDataSourceImpl
       settings.toJson(),
       cancelToken: cancelToken,
       token: token,
+      queryParameters: {
+        'id': userId,
+      },
     );
 
-    // Parse API response
-    final status = response['status'] as String?;
-    final message = response['message'] as String? ?? '';
-    final data = response['data'] as Map<String, dynamic>?;
+    // API may return either:
+    // 1) Wrapped: {status, message, data: {...}}
+    // 2) New: {type: success, role: null, message: "Personal Details Saved"}
+    final String? status = response['status'] as String?;
+    final String? type = response['type'] as String?;
+    final String message = (response['message'] as String?) ?? '';
+    final Map<String, dynamic>? data = response['data'] as Map<String, dynamic>?;
 
-    // Map status to hasError
-    final hasError = status != 'success';
+    final bool hasError = (status != null)
+        ? status != 'success'
+        : (type != null)
+            ? type != 'success'
+            : false;
 
-    // Create ProfileSettingsModel from response data
     ProfileSettingsModel? settingsModel;
     if (data != null) {
       settingsModel = ProfileSettingsModel.fromJson(data);
     } else if (!hasError) {
-      // If success but no data, return the settings we sent
+      // success response doesn't return data, so keep what we submitted
       settingsModel = settings;
     }
 

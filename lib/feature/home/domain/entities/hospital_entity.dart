@@ -16,3 +16,4 @@ abstract class HospitalEntity with _$HospitalEntity {
   }) = _HospitalEntity;
 }
 
+

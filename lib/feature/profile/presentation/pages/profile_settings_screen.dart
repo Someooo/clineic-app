@@ -32,6 +32,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   late TextEditingController _lastNameController;
   late TextEditingController _emailController;
   late TextEditingController _phoneNumberController;
+  late TextEditingController _addressController;
+  late TextEditingController _latitudeController;
+  late TextEditingController _longitudeController;
 
   // Switch state for notification preferences
   bool _notificationPreferences = false;
@@ -47,6 +50,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     _lastNameController = TextEditingController();
     _emailController = TextEditingController();
     _phoneNumberController = TextEditingController();
+    _addressController = TextEditingController();
+    _latitudeController = TextEditingController();
+    _longitudeController = TextEditingController();
   }
 
   @override
@@ -56,6 +62,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
     _lastNameController.dispose();
     _emailController.dispose();
     _phoneNumberController.dispose();
+    _addressController.dispose();
+    _latitudeController.dispose();
+    _longitudeController.dispose();
     super.dispose();
   }
 
@@ -92,13 +101,18 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             // Update form fields when settings are loaded
             if (state.settings != null && !state.isLoading) {
               final settings = state.settings!;
-              // Update controllers with data from API response
-              // Data source: ProfileSettingsState.settings (from GET /v1/profile/setting)
-              _firstNameController.text = settings.firstName ?? '';
-              _lastNameController.text = settings.lastName ?? '';
-              _emailController.text = settings.email ?? '';
-              _phoneNumberController.text = settings.phoneNumber ?? '';
-              _notificationPreferences = settings.notificationPreferences;
+              setState(() {
+                // Update controllers with data from API response
+                // Data source: ProfileSettingsState.settings (from GET /v1/profile/setting)
+                _firstNameController.text = settings.firstName ?? '';
+                _lastNameController.text = settings.lastName ?? '';
+                _emailController.text = settings.email ?? '';
+                _phoneNumberController.text = settings.phoneNumber ?? '';
+                _addressController.text = settings.address ?? '';
+                _latitudeController.text = settings.latitude ?? '';
+                _longitudeController.text = settings.longitude ?? '';
+                _notificationPreferences = settings.notificationPreferences;
+              });
             }
           },
           child: BlocBuilder<ProfileSettingsCubit, ProfileSettingsState>(
@@ -156,9 +170,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   hintText: 'Enter your first name',
                   prefixIconAssetName: Icons.person_outline,
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'First name is required';
-                    }
                     return null;
                   },
                   textInputAction: TextInputAction.next,
@@ -180,9 +191,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   hintText: 'Enter your last name',
                   prefixIconAssetName: Icons.person_outline,
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Last name is required';
-                    }
                     return null;
                   },
                   textInputAction: TextInputAction.next,
@@ -205,11 +213,10 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   prefixIconAssetName: Icons.email_outlined,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Email is required';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Please enter a valid email';
+                    if (value != null && value.trim().isNotEmpty) {
+                      if (!value.contains('@')) {
+                        return 'Please enter a valid email';
+                      }
                     }
                     return null;
                   },
@@ -233,9 +240,68 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                   prefixIconAssetName: Icons.phone_outlined,
                   keyboardType: TextInputType.phone,
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Phone number is required';
-                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.done,
+                  contentVerticalPadding: 16.0,
+                ),
+                24.gap,
+
+                CustomTextField(
+                  fillColor: Colors.grey.shade50,
+                  customBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppBorderRadius.md12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  label: 'Address',
+                  controller: _addressController,
+                  hintText: 'Enter your address',
+                  prefixIconAssetName: Icons.location_on_outlined,
+                  validator: (value) {
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  contentVerticalPadding: 16.0,
+                ),
+                16.gap,
+
+                CustomTextField(
+                  fillColor: Colors.grey.shade50,
+                  customBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppBorderRadius.md12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  label: 'Latitude',
+                  controller: _latitudeController,
+                  hintText: 'Enter latitude',
+                  prefixIconAssetName: Icons.my_location_outlined,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                    signed: true,
+                  ),
+                  validator: (value) {
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  contentVerticalPadding: 16.0,
+                ),
+                16.gap,
+
+                CustomTextField(
+                  fillColor: Colors.grey.shade50,
+                  customBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppBorderRadius.md12),
+                    borderSide: BorderSide(color: Colors.grey.shade300),
+                  ),
+                  label: 'Longitude',
+                  controller: _longitudeController,
+                  hintText: 'Enter longitude',
+                  prefixIconAssetName: Icons.my_location_outlined,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                    signed: true,
+                  ),
+                  validator: (value) {
                     return null;
                   },
                   textInputAction: TextInputAction.done,
@@ -243,56 +309,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                 ),
                 24.gap,
           
-                // Notification Preferences Switch
-                // Data source: _notificationPreferences (Switch state)
-                // Saved to: POST /v1/profile/store_profile_setting with "notification_preferences" field
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(AppBorderRadius.md12),
-                    border: Border.all(color: Colors.grey.shade300),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Notification Preferences',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Enable push notifications',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColor.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Switch(
-                        value: _notificationPreferences,
-                        onChanged: (value) {
-                          setState(() {
-                            _notificationPreferences = value;
-                          });
-                        },
-                        activeTrackColor: AppColor.primaryColor.withOpacity(0.5),
-                        activeColor: AppColor.primaryColor,
-                      ),
-                    ],
-                  ),
-                ),
-                24.gap,
-          
+            
                 // Save Button - Using same style as login button
                 SizedBox(
                   width: double.infinity,
@@ -320,11 +337,27 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
                                   context
                                       .read<ProfileSettingsCubit>()
                                       .saveProfileSettings(
-                                        firstName: _firstNameController.text.trim(),
-                                        lastName: _lastNameController.text.trim(),
-                                        email: _emailController.text.trim(),
-                                        phoneNumber:
-                                            _phoneNumberController.text.trim(),
+                                        firstName: _firstNameController.text.trim().isEmpty
+                                            ? null
+                                            : _firstNameController.text.trim(),
+                                        lastName: _lastNameController.text.trim().isEmpty
+                                            ? null
+                                            : _lastNameController.text.trim(),
+                                        email: _emailController.text.trim().isEmpty
+                                            ? null
+                                            : _emailController.text.trim(),
+                                        phoneNumber: _phoneNumberController.text.trim().isEmpty
+                                            ? null
+                                            : _phoneNumberController.text.trim(),
+                                        address: _addressController.text.trim().isEmpty
+                                            ? null
+                                            : _addressController.text.trim(),
+                                        latitude: _latitudeController.text.trim().isEmpty
+                                            ? null
+                                            : _latitudeController.text.trim(),
+                                        longitude: _longitudeController.text.trim().isEmpty
+                                            ? null
+                                            : _longitudeController.text.trim(),
                                         notificationPreferences:
                                             _notificationPreferences,
                                       );

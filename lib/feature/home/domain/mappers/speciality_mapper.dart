@@ -21,3 +21,4 @@ extension SpecialityEntityMapper on SpecialityEntity {
       );
 }
 
+

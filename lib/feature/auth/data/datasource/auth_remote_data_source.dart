@@ -49,18 +49,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final message = response['message'] as String? ?? '';
     final data = response['data'] as Map<String, dynamic>?;
     final token = data?['token'] as String?;
+    final userJson = data?['user'] as Map<String, dynamic>?;
+    final user = userJson != null ? AuthUserModel.fromJson(userJson) : null;
     
     // Map status to hasError (success = false hasError, error = true hasError)
     final hasError = status != 'success';
     
     // Create ApiResponse with token extracted from data.token
-    // Since no user data is returned, data will be null
+    // New API can return the user inside data.user
     return ApiResponse<AuthUserModel>(
       hasError: hasError,
       description: message,
       code: hasError ? 400 : 200,
       token: token,
-      data: null, // No user data in login response
+      data: user,
     );
   }
 

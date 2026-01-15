@@ -47,12 +47,16 @@ class AuthCubit extends Cubit<AuthState> with CubitLifecycleMixin<AuthState> {
     result.fold(
       (failure) => safeEmit(AuthState.error(message: failure.message)),
       (response) {
-        // On successful login, just navigate to home without fetching user data
-        if (response.token != null) {
-          _reset();
-          safeEmit(AuthState.loginSuccess(response.description));
-        } else {
+        if (response.token == null) {
           safeEmit(AuthState.error(message: response.description));
+          return;
+        }
+
+        _reset();
+        if (response.data != null) {
+          safeEmit(AuthState.loaded(response.data!, response.description));
+        } else {
+          safeEmit(AuthState.loginSuccess(response.description));
         }
       },
     );

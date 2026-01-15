@@ -20,3 +20,4 @@ abstract class HospitalModel with _$HospitalModel {
       _$HospitalModelFromJson(json);
 }
 
+

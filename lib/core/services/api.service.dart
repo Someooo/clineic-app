@@ -32,13 +32,19 @@ class ApiServices {
       Map<String, dynamic> data, {
         String? token,
         CancelToken? cancelToken,
+        Map<String, dynamic>? queryParameters,
       }) async {
     final headers = await ApiServices.getHeaders;
     _dio.options.headers.addAll(headers);
     _handleTokenAuth(token);
 
 
-    final response = await _dio.post(url, data: data, cancelToken: cancelToken);
+    final response = await _dio.post(
+      url,
+      data: data,
+      cancelToken: cancelToken,
+      queryParameters: queryParameters,
+    );
     return response.data;
   }
 
