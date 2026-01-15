@@ -6,6 +6,7 @@ import '../../../../core/utils/text_style.dart';
 import '../../../auth/data/datasource/auth_local_data_source.dart';
 import '../../../../global_imports.dart';
 import '../widget/category_card.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class HomeContentPage extends StatefulWidget {
   const HomeContentPage({super.key});
@@ -17,6 +18,15 @@ class HomeContentPage extends StatefulWidget {
 class _HomeContentPageState extends State<HomeContentPage> {
   late final TextEditingController searchController;
   late final Future<AuthUserModel?> _userFuture;
+
+  String _categoryTitle(AppLocalizations t, String key) {
+    switch (key) {
+      case 'hospital':
+        return t.hospital;
+      default:
+        return key;
+    }
+  }
 
   @override
   void initState() {
@@ -33,6 +43,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     // Fake data for categories
     final categories = [
       {
@@ -81,7 +92,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                   final text = (fullName != null &&
                                           fullName.trim().isNotEmpty)
                                       ? fullName
-                                      : 'welcomeUserDenis'.tr();
+                                      : t.welcomeUserDenis;
                                   return Text(
                                     text,
                                     style: AppTextStyle.style24B.copyWith(
@@ -147,7 +158,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'categories'.tr(),
+                          t.categories,
                           style: AppTextStyle.style18B.copyWith(
                             color: AppColor.black,
                           ),
@@ -163,7 +174,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         itemBuilder: (context, index) {
                           final category = categories[index];
                           return CategoryCard(
-                            title: (category['title'] as String).tr(),
+                            title: _categoryTitle(t, category['title'] as String),
                             icon: category['icon'] as IconData,
                             color: category['color'] as Color,
                             onTap: () {
@@ -184,7 +195,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'allServices'.tr(),
+                          t.allServices,
                           style: AppTextStyle.style18B.copyWith(
                             color: AppColor.black,
                           ),
@@ -237,7 +248,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'specialities'.tr(),
+                                    t.specialities,
                                     style: AppTextStyle.style18B.copyWith(
                                       color: AppColor.white,
                                     ),

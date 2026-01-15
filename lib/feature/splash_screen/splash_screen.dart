@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import '../../global_imports.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -90,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen>
             FadeTransition(
               opacity: _fadeAnimation,
               child: Text(
-                "appName".tr(),
+                AppLocalizations.of(context)!.appName,
                 style: const TextStyle(
                   fontSize: 34,
                   color: Colors.black,

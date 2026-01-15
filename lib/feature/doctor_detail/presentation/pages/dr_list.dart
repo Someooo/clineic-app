@@ -2,6 +2,7 @@ import '../../../../global_imports.dart';
 import '../cubit/doctor_list_cubit.dart';
 import 'doctor_detail_page.dart';
 import '../widget/doctor_card.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class DoctorListPage extends StatelessWidget {
   const DoctorListPage({super.key});
@@ -71,7 +72,7 @@ class DoctorListPage extends StatelessWidget {
                     if (state.status == 'error') {
                       return Center(
                         child: Text(
-                          state.message ?? 'error'.tr(),
+                          state.message ?? AppLocalizations.of(context)!.error,
                           style: AppTextStyle.style14.copyWith(
                             color: AppColor.red,
                           ),

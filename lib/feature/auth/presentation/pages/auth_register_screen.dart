@@ -2,15 +2,18 @@ import '../../../../core/widget/app_widget/app_scaffold.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../global_imports.dart';
 import '../cubit/password_visibility_cubit.dart';
+import '../../../../core/localization/locale_controller.dart';
 import '../widget/auth_register_widget.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class AuthRegisterPage extends StatelessWidget {
   const AuthRegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return AppScaffold(
-      title: "appName".tr(),
+      title: t.appName,
       showBackButton: true,
       gradient: const LinearGradient(
         colors: [AppColor.tealColor, AppColor.blueColor],
@@ -18,7 +21,7 @@ class AuthRegisterPage extends StatelessWidget {
         end: Alignment.centerRight,
       ),
       appBar: AppBar(
-        title: Text("appName".tr()),
+        title: Text(t.appName),
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: Container(
@@ -43,11 +46,7 @@ class AuthRegisterPage extends StatelessWidget {
               color: AppColor.white,
             ),
             onPressed: () {
-              final currentLocale = context.locale;
-              final newLocale = currentLocale.languageCode == 'ar'
-                  ? const Locale('en')
-                  : const Locale('ar');
-              context.setLocale(newLocale);
+              LocaleController.of(context).toggle();
             },
             tooltip: 'Switch Language',
           ),

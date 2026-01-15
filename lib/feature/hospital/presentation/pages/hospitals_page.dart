@@ -2,6 +2,7 @@ import '../../../../global_imports.dart';
 import '../cubit/hospital_cubit.dart';
 import '../widget/hospital_card.dart';
 import 'hospital_details_page.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class HospitalsPage extends StatelessWidget {
   const HospitalsPage({super.key});
@@ -44,7 +45,7 @@ class HospitalsPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'listOfHospitals'.tr(),
+                              AppLocalizations.of(context)!.listOfHospitals,
                               style: AppTextStyle.style24B.copyWith(
                                 color: AppColor.white,
                                 decoration: TextDecoration.none,
@@ -78,9 +79,9 @@ class HospitalsPage extends StatelessWidget {
                       }
 
                       if (state.status == 'error') {
-                        return Center(
+                        return Container(
                           child: Text(
-                            state.message ?? 'error'.tr(),
+                            state.message ?? AppLocalizations.of(context)!.error,
                             style: AppTextStyle.style14.copyWith(
                               color: AppColor.red,
                             ),

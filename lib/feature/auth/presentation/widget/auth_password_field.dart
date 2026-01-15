@@ -1,8 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
-import '../../../../core/constant/app_strings.dart';
 import '../../../../core/utils/border_radius.dart';
 import '../../../../core/widget/app_widget/custom_text_field.dart';
 import '../cubit/password_visibility_cubit.dart';
@@ -15,6 +14,7 @@ class AuthPasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return BlocBuilder<PasswordVisibilityCubit, bool>(
       builder: (context, isVisible) {
         return CustomTextField(
@@ -24,8 +24,8 @@ class AuthPasswordField extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppBorderRadius.md12),
             borderSide: BorderSide(color: Colors.grey.shade300),
           ),
-          label: AppStrings.password.tr(),
-          hintText: AppStrings.enterPasswordHint.tr(),
+          label: t.password,
+          hintText: t.enterPasswordHint,
           obscureText: !isVisible,
           suffixIconAssetName:
               isVisible ? Icons.visibility : Icons.visibility_off,

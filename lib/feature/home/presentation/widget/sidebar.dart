@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constant/app_assets.dart';
 import '../../../../core/utils/color.dart';
+import '../../../../core/localization/locale_controller.dart';
 import '../../../../global_imports.dart';
 import '../../../profile/presentation/pages/profile_settings_screen.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class CustomSidebar extends StatelessWidget {
   const CustomSidebar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Drawer(
       backgroundColor: AppColor.white,
       child: SafeArea(
@@ -39,32 +42,28 @@ class CustomSidebar extends StatelessWidget {
                 children: [
                   _MenuItem(
                     icon: Icons.person,
-                    title: 'profile'.tr(),
+                    title: t.profile,
                     onTap: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileSettingsScreen()));
                     },
                   ),
                   _MenuItem(
                     icon: Icons.language,
-                    title: 'changeLanguage'.tr(),
+                    title: t.changeLanguage,
                     onTap: () {
-                      final currentLocale = context.locale;
-                      final newLocale = currentLocale.languageCode == 'ar'
-                          ? const Locale('en')
-                          : const Locale('ar');
-                      context.setLocale(newLocale);
+                      LocaleController.of(context).toggle();
                     },
                   ),
                   _MenuItem(
                     icon: Icons.privacy_tip,
-                    title: 'privacyPolicy'.tr(),
+                    title: t.privacyPolicy,
                     onTap: () {
                       // TODO: Navigate to Privacy Policy
                     },
                   ),
                   _MenuItem(
                     icon: Icons.contact_support,
-                    title: 'contactUs'.tr(),
+                    title: t.contactUs,
                     onTap: () {
                       // TODO: Navigate to Contact Us
                     },
@@ -74,7 +73,7 @@ class CustomSidebar extends StatelessWidget {
                   const SizedBox(height: 8),
                   _MenuItem(
                     icon: Icons.logout,
-                    title: 'logout'.tr(),
+                    title: t.logout,
                     onTap: () {
                       // TODO: Handle Logout
                     },

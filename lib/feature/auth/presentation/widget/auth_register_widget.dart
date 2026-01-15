@@ -1,10 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 import '../../../../core/constant/app_assets.dart';
-import '../../../../core/constant/app_strings.dart';
 import '../../../../core/constant/routes.dart';
 import '../../../../core/extension/space_extension.dart';
 import '../../../../core/mixin/validate.mixin.dart';
@@ -22,6 +21,7 @@ class AuthRegisterWidget extends StatelessWidget with FormValidationMixin {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     final cubit = context.read<AuthCubit>();
     return Form(
       key: cubit.formKey,
@@ -59,13 +59,13 @@ class AuthRegisterWidget extends StatelessWidget with FormValidationMixin {
                     24.gap,
                     // Register Text
                     Text(
-                      AppStrings.register.tr(),
+                      t.register,
                       style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: AppColor.black,
                       ),
-                      textAlign: context.locale.languageCode == 'ar' 
+                      textAlign: Localizations.localeOf(context).languageCode == 'ar'
                           ? TextAlign.right 
                           : TextAlign.left,
                     ),
@@ -109,9 +109,9 @@ class AuthRegisterWidget extends StatelessWidget with FormValidationMixin {
                         borderRadius: BorderRadius.circular(AppBorderRadius.md12),
                         borderSide: BorderSide(color: Colors.grey.shade300),
                       ),
-                      label: "${AppStrings.email.tr()} ",
+                      label: "${t.email} ",
                       controller: cubit.emailController,
-                      hintText: "${AppStrings.enterEmailHint.tr()} ",
+                      hintText: "${t.enterEmailHint} ",
                       validator: validateEmail,
                       contentVerticalPadding: 16.0,
                     ),
@@ -188,7 +188,7 @@ class AuthRegisterWidget extends StatelessWidget with FormValidationMixin {
                     // Register Button
                     AuthActionButton(
                       onTap: cubit.register,
-                      text: AppStrings.register.tr(),
+                      text: t.register,
                       showRegisterLink: false,
                     ),
                     16.gap,
@@ -205,9 +205,9 @@ class AuthRegisterWidget extends StatelessWidget with FormValidationMixin {
                             color: Colors.black,
                           ),
                           children: [
-                            TextSpan(text: AppStrings.doYouHaveAccount.tr()),
+                            TextSpan(text: t.doYouHaveAccount),
                             TextSpan(
-                              text: " ${AppStrings.login.tr()}",
+                              text: " ${t.login}",
                               style: const TextStyle(
                                 color: AppColor.blueColor,
                                 fontWeight: FontWeight.w600,

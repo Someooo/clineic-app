@@ -1,4 +1,5 @@
 import '../../../../global_imports.dart';
+import '../../../../core/localization/l10n.dart';
 import '../../domain/entities/profile_settings_entity.dart';
 import '../../domain/repository/profile_settings_repository.dart';
 import '../datasource/profile_settings_remote_data_source.dart';
@@ -22,12 +23,12 @@ class ProfileSettingsRepositoryImpl implements ProfileSettingsRepository {
       // Get token from local storage (saved after login)
       final token = await authLocalDataSource.getToken();
       if (token == null) {
-        return left(ServerFailure(message: AppStrings.unauthorized.tr()));
+        return left(ServerFailure(message: L10n.t.unauthorized));
       }
 
       final user = await authLocalDataSource.getUser();
       if (user == null) {
-        return left(ServerFailure(message: AppStrings.unauthorized.tr()));
+        return left(ServerFailure(message: L10n.t.unauthorized));
       }
 
       // Call API to get profile settings
@@ -100,12 +101,12 @@ class ProfileSettingsRepositoryImpl implements ProfileSettingsRepository {
       // Get token from local storage (saved after login)
       final token = await authLocalDataSource.getToken();
       if (token == null) {
-        return left(ServerFailure(message: AppStrings.unauthorized.tr()));
+        return left(ServerFailure(message: L10n.t.unauthorized));
       }
 
       final user = await authLocalDataSource.getUser();
       if (user == null) {
-        return left(ServerFailure(message: AppStrings.unauthorized.tr()));
+        return left(ServerFailure(message: L10n.t.unauthorized));
       }
 
       // Convert entity to model for API call

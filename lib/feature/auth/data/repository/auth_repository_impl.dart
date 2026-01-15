@@ -1,4 +1,5 @@
 import '../../../../global_imports.dart';
+import '../../../../core/localization/l10n.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remote;
@@ -19,7 +20,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final token = await local.getToken();
       if (token == null) {
-        return left(ServerFailure(message: AppStrings.unauthorized.tr()));
+        return left(ServerFailure(message: L10n.t.unauthorized));
       }
       final hasConnection = await networkInfo.isConnected;
 
@@ -110,7 +111,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final token = await local.getToken();
       if (token == null) {
-        return left(ServerFailure(message: AppStrings.unauthorized.tr()));
+        return left(ServerFailure(message: L10n.t.unauthorized));
       }
       final apiResponse = await remote.logout(
         token: token,

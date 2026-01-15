@@ -1,6 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
-
-import '../constant/app_strings.dart';
+import '../localization/l10n.dart';
 
 mixin FormValidationMixin {
   final _passwordRegEx = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
@@ -17,48 +15,48 @@ mixin FormValidationMixin {
 
   String? validateUserName(String? value) {
     if (value == null || value.isEmpty) {
-      return AppStrings.emptyUserNameHint.tr();
+      return L10n.t.emptyUserNameHint;
     }
     return null;
   }
 
   String? validateMobile(String? value) {
     if (value == null || value.isEmpty) {
-      return AppStrings.emptyMobileHint.tr();
+      return L10n.t.emptyMobileHint;
     }
     if (!_mobileRegEx.hasMatch(value)) {
-      return AppStrings.notValidMobileHint.tr();
+      return L10n.t.notValidMobileHint;
     }
     return null;
   }
 
   String? validateNumber(String? value) {
     if (value == null || value.isEmpty) {
-      return AppStrings.emptyFieldHint.tr();
+      return L10n.t.emptyFieldHint;
     }
     if (!_numberRegEx.hasMatch(value)) {
-      return AppStrings.notValidNumberHint.tr();
+      return L10n.t.notValidNumberHint;
     }
     return null;
   }
 
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return AppStrings.emptyEmailHint.tr();
+      return L10n.t.emptyEmailHint;
     }
     if (!_emailRegEx.hasMatch(value)) {
-      return AppStrings.notValidEmailHint.tr();
+      return L10n.t.notValidEmailHint;
     }
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return AppStrings.emptyPasswordHint.tr();
+      return L10n.t.emptyPasswordHint;
     }
 
     if (value.length < 5) {
-      return AppStrings.passwordValidateLengthHint.tr(args: ['5']);
+      return L10n.t.passwordValidateLengthHint('5');
     }
 
     if (!value.contains(_upperCaseRegEx)) {
@@ -89,13 +87,13 @@ mixin FormValidationMixin {
     required int maxLength,
   }) {
     if (value == null || value.isEmpty) {
-      return AppStrings.emptyFieldHint.tr();
+      return L10n.t.emptyFieldHint;
     }
     if (value.length < minLength) {
-      return AppStrings.minValidateHint.tr(args: [minLength.toString()]);
+      return L10n.t.minValidateHint(minLength.toString());
     }
     if (value.length > maxLength) {
-      return AppStrings.maxValidateHint.tr(args: [maxLength.toString()]);
+      return L10n.t.maxValidateHint(maxLength.toString());
     }
     return null;
   }
@@ -104,7 +102,7 @@ mixin FormValidationMixin {
     final emailError = validateEmail(value);
     final mobileError = validateMobile(value);
     if (emailError != null && mobileError != null) {
-      return "${AppStrings.notValidEmailHint.tr()} ${AppStrings.or.tr()} ${AppStrings.notValidMobileHint.tr()}";
+      return "${L10n.t.notValidEmailHint} ${L10n.t.or} ${L10n.t.notValidMobileHint}";
     }
     return null;
   }

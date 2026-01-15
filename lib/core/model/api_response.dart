@@ -1,4 +1,5 @@
 import '../../global_imports.dart';
+import '../localization/l10n.dart';
 
 class ApiResponse<T> {
   final T? data;
@@ -34,7 +35,7 @@ class ApiResponse<T> {
     final paginationJson = json['pagination'];
     return ApiResponse<T>(
       hasError: json['hasError'] ?? false,
-      description: json['description'] ?? AppStrings.unknownError.tr(),
+      description: json['description'] ?? L10n.t.unknownError,
       code: json['code'] ?? 200,
       error: json['error'] is String ? json['error'] : null,
       token: json['token'] is String ? json['token'] : null,

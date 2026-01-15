@@ -7,6 +7,7 @@ import '../../../../core/widget/status_widget/no_data_widget.dart';
 import '../../../../global_imports.dart';
 import '../cubit/home_cubit.dart';
 import '../widget/speciality_card.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class SpecialitiesPage extends StatelessWidget {
   const SpecialitiesPage({super.key});
@@ -49,7 +50,7 @@ class SpecialitiesPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'specialities'.tr(),
+                              AppLocalizations.of(context)!.specialities,
                               style: AppTextStyle.style24B.copyWith(
                                 color: AppColor.white,
                                 decoration: TextDecoration.none,
@@ -88,7 +89,7 @@ class SpecialitiesPage extends StatelessWidget {
                       if (state.status == 'error') {
                         return Center(
                           child: Text(
-                            state.message ?? 'error'.tr(),
+                            state.message ?? AppLocalizations.of(context)!.error,
                             style: AppTextStyle.style14.copyWith(
                               color: AppColor.red,
                               decoration: TextDecoration.none,

@@ -1,4 +1,7 @@
+import '../../../../core/utils/color.dart';
+import '../../../../core/utils/text_style.dart';
 import '../../../../global_imports.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import '../../domain/entities/doctor_list_entity.dart';
 
 class DoctorCard extends StatelessWidget {
@@ -102,7 +105,8 @@ class DoctorCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        doctor.subHeading ?? 'generalPractitioner'.tr(),
+                        doctor.subHeading ??
+                            AppLocalizations.of(context)!.generalPractitioner,
                         style: AppTextStyle.style14.copyWith(
                           color: AppColor.grey,
                         ),
@@ -123,12 +127,12 @@ class DoctorCard extends StatelessWidget {
             Row(
               children: [
                 _buildInfoBadge(
-                  label: 'rating'.tr(),
+                  label: AppLocalizations.of(context)!.rating,
                   value: doctor.averageRating ?? '0',
                 ),
                 const SizedBox(width: 8),
                 _buildInfoBadge(
-                  label: 'votes'.tr(),
+                  label: AppLocalizations.of(context)!.votes,
                   value: '${doctor.votes ?? 0}',
                 ),
               ],
@@ -152,7 +156,10 @@ class DoctorCard extends StatelessWidget {
             ],
             if (specialities.isNotEmpty) ...[
               const SizedBox(height: 8),
-              _buildChipList(items: specialities, label: 'specialities'.tr()),
+              _buildChipList(
+                items: specialities,
+                label: AppLocalizations.of(context)!.specialities,
+              ),
             ],
             if (availableDays.isNotEmpty) ...[
               const SizedBox(height: 8),

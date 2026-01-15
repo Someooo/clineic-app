@@ -13,6 +13,13 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
+  intl: any
+
+  shared_preferences: ^2.2.3
+
 
   # Core Tool Packages
   dartz: ^0.10.1
@@ -54,7 +61,7 @@ dependencies:
   cached_network_image_plus:
 
   # Localization
-  easy_localization: ^3.0.8
+  
 
 
 
@@ -80,6 +87,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   fonts:
     - family: Almarai
       fonts:

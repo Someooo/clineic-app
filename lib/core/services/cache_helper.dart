@@ -16,7 +16,9 @@ class CacheHelper {
   }) {
     if (cachedAt == null) return false;
     if (languageCode != null) {
-      if (languageCode != GlobalContext.context.locale.languageCode) {
+      final currentLanguageCode =
+          Localizations.localeOf(GlobalContext.context).languageCode;
+      if (languageCode != currentLanguageCode) {
         return false;
       }
     } else {

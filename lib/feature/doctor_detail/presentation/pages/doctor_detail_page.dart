@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
 import '../../../../global_imports.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import '../../domain/entities/doctor_hospital_entity.dart';
 import '../../domain/entities/doctor_profile_entity.dart';
 import '../cubit/doctor_detail_cubit.dart';
@@ -48,7 +49,7 @@ class DoctorDetailPage extends StatelessWidget {
             if (state.status == 'error') {
               return Center(
                 child: Text(
-                  state.message ?? 'error'.tr(),
+                  state.message ?? AppLocalizations.of(context)!.error,
                   style: AppTextStyle.style14.copyWith(color: AppColor.red),
                 ),
               );

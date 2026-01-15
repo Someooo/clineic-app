@@ -1,5 +1,9 @@
-
 import 'global_imports.dart';
+
+import 'package:flutter_app/l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'core/localization/locale_controller.dart';
 
 var logger = Logger(printer: PrettyPrinter(colors: true, printEmojis: true));
 
@@ -14,8 +18,7 @@ class MyHttpOverrides extends HttpOverrides {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  EasyLocalization.ensureInitialized();
-  
+
   // Initialize dependencies before running the app
   try {
     await EnvConstant.init();
@@ -37,7 +40,18 @@ Future<void> main() async {
           children: [
             const Icon(Icons.error, color: Colors.red, size: 80),
             20.gap,
-            Text(AppStrings.unknownError.tr(), style: AppTextStyle.style18B),
+            Builder(
+              builder: (context) {
+                final t = Localizations.of<AppLocalizations>(
+                  context,
+                  AppLocalizations,
+                );
+                return Text(
+                  t?.unknownError ?? 'Something went wrong!',
+                  style: AppTextStyle.style18B,
+                );
+              },
+            ),
             10.gap,
             Text(
               details.exceptionAsString(),
@@ -49,17 +63,8 @@ Future<void> main() async {
       ),
     );
   };
-  runApp(
-    EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('ar')],
-      startLocale: const Locale('ar'),
-      fallbackLocale: const Locale('en'),
-      saveLocale: true,
-      path: '/',
-      assetLoader: CodeAssetLoader(),
-      child: const MyApp(),
-    ),
-  );
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -70,6 +75,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late final LocaleController _localeController;
+
+  @override
+  void initState() {
+    super.initState();
+    _localeController = LocaleController();
+    _localeController.init();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -79,37 +93,40 @@ class _MyAppState extends State<MyApp> {
           ..init()),
 
         BlocProvider(create: (context) => getIt<ConnectionCubit>())],
-      child: Builder(
-        builder: (context) {
-          return BlocBuilder<ThemeCubit, ThemeData>(
-            builder: (context, theme) {
-              return BlocBuilder<ConnectionCubit, ConnectionState>(
-                builder: (context, state) {
-                  return ScreenUtilInit(
-                    builder: (_, child) {
-                      return MaterialApp.router(
-                        key: ValueKey('locale_${context.locale.toString()}'),
-                        debugShowCheckedModeBanner: false,
-                        localizationsDelegates: context.localizationDelegates,
-                        supportedLocales: context.supportedLocales,
-                        locale: context.locale,
-                        // theme: ThemeData(
-                        //   useMaterial3: true,
-                        //   appBarTheme: const AppBarTheme(centerTitle: true),
-                        //   fontFamily: 'Almarai',
-                        // ),
-                        theme: theme,
-                        routerConfig: goRouters,
-                        scaffoldMessengerKey: GlobalContext
-                            .scaffoldMessengerKey,
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          );
-        },
+      child: LocaleScope(
+        controller: _localeController,
+        child: AnimatedBuilder(
+          animation: _localeController,
+          builder: (context, _) {
+            return BlocBuilder<ThemeCubit, ThemeData>(
+              builder: (context, theme) {
+                return BlocBuilder<ConnectionCubit, ConnectionState>(
+                  builder: (context, state) {
+                    return ScreenUtilInit(
+                      builder: (_, child) {
+                        return MaterialApp.router(
+                          debugShowCheckedModeBanner: false,
+                          locale: _localeController.locale,
+                          supportedLocales: AppLocalizations.supportedLocales,
+                          localizationsDelegates: const [
+                            AppLocalizations.delegate,
+                            GlobalMaterialLocalizations.delegate,
+                            GlobalWidgetsLocalizations.delegate,
+                            GlobalCupertinoLocalizations.delegate,
+                          ],
+                          theme: theme,
+                          routerConfig: goRouters,
+                          scaffoldMessengerKey:
+                              GlobalContext.scaffoldMessengerKey,
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

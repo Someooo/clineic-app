@@ -5,7 +5,6 @@ export 'package:auto_size_text/auto_size_text.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:dartz/dartz.dart' hide State, id;
 export 'package:dio/dio.dart';
-export 'package:easy_localization/easy_localization.dart' hide MapExtension;
 export 'package:flutter/material.dart' hide TextDirection, ConnectionState;
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,5 +1,6 @@
 import '../../../../global_imports.dart';
 import '../../../../core/utils/border_radius.dart';
+import '../../../../core/localization/l10n.dart';
 
 class AuthActionButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -21,7 +22,7 @@ class AuthActionButton extends StatelessWidget {
           loaded: (auth, message) {
             showBar(
               context,
-              title: AppStrings.hello.tr(args: [auth.fullName]),
+              title: L10n.t.hello(auth.fullName),
               message: message,
               contentType: BarContentType.success,
             );
@@ -30,7 +31,7 @@ class AuthActionButton extends StatelessWidget {
           loginSuccess: (message) {
             showBar(
               context,
-              title: AppStrings.register.tr(),
+              title: L10n.t.register,
               message: message,
               contentType: BarContentType.success,
             );
@@ -39,7 +40,7 @@ class AuthActionButton extends StatelessWidget {
           error: (msg, title) {
             showBar(
               context,
-              title: AppStrings.error.tr(args: ['']),
+              title: L10n.t.error,
               message: msg,
               contentType: BarContentType.failure,
             );
@@ -99,9 +100,9 @@ class AuthActionButton extends StatelessWidget {
                       color: Colors.black,
                     ),
                     children: [
-                      TextSpan(text: AppStrings.dontHaveAccount.tr()),
+                      TextSpan(text: L10n.t.dontHaveAccount),
                       TextSpan(
-                        text: AppStrings.goToRegister.tr(),
+                        text: L10n.t.goToRegister,
                         style:const TextStyle(
                           color: AppColor.blueColor,
                           fontWeight: FontWeight.w600,
