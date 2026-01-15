@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/extension/space_extension.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import '../../../auth/data/datasource/auth_local_data_source.dart';
 import '../../../../global_imports.dart';
 import '../widget/category_card.dart';
 
@@ -15,11 +16,13 @@ class HomeContentPage extends StatefulWidget {
 
 class _HomeContentPageState extends State<HomeContentPage> {
   late final TextEditingController searchController;
+  late final Future<AuthUserModel?> _userFuture;
 
   @override
   void initState() {
     super.initState();
     searchController = TextEditingController();
+    _userFuture = getIt<AuthLocalDataSource>().getUser();
   }
 
   @override
@@ -71,11 +74,21 @@ class _HomeContentPageState extends State<HomeContentPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'welcomeUserDenis'.tr(),
-                                style: AppTextStyle.style24B.copyWith(
-                                  color: AppColor.white,
-                                ),
+                              FutureBuilder<AuthUserModel?>(
+                                future: _userFuture,
+                                builder: (context, snapshot) {
+                                  final fullName = snapshot.data?.fullName;
+                                  final text = (fullName != null &&
+                                          fullName.trim().isNotEmpty)
+                                      ? fullName
+                                      : 'welcomeUserDenis'.tr();
+                                  return Text(
+                                    text,
+                                    style: AppTextStyle.style24B.copyWith(
+                                      color: AppColor.white,
+                                    ),
+                                  );
+                                },
                               ),
                               // 8.gap,
                               // Text(
