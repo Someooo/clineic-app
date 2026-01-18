@@ -173,7 +173,10 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                             _loadAppointments();
                           },
                           child: ListView.builder(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              bottom:65,
+                            ),
                             itemCount: state.appointments.length,
                             itemBuilder: (context, index) {
                               return AppointmentCard(
