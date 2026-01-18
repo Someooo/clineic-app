@@ -122,9 +122,6 @@ class HospitalTeamBody extends StatelessWidget {
               final team = teams[index];
               return TeamCard(
                 team: team,
-                onTap: () {
-                  // Handle team member tap
-                },
                 onBookmarkTap: () {
                   // Handle bookmark tap
                 },

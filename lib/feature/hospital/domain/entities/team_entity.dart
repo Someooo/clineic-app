@@ -4,12 +4,36 @@ class TeamEntity {
   final int id;
   final String status;
   final String image;
+  final String? averageRating;
+  final String totalRating;
+  final String percentage;
+  final String medicalVerified;
+  final String isVerified;
+  final String? subHeading;
+  final String specialities;
+  final String featured;
+  final List<String> bookingsDays;
+  final String currentDay;
+  final String? votes;
+  final String startingPrice;
 
   TeamEntity({
     required this.name,
     required this.id,
     required this.status,
     required this.image,
+    this.averageRating,
+    this.totalRating = "0",
+    this.percentage = "",
+    this.medicalVerified = "no",
+    this.isVerified = "yes",
+    this.subHeading,
+    this.specialities = "",
+    this.featured = "",
+    this.bookingsDays = const [],
+    this.currentDay = "",
+    this.votes,
+    this.startingPrice = "",
   });
 
   @override

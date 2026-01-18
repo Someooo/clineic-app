@@ -3,6 +3,7 @@ import '../../../../core/utils/text_style.dart';
 import '../../../../global_imports.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
 import '../../domain/entities/team_entity.dart';
+import '../pages/team_member_profile_page.dart';
 
 class TeamCard extends StatelessWidget {
   final TeamEntity team;
@@ -21,7 +22,13 @@ class TeamCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => TeamMemberProfilePage(teamMember: team),
+          ),
+        );
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(

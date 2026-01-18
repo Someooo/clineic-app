@@ -8,6 +8,18 @@ extension TeamModelMapper on TeamModel {
       id: id,
       status: status,
       image: image,
+      averageRating: averageRating,
+      totalRating: totalRating,
+      percentage: percentage,
+      medicalVerified: medicalVerified,
+      isVerified: isVerified,
+      subHeading: subHeading,
+      specialities: specialities,
+      featured: featured,
+      bookingsDays: bookingsDays,
+      currentDay: currentDay,
+      votes: votes,
+      startingPrice: startingPrice,
     );
   }
 }
@@ -19,6 +31,18 @@ extension TeamEntityMapper on TeamEntity {
       id: id,
       status: status,
       image: image,
+      averageRating: averageRating,
+      totalRating: totalRating,
+      percentage: percentage,
+      medicalVerified: medicalVerified,
+      isVerified: isVerified,
+      subHeading: subHeading,
+      specialities: specialities,
+      featured: featured,
+      bookingsDays: bookingsDays,
+      currentDay: currentDay,
+      votes: votes,
+      startingPrice: startingPrice,
     );
   }
 }
