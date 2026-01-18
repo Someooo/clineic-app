@@ -53,13 +53,7 @@ class HospitalTeamPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Browse all hospital team members',
-                        style: AppTextStyle.style14.copyWith(
-                          color: AppColor.white,
-                        ),
-                      ),
+                  
                     ],
                   ),
                 ),

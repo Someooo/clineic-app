@@ -78,13 +78,7 @@ class TeamCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                IconButton(
-                  onPressed: onBookmarkTap,
-                  icon: Icon(
-                    isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                    color: isBookmarked ? AppColor.primaryColor : AppColor.grey,
-                  ),
-                ),
+             
               ],
             ),
             const SizedBox(height: 12),
