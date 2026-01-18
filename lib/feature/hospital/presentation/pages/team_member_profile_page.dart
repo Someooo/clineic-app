@@ -46,6 +46,7 @@ class TeamMemberProfilePage extends StatelessWidget {
                   ],
                 ),
               ),
+              
               // White Content Area
               Expanded(
                 child: Container(
@@ -62,6 +63,15 @@ class TeamMemberProfilePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                          // Add Appointment Button
+                        AppButton.text(
+                          text: 'Add Appointment',
+                          onPressed: () {
+                            // TODO: Add appointment logic
+                          },
+                          color: Colors.blue,
+                        ),
+                         const SizedBox(height: 14),
                         // Profile Header
                         _buildProfileHeader(),
                         const SizedBox(height: 24),
@@ -103,15 +113,8 @@ class TeamMemberProfilePage extends StatelessWidget {
                         ],
                         if (teamMember.specialities.isNotEmpty)
                           _buildSpecialitiesSection(),
-                        const SizedBox(height: 24),
-                        // Add Appointment Button
-                        AppButton.text(
-                          text: 'Add Appointment',
-                          onPressed: () {
-                            // TODO: Add appointment logic
-                          },
-                          color: Colors.blue,
-                        ),
+                        // const SizedBox(height: 24),
+                      
                       ],
                     ),
                   ),
