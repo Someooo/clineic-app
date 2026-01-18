@@ -1,4 +1,4 @@
 class HospitalEndpoint {
   static const String getHospitalsList = '/api/hospital/list';
-  static const String getTeamList = '/api/v1/team/get_listing';
+  static const String getHospitalTeam = '/api/v1/listing/get_hospital_team';
 }

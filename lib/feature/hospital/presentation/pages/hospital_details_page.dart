@@ -239,7 +239,7 @@ class HospitalDetailsPage extends StatelessWidget {
           // Using hospital.id as userId for the API call
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => HospitalTeamPage(userId: hospital.id),
+              builder: (context) => HospitalTeamPage(profileId: hospital.id),
             ),
           );
         },

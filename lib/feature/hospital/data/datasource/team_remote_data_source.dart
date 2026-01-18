@@ -4,8 +4,7 @@ import '../model/team_model.dart';
 
 abstract class TeamRemoteDataSource {
   Future<ApiResponse<TeamModel>> getHospitalTeamList({
-    required int userId,
-    required String status,
+    required int profileId,
     required int pageNumber,
     required int showUsers,
     required CancelToken cancelToken,
@@ -19,14 +18,13 @@ class TeamRemoteDataSourceImpl implements TeamRemoteDataSource {
 
   @override
   Future<ApiResponse<TeamModel>> getHospitalTeamList({
-    required int userId,
-    required String status,
+    required int profileId,
     required int pageNumber,
     required int showUsers,
     required CancelToken cancelToken,
   }) async {
     try {
-      final url = '${HospitalEndpoint.getTeamList}?user_id=$userId&status=$status&page_number=$pageNumber&show_users=$showUsers';
+      final url = '${HospitalEndpoint.getHospitalTeam}?profile_id=$profileId&page_number=$pageNumber&show_users=$showUsers';
       print('🚀 Team API Request: $url');
       
       final response = await apiServices.getData(

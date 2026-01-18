@@ -4,17 +4,17 @@ import '../widget/team_card.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
 
 class HospitalTeamPage extends StatelessWidget {
-  final int userId;
+  final int profileId;
 
   const HospitalTeamPage({
     super.key,
-    required this.userId,
+    required this.profileId,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TeamCubit>()..getHospitalTeamList(userId: userId),
+      create: (context) => getIt<TeamCubit>()..getHospitalTeamList(profileId: profileId),
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -122,9 +122,6 @@ class HospitalTeamBody extends StatelessWidget {
               final team = teams[index];
               return TeamCard(
                 team: team,
-                onBookmarkTap: () {
-                  // Handle bookmark tap
-                },
               );
             },
           );

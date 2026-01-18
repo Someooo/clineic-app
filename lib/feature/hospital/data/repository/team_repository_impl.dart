@@ -12,8 +12,7 @@ class TeamRepositoryImpl implements TeamRepository {
 
   @override
   Future<Either<Failure, ApiResponse<TeamEntity>>> getHospitalTeamList({
-    required int userId,
-    required String status,
+    required int profileId,
     required int pageNumber,
     required int showUsers,
     required CancelToken cancelToken,
@@ -26,8 +25,7 @@ class TeamRepositoryImpl implements TeamRepository {
       }
 
       final apiResponse = await remote.getHospitalTeamList(
-        userId: userId,
-        status: status,
+        profileId: profileId,
         pageNumber: pageNumber,
         showUsers: showUsers,
         cancelToken: cancelToken,

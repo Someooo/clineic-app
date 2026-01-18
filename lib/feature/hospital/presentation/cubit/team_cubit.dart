@@ -14,8 +14,7 @@ class TeamCubit extends Cubit<TeamState>
       super(TeamState.initial);
 
   Future<void> getHospitalTeamList({
-    required int userId,
-    String status = 'approved',
+    required int profileId,
     int pageNumber = 1,
     int showUsers = 10,
   }) async {
@@ -24,8 +23,7 @@ class TeamCubit extends Cubit<TeamState>
     _cancelToken = CancelToken();
 
     final result = await _getTeamListCase(
-      userId: userId,
-      status: status,
+      profileId: profileId,
       pageNumber: pageNumber,
       showUsers: showUsers,
       cancelToken: _cancelToken!,

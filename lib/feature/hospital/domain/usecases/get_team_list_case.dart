@@ -8,15 +8,13 @@ class GetTeamListCase {
   GetTeamListCase(this.repository);
 
   Future<Either<Failure, ApiResponse<TeamEntity>>> call({
-    required int userId,
-    required String status,
+    required int profileId,
     required int pageNumber,
     required int showUsers,
     required CancelToken cancelToken,
   }) {
     return repository.getHospitalTeamList(
-      userId: userId,
-      status: status,
+      profileId: profileId,
       pageNumber: pageNumber,
       showUsers: showUsers,
       cancelToken: cancelToken,

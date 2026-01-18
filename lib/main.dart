@@ -100,51 +100,51 @@ class _MyAppState extends State<MyApp> {
           builder: (context, _) {
             return BlocBuilder<ThemeCubit, ThemeData>(
               builder: (context, theme) {
-                // Apply Cairo font globally to the theme
-                final cairoTheme = theme.copyWith(
+                // Apply Almarai font globally to the theme
+                final almaraiTheme = theme.copyWith(
                   textTheme: theme.textTheme.apply(
-                    fontFamily: 'Cairo',
+                    fontFamily: 'Almarai',
                   ),
                   appBarTheme: theme.appBarTheme.copyWith(
                     titleTextStyle: theme.textTheme.titleLarge?.copyWith(
-                      fontFamily: 'Cairo',
+                      fontFamily: 'Almarai',
                     ),
                   ),
                   elevatedButtonTheme: ElevatedButtonThemeData(
                     style: ElevatedButton.styleFrom(
                       textStyle: theme.textTheme.labelLarge?.copyWith(
-                        fontFamily: 'Cairo',
+                        fontFamily: 'Almarai',
                       ),
                     ),
                   ),
                   textButtonTheme: TextButtonThemeData(
                     style: TextButton.styleFrom(
                       textStyle: theme.textTheme.labelLarge?.copyWith(
-                        fontFamily: 'Cairo',
+                        fontFamily: 'Almarai',
                       ),
                     ),
                   ),
                   outlinedButtonTheme: OutlinedButtonThemeData(
                     style: OutlinedButton.styleFrom(
                       textStyle: theme.textTheme.labelLarge?.copyWith(
-                        fontFamily: 'Cairo',
+                        fontFamily: 'Almarai',
                       ),
                     ),
                   ),
                   inputDecorationTheme: theme.inputDecorationTheme.copyWith(
                     hintStyle: theme.inputDecorationTheme.hintStyle?.copyWith(
-                      fontFamily: 'Cairo',
+                      fontFamily: 'Almarai',
                     ),
                     labelStyle: theme.inputDecorationTheme.labelStyle?.copyWith(
-                      fontFamily: 'Cairo',
+                      fontFamily: 'Almarai',
                     ),
                   ),
                   dialogTheme: theme.dialogTheme.copyWith(
                     titleTextStyle: theme.textTheme.titleLarge?.copyWith(
-                      fontFamily: 'Cairo',
+                      fontFamily: 'Almarai',
                     ),
                     contentTextStyle: theme.textTheme.bodyMedium?.copyWith(
-                      fontFamily: 'Cairo',
+                      fontFamily: 'Almarai',
                     ),
                   ),
                 );
@@ -163,7 +163,7 @@ class _MyAppState extends State<MyApp> {
                             GlobalWidgetsLocalizations.delegate,
                             GlobalCupertinoLocalizations.delegate,
                           ],
-                          theme: cairoTheme,
+                          theme: almaraiTheme,
                           routerConfig: goRouters,
                           scaffoldMessengerKey:
                               GlobalContext.scaffoldMessengerKey,

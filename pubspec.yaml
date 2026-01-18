@@ -93,15 +93,6 @@ flutter:
       fonts:
         - asset: assets/fonts/Almarai/Almarai-Regular.ttf
         - asset: assets/fonts/Almarai/Almarai-Bold.ttf
-    - family: Cairo
-      fonts:
-        - asset: assets/fonts/Cairo/Cairo-Regular.ttf
-        - asset: assets/fonts/Cairo/Cairo-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Cairo/Cairo-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Cairo/Cairo-Bold.ttf
-          weight: 700
 
   assets:
     - assets/
