@@ -110,7 +110,7 @@ class TeamMemberProfilePage extends StatelessWidget {
                           onPressed: () {
                             // TODO: Add appointment logic
                           },
-                          color: AppColor.blueColor,
+                          color: Colors.blue,
                         ),
                       ],
                     ),
@@ -151,7 +151,7 @@ class TeamMemberProfilePage extends StatelessWidget {
                 teamMember.image.isEmpty
                     ? Icon(
                         Icons.person,
-                        color: AppColor.tealColor,
+                         color: Colors.blue,
                         size: 40,
                       )
                     : null,
@@ -227,7 +227,7 @@ class TeamMemberProfilePage extends StatelessWidget {
             ),
             child: Icon(
               icon,
-              color: AppColor.tealColor,
+              color: Colors.blue,
               size: 20,
             ),
           ),
@@ -286,7 +286,7 @@ class TeamMemberProfilePage extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.calendar_today,
-                  color: AppColor.tealColor,
+                   color: Colors.blue,
                   size: 20,
                 ),
               ),
@@ -309,7 +309,7 @@ class TeamMemberProfilePage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: teamMember.currentDay.toLowerCase() == day.toLowerCase()
-                      ? AppColor.tealColor
+                      ?  Colors.blue
                       : AppColor.grey.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -358,7 +358,7 @@ class TeamMemberProfilePage extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.work,
-                  color: AppColor.tealColor,
+                  color: Colors.blue,
                   size: 20,
                 ),
               ),
