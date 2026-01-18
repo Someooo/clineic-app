@@ -62,7 +62,7 @@ class ApiServices {
     return response.data;
   }
 
-  Future<Map<String, dynamic>> getData(
+  Future<dynamic> getData(
       String url, {
         String? token,
         CancelToken? cancelToken,

@@ -1,5 +1,6 @@
 import '../../../../global_imports.dart';
 import '../../domain/entities/hospital_entity.dart';
+import 'hospital_team_page.dart';
 
 class HospitalDetailsPage extends StatelessWidget {
   final HospitalEntity hospital;
@@ -157,6 +158,9 @@ class HospitalDetailsPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                     ],
+                    // Team Hospital Button
+                    _buildTeamButton(context),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -221,6 +225,50 @@ class HospitalDetailsPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTeamButton(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: ElevatedButton(
+        onPressed: () {
+          // Navigate to hospital team page
+          // Using hospital.id as userId for the API call
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => HospitalTeamPage(userId: hospital.id),
+            ),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColor.white,
+          foregroundColor: AppColor.primaryColor,
+          elevation: 2,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.groups,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'Team Hospital',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
