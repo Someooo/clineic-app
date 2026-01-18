@@ -103,6 +103,15 @@ class TeamMemberProfilePage extends StatelessWidget {
                         ],
                         if (teamMember.specialities.isNotEmpty)
                           _buildSpecialitiesSection(),
+                        const SizedBox(height: 24),
+                        // Add Appointment Button
+                        AppButton.text(
+                          text: 'Add Appointment',
+                          onPressed: () {
+                            // TODO: Add appointment logic
+                          },
+                          color: AppColor.blueColor,
+                        ),
                       ],
                     ),
                   ),
