@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AuthEntity {
 
- int get id; String get firstName; String? get secondName; String? get thirdName; String get lastName; String get slug; String get email; int get locationId; String? get verificationCode; dynamic get userVerified; dynamic get packageExpiry; String get createdAt; String get updatedAt; String? get dateOfBirth; String? get phoneNumber; String? get patientCardNumber; String? get nationalNumber; int? get secretaryId; int? get receptionistId; int? get medicalBillerId; dynamic get weight; dynamic get height; String? get occupation; dynamic get payment; String? get gender; String? get refferal; String? get profilePic; int? get physiotherapistId; String? get dbName; String? get dbUsername; String? get dbPassword; int? get hospitalId; int get isErp; String? get medicalType; String? get patientErpId; int? get tpaId; String get fullName;
+ int get id; String get firstName; String? get secondName; String? get thirdName; String get lastName; String get slug; String get email; int? get locationId; String? get verificationCode; dynamic get userVerified; dynamic get packageExpiry; String get createdAt; String get updatedAt; String? get dateOfBirth; String? get phoneNumber; String? get patientCardNumber; String? get nationalNumber; int? get secretaryId; int? get receptionistId; int? get medicalBillerId; dynamic get weight; dynamic get height; String? get occupation; dynamic get payment; String? get gender; String? get refferal; String? get profilePic; int? get physiotherapistId; String? get dbName; String? get dbUsername; String? get dbPassword; String? get hospitalId; int get isErp; String? get medicalType; String? get patientErpId; int? get tpaId; String get fullName;
 /// Create a copy of AuthEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $AuthEntityCopyWith<$Res>  {
   factory $AuthEntityCopyWith(AuthEntity value, $Res Function(AuthEntity) _then) = _$AuthEntityCopyWithImpl;
 @useResult
 $Res call({
- int id, String firstName, String? secondName, String? thirdName, String lastName, String slug, String email, int locationId, String? verificationCode, dynamic userVerified, dynamic packageExpiry, String createdAt, String updatedAt, String? dateOfBirth, String? phoneNumber, String? patientCardNumber, String? nationalNumber, int? secretaryId, int? receptionistId, int? medicalBillerId, dynamic weight, dynamic height, String? occupation, dynamic payment, String? gender, String? refferal, String? profilePic, int? physiotherapistId, String? dbName, String? dbUsername, String? dbPassword, int? hospitalId, int isErp, String? medicalType, String? patientErpId, int? tpaId, String fullName
+ int id, String firstName, String? secondName, String? thirdName, String lastName, String slug, String email, int? locationId, String? verificationCode, dynamic userVerified, dynamic packageExpiry, String createdAt, String updatedAt, String? dateOfBirth, String? phoneNumber, String? patientCardNumber, String? nationalNumber, int? secretaryId, int? receptionistId, int? medicalBillerId, dynamic weight, dynamic height, String? occupation, dynamic payment, String? gender, String? refferal, String? profilePic, int? physiotherapistId, String? dbName, String? dbUsername, String? dbPassword, String? hospitalId, int isErp, String? medicalType, String? patientErpId, int? tpaId, String fullName
 });
 
 
@@ -62,7 +62,7 @@ class _$AuthEntityCopyWithImpl<$Res>
 
 /// Create a copy of AuthEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? firstName = null,Object? secondName = freezed,Object? thirdName = freezed,Object? lastName = null,Object? slug = null,Object? email = null,Object? locationId = null,Object? verificationCode = freezed,Object? userVerified = freezed,Object? packageExpiry = freezed,Object? createdAt = null,Object? updatedAt = null,Object? dateOfBirth = freezed,Object? phoneNumber = freezed,Object? patientCardNumber = freezed,Object? nationalNumber = freezed,Object? secretaryId = freezed,Object? receptionistId = freezed,Object? medicalBillerId = freezed,Object? weight = freezed,Object? height = freezed,Object? occupation = freezed,Object? payment = freezed,Object? gender = freezed,Object? refferal = freezed,Object? profilePic = freezed,Object? physiotherapistId = freezed,Object? dbName = freezed,Object? dbUsername = freezed,Object? dbPassword = freezed,Object? hospitalId = freezed,Object? isErp = null,Object? medicalType = freezed,Object? patientErpId = freezed,Object? tpaId = freezed,Object? fullName = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? firstName = null,Object? secondName = freezed,Object? thirdName = freezed,Object? lastName = null,Object? slug = null,Object? email = null,Object? locationId = freezed,Object? verificationCode = freezed,Object? userVerified = freezed,Object? packageExpiry = freezed,Object? createdAt = null,Object? updatedAt = null,Object? dateOfBirth = freezed,Object? phoneNumber = freezed,Object? patientCardNumber = freezed,Object? nationalNumber = freezed,Object? secretaryId = freezed,Object? receptionistId = freezed,Object? medicalBillerId = freezed,Object? weight = freezed,Object? height = freezed,Object? occupation = freezed,Object? payment = freezed,Object? gender = freezed,Object? refferal = freezed,Object? profilePic = freezed,Object? physiotherapistId = freezed,Object? dbName = freezed,Object? dbUsername = freezed,Object? dbPassword = freezed,Object? hospitalId = freezed,Object? isErp = null,Object? medicalType = freezed,Object? patientErpId = freezed,Object? tpaId = freezed,Object? fullName = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
@@ -71,8 +71,8 @@ as String?,thirdName: freezed == thirdName ? _self.thirdName : thirdName // igno
 as String?,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
 as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,locationId: null == locationId ? _self.locationId : locationId // ignore: cast_nullable_to_non_nullable
-as int,verificationCode: freezed == verificationCode ? _self.verificationCode : verificationCode // ignore: cast_nullable_to_non_nullable
+as String,locationId: freezed == locationId ? _self.locationId : locationId // ignore: cast_nullable_to_non_nullable
+as int?,verificationCode: freezed == verificationCode ? _self.verificationCode : verificationCode // ignore: cast_nullable_to_non_nullable
 as String?,userVerified: freezed == userVerified ? _self.userVerified : userVerified // ignore: cast_nullable_to_non_nullable
 as dynamic,packageExpiry: freezed == packageExpiry ? _self.packageExpiry : packageExpiry // ignore: cast_nullable_to_non_nullable
 as dynamic,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -96,7 +96,7 @@ as int?,dbName: freezed == dbName ? _self.dbName : dbName // ignore: cast_nullab
 as String?,dbUsername: freezed == dbUsername ? _self.dbUsername : dbUsername // ignore: cast_nullable_to_non_nullable
 as String?,dbPassword: freezed == dbPassword ? _self.dbPassword : dbPassword // ignore: cast_nullable_to_non_nullable
 as String?,hospitalId: freezed == hospitalId ? _self.hospitalId : hospitalId // ignore: cast_nullable_to_non_nullable
-as int?,isErp: null == isErp ? _self.isErp : isErp // ignore: cast_nullable_to_non_nullable
+as String?,isErp: null == isErp ? _self.isErp : isErp // ignore: cast_nullable_to_non_nullable
 as int,medicalType: freezed == medicalType ? _self.medicalType : medicalType // ignore: cast_nullable_to_non_nullable
 as String?,patientErpId: freezed == patientErpId ? _self.patientErpId : patientErpId // ignore: cast_nullable_to_non_nullable
 as String?,tpaId: freezed == tpaId ? _self.tpaId : tpaId // ignore: cast_nullable_to_non_nullable
@@ -186,7 +186,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String firstName,  String? secondName,  String? thirdName,  String lastName,  String slug,  String email,  int locationId,  String? verificationCode,  dynamic userVerified,  dynamic packageExpiry,  String createdAt,  String updatedAt,  String? dateOfBirth,  String? phoneNumber,  String? patientCardNumber,  String? nationalNumber,  int? secretaryId,  int? receptionistId,  int? medicalBillerId,  dynamic weight,  dynamic height,  String? occupation,  dynamic payment,  String? gender,  String? refferal,  String? profilePic,  int? physiotherapistId,  String? dbName,  String? dbUsername,  String? dbPassword,  int? hospitalId,  int isErp,  String? medicalType,  String? patientErpId,  int? tpaId,  String fullName)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String firstName,  String? secondName,  String? thirdName,  String lastName,  String slug,  String email,  int? locationId,  String? verificationCode,  dynamic userVerified,  dynamic packageExpiry,  String createdAt,  String updatedAt,  String? dateOfBirth,  String? phoneNumber,  String? patientCardNumber,  String? nationalNumber,  int? secretaryId,  int? receptionistId,  int? medicalBillerId,  dynamic weight,  dynamic height,  String? occupation,  dynamic payment,  String? gender,  String? refferal,  String? profilePic,  int? physiotherapistId,  String? dbName,  String? dbUsername,  String? dbPassword,  String? hospitalId,  int isErp,  String? medicalType,  String? patientErpId,  int? tpaId,  String fullName)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AuthEntity() when $default != null:
 return $default(_that.id,_that.firstName,_that.secondName,_that.thirdName,_that.lastName,_that.slug,_that.email,_that.locationId,_that.verificationCode,_that.userVerified,_that.packageExpiry,_that.createdAt,_that.updatedAt,_that.dateOfBirth,_that.phoneNumber,_that.patientCardNumber,_that.nationalNumber,_that.secretaryId,_that.receptionistId,_that.medicalBillerId,_that.weight,_that.height,_that.occupation,_that.payment,_that.gender,_that.refferal,_that.profilePic,_that.physiotherapistId,_that.dbName,_that.dbUsername,_that.dbPassword,_that.hospitalId,_that.isErp,_that.medicalType,_that.patientErpId,_that.tpaId,_that.fullName);case _:
@@ -207,7 +207,7 @@ return $default(_that.id,_that.firstName,_that.secondName,_that.thirdName,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String firstName,  String? secondName,  String? thirdName,  String lastName,  String slug,  String email,  int locationId,  String? verificationCode,  dynamic userVerified,  dynamic packageExpiry,  String createdAt,  String updatedAt,  String? dateOfBirth,  String? phoneNumber,  String? patientCardNumber,  String? nationalNumber,  int? secretaryId,  int? receptionistId,  int? medicalBillerId,  dynamic weight,  dynamic height,  String? occupation,  dynamic payment,  String? gender,  String? refferal,  String? profilePic,  int? physiotherapistId,  String? dbName,  String? dbUsername,  String? dbPassword,  int? hospitalId,  int isErp,  String? medicalType,  String? patientErpId,  int? tpaId,  String fullName)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String firstName,  String? secondName,  String? thirdName,  String lastName,  String slug,  String email,  int? locationId,  String? verificationCode,  dynamic userVerified,  dynamic packageExpiry,  String createdAt,  String updatedAt,  String? dateOfBirth,  String? phoneNumber,  String? patientCardNumber,  String? nationalNumber,  int? secretaryId,  int? receptionistId,  int? medicalBillerId,  dynamic weight,  dynamic height,  String? occupation,  dynamic payment,  String? gender,  String? refferal,  String? profilePic,  int? physiotherapistId,  String? dbName,  String? dbUsername,  String? dbPassword,  String? hospitalId,  int isErp,  String? medicalType,  String? patientErpId,  int? tpaId,  String fullName)  $default,) {final _that = this;
 switch (_that) {
 case _AuthEntity():
 return $default(_that.id,_that.firstName,_that.secondName,_that.thirdName,_that.lastName,_that.slug,_that.email,_that.locationId,_that.verificationCode,_that.userVerified,_that.packageExpiry,_that.createdAt,_that.updatedAt,_that.dateOfBirth,_that.phoneNumber,_that.patientCardNumber,_that.nationalNumber,_that.secretaryId,_that.receptionistId,_that.medicalBillerId,_that.weight,_that.height,_that.occupation,_that.payment,_that.gender,_that.refferal,_that.profilePic,_that.physiotherapistId,_that.dbName,_that.dbUsername,_that.dbPassword,_that.hospitalId,_that.isErp,_that.medicalType,_that.patientErpId,_that.tpaId,_that.fullName);case _:
@@ -227,7 +227,7 @@ return $default(_that.id,_that.firstName,_that.secondName,_that.thirdName,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String firstName,  String? secondName,  String? thirdName,  String lastName,  String slug,  String email,  int locationId,  String? verificationCode,  dynamic userVerified,  dynamic packageExpiry,  String createdAt,  String updatedAt,  String? dateOfBirth,  String? phoneNumber,  String? patientCardNumber,  String? nationalNumber,  int? secretaryId,  int? receptionistId,  int? medicalBillerId,  dynamic weight,  dynamic height,  String? occupation,  dynamic payment,  String? gender,  String? refferal,  String? profilePic,  int? physiotherapistId,  String? dbName,  String? dbUsername,  String? dbPassword,  int? hospitalId,  int isErp,  String? medicalType,  String? patientErpId,  int? tpaId,  String fullName)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String firstName,  String? secondName,  String? thirdName,  String lastName,  String slug,  String email,  int? locationId,  String? verificationCode,  dynamic userVerified,  dynamic packageExpiry,  String createdAt,  String updatedAt,  String? dateOfBirth,  String? phoneNumber,  String? patientCardNumber,  String? nationalNumber,  int? secretaryId,  int? receptionistId,  int? medicalBillerId,  dynamic weight,  dynamic height,  String? occupation,  dynamic payment,  String? gender,  String? refferal,  String? profilePic,  int? physiotherapistId,  String? dbName,  String? dbUsername,  String? dbPassword,  String? hospitalId,  int isErp,  String? medicalType,  String? patientErpId,  int? tpaId,  String fullName)?  $default,) {final _that = this;
 switch (_that) {
 case _AuthEntity() when $default != null:
 return $default(_that.id,_that.firstName,_that.secondName,_that.thirdName,_that.lastName,_that.slug,_that.email,_that.locationId,_that.verificationCode,_that.userVerified,_that.packageExpiry,_that.createdAt,_that.updatedAt,_that.dateOfBirth,_that.phoneNumber,_that.patientCardNumber,_that.nationalNumber,_that.secretaryId,_that.receptionistId,_that.medicalBillerId,_that.weight,_that.height,_that.occupation,_that.payment,_that.gender,_that.refferal,_that.profilePic,_that.physiotherapistId,_that.dbName,_that.dbUsername,_that.dbPassword,_that.hospitalId,_that.isErp,_that.medicalType,_that.patientErpId,_that.tpaId,_that.fullName);case _:
@@ -242,7 +242,7 @@ return $default(_that.id,_that.firstName,_that.secondName,_that.thirdName,_that.
 
 
 class _AuthEntity implements AuthEntity {
-  const _AuthEntity({required this.id, required this.firstName, this.secondName, this.thirdName, required this.lastName, required this.slug, required this.email, required this.locationId, this.verificationCode, this.userVerified, this.packageExpiry, required this.createdAt, required this.updatedAt, this.dateOfBirth, this.phoneNumber, this.patientCardNumber, this.nationalNumber, this.secretaryId, this.receptionistId, this.medicalBillerId, this.weight, this.height, this.occupation, this.payment, this.gender, this.refferal, this.profilePic, this.physiotherapistId, this.dbName, this.dbUsername, this.dbPassword, this.hospitalId, required this.isErp, this.medicalType, this.patientErpId, this.tpaId, required this.fullName});
+  const _AuthEntity({required this.id, required this.firstName, this.secondName, this.thirdName, required this.lastName, required this.slug, required this.email, this.locationId, this.verificationCode, this.userVerified, this.packageExpiry, required this.createdAt, required this.updatedAt, this.dateOfBirth, this.phoneNumber, this.patientCardNumber, this.nationalNumber, this.secretaryId, this.receptionistId, this.medicalBillerId, this.weight, this.height, this.occupation, this.payment, this.gender, this.refferal, this.profilePic, this.physiotherapistId, this.dbName, this.dbUsername, this.dbPassword, this.hospitalId, required this.isErp, this.medicalType, this.patientErpId, this.tpaId, required this.fullName});
   
 
 @override final  int id;
@@ -252,7 +252,7 @@ class _AuthEntity implements AuthEntity {
 @override final  String lastName;
 @override final  String slug;
 @override final  String email;
-@override final  int locationId;
+@override final  int? locationId;
 @override final  String? verificationCode;
 @override final  dynamic userVerified;
 @override final  dynamic packageExpiry;
@@ -276,7 +276,7 @@ class _AuthEntity implements AuthEntity {
 @override final  String? dbName;
 @override final  String? dbUsername;
 @override final  String? dbPassword;
-@override final  int? hospitalId;
+@override final  String? hospitalId;
 @override final  int isErp;
 @override final  String? medicalType;
 @override final  String? patientErpId;
@@ -313,7 +313,7 @@ abstract mixin class _$AuthEntityCopyWith<$Res> implements $AuthEntityCopyWith<$
   factory _$AuthEntityCopyWith(_AuthEntity value, $Res Function(_AuthEntity) _then) = __$AuthEntityCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String firstName, String? secondName, String? thirdName, String lastName, String slug, String email, int locationId, String? verificationCode, dynamic userVerified, dynamic packageExpiry, String createdAt, String updatedAt, String? dateOfBirth, String? phoneNumber, String? patientCardNumber, String? nationalNumber, int? secretaryId, int? receptionistId, int? medicalBillerId, dynamic weight, dynamic height, String? occupation, dynamic payment, String? gender, String? refferal, String? profilePic, int? physiotherapistId, String? dbName, String? dbUsername, String? dbPassword, int? hospitalId, int isErp, String? medicalType, String? patientErpId, int? tpaId, String fullName
+ int id, String firstName, String? secondName, String? thirdName, String lastName, String slug, String email, int? locationId, String? verificationCode, dynamic userVerified, dynamic packageExpiry, String createdAt, String updatedAt, String? dateOfBirth, String? phoneNumber, String? patientCardNumber, String? nationalNumber, int? secretaryId, int? receptionistId, int? medicalBillerId, dynamic weight, dynamic height, String? occupation, dynamic payment, String? gender, String? refferal, String? profilePic, int? physiotherapistId, String? dbName, String? dbUsername, String? dbPassword, String? hospitalId, int isErp, String? medicalType, String? patientErpId, int? tpaId, String fullName
 });
 
 
@@ -330,7 +330,7 @@ class __$AuthEntityCopyWithImpl<$Res>
 
 /// Create a copy of AuthEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? firstName = null,Object? secondName = freezed,Object? thirdName = freezed,Object? lastName = null,Object? slug = null,Object? email = null,Object? locationId = null,Object? verificationCode = freezed,Object? userVerified = freezed,Object? packageExpiry = freezed,Object? createdAt = null,Object? updatedAt = null,Object? dateOfBirth = freezed,Object? phoneNumber = freezed,Object? patientCardNumber = freezed,Object? nationalNumber = freezed,Object? secretaryId = freezed,Object? receptionistId = freezed,Object? medicalBillerId = freezed,Object? weight = freezed,Object? height = freezed,Object? occupation = freezed,Object? payment = freezed,Object? gender = freezed,Object? refferal = freezed,Object? profilePic = freezed,Object? physiotherapistId = freezed,Object? dbName = freezed,Object? dbUsername = freezed,Object? dbPassword = freezed,Object? hospitalId = freezed,Object? isErp = null,Object? medicalType = freezed,Object? patientErpId = freezed,Object? tpaId = freezed,Object? fullName = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? firstName = null,Object? secondName = freezed,Object? thirdName = freezed,Object? lastName = null,Object? slug = null,Object? email = null,Object? locationId = freezed,Object? verificationCode = freezed,Object? userVerified = freezed,Object? packageExpiry = freezed,Object? createdAt = null,Object? updatedAt = null,Object? dateOfBirth = freezed,Object? phoneNumber = freezed,Object? patientCardNumber = freezed,Object? nationalNumber = freezed,Object? secretaryId = freezed,Object? receptionistId = freezed,Object? medicalBillerId = freezed,Object? weight = freezed,Object? height = freezed,Object? occupation = freezed,Object? payment = freezed,Object? gender = freezed,Object? refferal = freezed,Object? profilePic = freezed,Object? physiotherapistId = freezed,Object? dbName = freezed,Object? dbUsername = freezed,Object? dbPassword = freezed,Object? hospitalId = freezed,Object? isErp = null,Object? medicalType = freezed,Object? patientErpId = freezed,Object? tpaId = freezed,Object? fullName = null,}) {
   return _then(_AuthEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,firstName: null == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
@@ -339,8 +339,8 @@ as String?,thirdName: freezed == thirdName ? _self.thirdName : thirdName // igno
 as String?,lastName: null == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
 as String,slug: null == slug ? _self.slug : slug // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,locationId: null == locationId ? _self.locationId : locationId // ignore: cast_nullable_to_non_nullable
-as int,verificationCode: freezed == verificationCode ? _self.verificationCode : verificationCode // ignore: cast_nullable_to_non_nullable
+as String,locationId: freezed == locationId ? _self.locationId : locationId // ignore: cast_nullable_to_non_nullable
+as int?,verificationCode: freezed == verificationCode ? _self.verificationCode : verificationCode // ignore: cast_nullable_to_non_nullable
 as String?,userVerified: freezed == userVerified ? _self.userVerified : userVerified // ignore: cast_nullable_to_non_nullable
 as dynamic,packageExpiry: freezed == packageExpiry ? _self.packageExpiry : packageExpiry // ignore: cast_nullable_to_non_nullable
 as dynamic,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -364,7 +364,7 @@ as int?,dbName: freezed == dbName ? _self.dbName : dbName // ignore: cast_nullab
 as String?,dbUsername: freezed == dbUsername ? _self.dbUsername : dbUsername // ignore: cast_nullable_to_non_nullable
 as String?,dbPassword: freezed == dbPassword ? _self.dbPassword : dbPassword // ignore: cast_nullable_to_non_nullable
 as String?,hospitalId: freezed == hospitalId ? _self.hospitalId : hospitalId // ignore: cast_nullable_to_non_nullable
-as int?,isErp: null == isErp ? _self.isErp : isErp // ignore: cast_nullable_to_non_nullable
+as String?,isErp: null == isErp ? _self.isErp : isErp // ignore: cast_nullable_to_non_nullable
 as int,medicalType: freezed == medicalType ? _self.medicalType : medicalType // ignore: cast_nullable_to_non_nullable
 as String?,patientErpId: freezed == patientErpId ? _self.patientErpId : patientErpId // ignore: cast_nullable_to_non_nullable
 as String?,tpaId: freezed == tpaId ? _self.tpaId : tpaId // ignore: cast_nullable_to_non_nullable
