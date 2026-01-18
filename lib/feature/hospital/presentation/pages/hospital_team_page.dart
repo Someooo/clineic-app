@@ -1,6 +1,7 @@
 import '../../../../global_imports.dart';
 import '../cubit/team_cubit.dart';
 import '../widget/team_card.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class HospitalTeamPage extends StatelessWidget {
   final int userId;
@@ -22,26 +23,66 @@ class HospitalTeamPage extends StatelessWidget {
             colors: [AppColor.tealColor, AppColor.blueColor],
           ),
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-              onPressed: () => Navigator.pop(context),
-            ),
-            title: const Text(
-              'Hospital Team',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        child: Column(
+          children: [
+            // Header Section
+            Container(
+              width: double.infinity,
+              child: SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Hospital Team',
+                            style: AppTextStyle.style24B.copyWith(
+                              color: AppColor.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Browse all hospital team members',
+                        style: AppTextStyle.style14.copyWith(
+                          color: AppColor.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            centerTitle: true,
-          ),
-          body: const HospitalTeamBody(),
+            // White Content Area
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF2F7FA),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: const HospitalTeamBody(),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -56,97 +97,44 @@ class HospitalTeamBody extends StatelessWidget {
     return BlocBuilder<TeamCubit, TeamState>(
       builder: (context, state) {
         if (state.status == 'loading') {
-          return const Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            ),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (state.status == 'error') {
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.error_outline,
-                  size: 64,
-                  color: Colors.white,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  state.message ?? 'An error occurred',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    // Retry logic
-                    final userId = ModalRoute.of(context)?.settings.arguments as int?;
-                    if (userId != null) {
-                      context.read<TeamCubit>().getHospitalTeamList(userId: userId);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: AppColor.tealColor,
-                  ),
-                  child: const Text('Retry'),
-                ),
-              ],
+            child: Text(
+              state.message ?? AppLocalizations.of(context)!.error,
+              style: AppTextStyle.style14.copyWith(
+                color: AppColor.red,
+              ),
             ),
           );
         }
 
         if (state.status == 'teams_loaded') {
-          if (state.teams.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.people_outline,
-                    size: 64,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'No team members found',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+          final teams = state.teams;
+
+          if (teams.isEmpty) {
+            return const NoDataWidget(
+              title: 'No team members found',
+              subtitle: 'No team members are available at the moment',
             );
           }
 
-          return Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.teams.length,
-                    itemBuilder: (context, index) {
-                      final team = state.teams[index];
-                      return TeamCard(
-                        team: team,
-                        onTap: () {
-                          // Handle team member tap
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+          return ListView.builder(
+            itemCount: teams.length,
+            itemBuilder: (context, index) {
+              final team = teams[index];
+              return TeamCard(
+                team: team,
+                onTap: () {
+                  // Handle team member tap
+                },
+                onBookmarkTap: () {
+                  // Handle bookmark tap
+                },
+              );
+            },
           );
         }
 

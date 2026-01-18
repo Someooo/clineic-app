@@ -1,4 +1,7 @@
+import '../../../../core/utils/color.dart';
+import '../../../../core/utils/text_style.dart';
 import '../../../../global_imports.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 import '../../domain/entities/team_entity.dart';
 
 class TeamCard extends StatelessWidget {
@@ -63,40 +66,39 @@ class TeamCard extends StatelessWidget {
                         team.name,
                         style: AppTextStyle.style18B.copyWith(
                           color: AppColor.black,
-                          decoration: TextDecoration.none,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 4),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getStatusColor(team.status).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          team.status.toUpperCase(),
-                          style: AppTextStyle.style12.copyWith(
-                            color: _getStatusColor(team.status),
-                            fontWeight: FontWeight.w500,
-                          ),
+                      Text(
+                        team.status,
+                        style: AppTextStyle.style14.copyWith(
+                          color: AppColor.grey,
                         ),
                       ),
                     ],
                   ),
                 ),
-                if (onBookmarkTap != null)
-                  IconButton(
-                    onPressed: onBookmarkTap,
-                    icon: Icon(
-                      isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                      color: isBookmarked ? AppColor.tealColor : AppColor.grey,
-                    ),
+                IconButton(
+                  onPressed: onBookmarkTap,
+                  icon: Icon(
+                    isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                    color: isBookmarked ? AppColor.primaryColor : AppColor.grey,
                   ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                _buildInfoBadge(
+                  label: AppLocalizations.of(context)!.status,
+                  value: team.status,
+                ),
+                const SizedBox(width: 8),
+                _buildInfoBadge(
+                  label: 'ID',
+                  value: team.id.toString(),
+                ),
               ],
             ),
           ],
@@ -105,16 +107,26 @@ class TeamCard extends StatelessWidget {
     );
   }
 
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'approved':
-        return Colors.green;
-      case 'pending':
-        return Colors.orange;
-      case 'rejected':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
+  Widget _buildInfoBadge({required String label, required String value}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColor.grey.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '$label: ',
+            style: AppTextStyle.style12.copyWith(color: AppColor.grey),
+          ),
+          Text(
+            value,
+            style: AppTextStyle.style12.copyWith(color: AppColor.black),
+          ),
+        ],
+      ),
+    );
   }
 }
