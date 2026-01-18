@@ -19,7 +19,7 @@ class MyHttpOverrides extends HttpOverrides {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize dependencies before running the app
+  // Initialize dependencies before running app
   try {
     await EnvConstant.init();
     await HiveServices().init();
@@ -100,6 +100,55 @@ class _MyAppState extends State<MyApp> {
           builder: (context, _) {
             return BlocBuilder<ThemeCubit, ThemeData>(
               builder: (context, theme) {
+                // Apply Cairo font globally to the theme
+                final cairoTheme = theme.copyWith(
+                  textTheme: theme.textTheme.apply(
+                    fontFamily: 'Cairo',
+                  ),
+                  appBarTheme: theme.appBarTheme.copyWith(
+                    titleTextStyle: theme.textTheme.titleLarge?.copyWith(
+                      fontFamily: 'Cairo',
+                    ),
+                  ),
+                  elevatedButtonTheme: ElevatedButtonThemeData(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: theme.textTheme.labelLarge?.copyWith(
+                        fontFamily: 'Cairo',
+                      ),
+                    ),
+                  ),
+                  textButtonTheme: TextButtonThemeData(
+                    style: TextButton.styleFrom(
+                      textStyle: theme.textTheme.labelLarge?.copyWith(
+                        fontFamily: 'Cairo',
+                      ),
+                    ),
+                  ),
+                  outlinedButtonTheme: OutlinedButtonThemeData(
+                    style: OutlinedButton.styleFrom(
+                      textStyle: theme.textTheme.labelLarge?.copyWith(
+                        fontFamily: 'Cairo',
+                      ),
+                    ),
+                  ),
+                  inputDecorationTheme: theme.inputDecorationTheme.copyWith(
+                    hintStyle: theme.inputDecorationTheme.hintStyle?.copyWith(
+                      fontFamily: 'Cairo',
+                    ),
+                    labelStyle: theme.inputDecorationTheme.labelStyle?.copyWith(
+                      fontFamily: 'Cairo',
+                    ),
+                  ),
+                  dialogTheme: theme.dialogTheme.copyWith(
+                    titleTextStyle: theme.textTheme.titleLarge?.copyWith(
+                      fontFamily: 'Cairo',
+                    ),
+                    contentTextStyle: theme.textTheme.bodyMedium?.copyWith(
+                      fontFamily: 'Cairo',
+                    ),
+                  ),
+                );
+                
                 return BlocBuilder<ConnectionCubit, ConnectionState>(
                   builder: (context, state) {
                     return ScreenUtilInit(
@@ -114,7 +163,7 @@ class _MyAppState extends State<MyApp> {
                             GlobalWidgetsLocalizations.delegate,
                             GlobalCupertinoLocalizations.delegate,
                           ],
-                          theme: theme,
+                          theme: cairoTheme,
                           routerConfig: goRouters,
                           scaffoldMessengerKey:
                               GlobalContext.scaffoldMessengerKey,
