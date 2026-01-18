@@ -66,6 +66,7 @@ class TeamCard extends StatelessWidget {
                         team.name,
                         style: AppTextStyle.style18B.copyWith(
                           color: AppColor.black,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -73,6 +74,7 @@ class TeamCard extends StatelessWidget {
                         team.status,
                         style: AppTextStyle.style14.copyWith(
                           color: AppColor.grey,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                     ],
@@ -113,11 +115,17 @@ class TeamCard extends StatelessWidget {
         children: [
           Text(
             '$label: ',
-            style: AppTextStyle.style12.copyWith(color: AppColor.grey),
+            style: AppTextStyle.style12.copyWith(
+              color: AppColor.grey,
+              decoration: TextDecoration.none,
+            ),
           ),
           Text(
             value,
-            style: AppTextStyle.style12.copyWith(color: AppColor.black),
+            style: AppTextStyle.style12.copyWith(
+              color: AppColor.black,
+              decoration: TextDecoration.none,
+            ),
           ),
         ],
       ),

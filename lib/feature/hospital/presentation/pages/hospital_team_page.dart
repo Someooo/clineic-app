@@ -49,6 +49,7 @@ class HospitalTeamPage extends StatelessWidget {
                             'Hospital Team',
                             style: AppTextStyle.style24B.copyWith(
                               color: AppColor.white,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                         ],
