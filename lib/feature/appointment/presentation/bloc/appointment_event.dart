@@ -9,13 +9,15 @@ abstract class AppointmentEvent extends Equatable {
 
 class GetAppointmentsEvent extends AppointmentEvent {
   final int userId;
-  final String appointmentDate;
+  final String? appointmentDate;
+  final String? status;
 
   const GetAppointmentsEvent({
     required this.userId,
-    required this.appointmentDate,
+    this.appointmentDate,
+    this.status,
   });
 
   @override
-  List<Object> get props => [userId, appointmentDate];
+  List<Object> get props => [userId, if (appointmentDate != null) appointmentDate!, if (status != null) status!];
 }

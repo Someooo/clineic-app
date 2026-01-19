@@ -6,7 +6,8 @@ import '../models/appointment_model.dart';
 abstract class AppointmentRemoteDataSource {
   Future<Either<String, List<AppointmentModel>>> getAppointments({
     required int userId,
-    required String appointmentDate,
+    String? appointmentDate,
+    String? status,
   });
 }
 
@@ -18,15 +19,25 @@ class AppointmentRemoteDataSourceImpl implements AppointmentRemoteDataSource {
   @override
   Future<Either<String, List<AppointmentModel>>> getAppointments({
     required int userId,
-    required String appointmentDate,
+    String? appointmentDate,
+    String? status,
   }) async {
     try {
+      final queryParams = <String, String>{
+        'user_id': userId.toString(),
+      };
+      
+      if (appointmentDate != null) {
+        queryParams['appointment_date'] = appointmentDate;
+      }
+      
+      if (status != null) {
+        queryParams['status'] = status;
+      }
+
       final uri = Uri.parse(
         'https://clinic.code-pro.io/api/v1/appointments/get_patient_listing',
-      ).replace(queryParameters: {
-        'user_id': userId.toString(),
-        'appointment_date': appointmentDate,
-      });
+      ).replace(queryParameters: queryParams);
 
       final response = await client.get(uri);
 

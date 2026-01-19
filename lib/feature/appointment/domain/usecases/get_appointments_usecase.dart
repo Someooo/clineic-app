@@ -9,11 +9,13 @@ class GetAppointmentsUseCase {
 
   Future<Either<String, List<AppointmentEntity>>> call({
     required int userId,
-    required String appointmentDate,
+    String? appointmentDate,
+    String? status,
   }) async {
     return await repository.getAppointments(
       userId: userId,
       appointmentDate: appointmentDate,
+      status: status,
     );
   }
 }

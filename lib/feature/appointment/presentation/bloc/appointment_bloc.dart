@@ -20,6 +20,7 @@ class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
     final result = await getAppointmentsUseCase(
       userId: event.userId,
       appointmentDate: event.appointmentDate,
+      status: event.status,
     );
 
     result.fold(

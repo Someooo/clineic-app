@@ -13,6 +13,7 @@ import '../../../appointment/presentation/bloc/appointment_event.dart';
 import '../../../appointment/presentation/bloc/appointment_state.dart';
 import '../../../appointment/presentation/widgets/appointment_card.dart';
 import '../../../appointment/presentation/widgets/add_appointment_icon.dart';
+import '../../../../core/widget/segmented_control/app_segmented_control.dart';
 
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});
@@ -23,8 +24,7 @@ class AppointmentsPage extends StatefulWidget {
 
 class _AppointmentsPageState extends State<AppointmentsPage> {
   late AppointmentBloc appointmentBloc;
-  final TextEditingController _dateController = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
+  String _selectedStatus = 'Pending';
 
   @override
   void initState() {
@@ -50,12 +50,10 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
   }
 
   void _loadAppointments() {
-    final formattedDate = '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')}';
-    
     appointmentBloc.add(
       GetAppointmentsEvent(
         userId: 7, // You can make this dynamic based on user authentication
-        appointmentDate: formattedDate,
+        status: _selectedStatus,
       ),
     );
   }
@@ -63,7 +61,6 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
   @override
   void dispose() {
     appointmentBloc.close();
-    _dateController.dispose();
     super.dispose();
   }
 
@@ -114,38 +111,52 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        // Date Picker
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppColor.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: AppColor.white.withOpacity(0.3),
-                            ),
-                          ),
-                          child: TextField(
-                            controller: _dateController,
-                            readOnly: true,
-                            onTap: _selectDate,
-                            style: AppTextStyle.style16.copyWith(
-                              color: AppColor.white,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Select Date',
-                              hintStyle: AppTextStyle.style16.copyWith(
-                                color: AppColor.white.withOpacity(0.7),
-                              ),
-                              prefixIcon: Icon(
-                                Icons.calendar_today,
-                                color: AppColor.white,
-                              ),
-                              border: InputBorder.none,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 12,
+                        // Status Filter
+                        AppSegmentedControl<String>(
+                          groupValue: _selectedStatus,
+                          onValueChanged: (String? value) {
+                            if (value != null) {
+                              setState(() {
+                                _selectedStatus = value;
+                              });
+                              _loadAppointments();
+                            }
+                          },
+                          children: {
+                            'Pending': Text(
+                              'Pending',
+                              style: TextStyle(
+                                color: _selectedStatus == 'Pending' 
+                                  ? AppColor.primaryColor 
+                                  : AppColor.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          ),
+                            'Accepted': Text(
+                              'Accepted',
+                              style: TextStyle(
+                                color: _selectedStatus == 'Accepted' 
+                                  ? AppColor.primaryColor 
+                                  : AppColor.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            'In Progress': Text(
+                              'In Progress',
+                              style: TextStyle(
+                                color: _selectedStatus == 'In Progress' 
+                                  ? AppColor.primaryColor 
+                                  : AppColor.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          },
+                          backgroundColor: AppColor.white.withOpacity(0.2),
+                          thumbColor: AppColor.white,
+                          height: 40,
                         ),
                       ],
                     ),
@@ -247,7 +258,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                       }
                       return const NoDataWidget(
                         title: 'No appointments',
-                        subtitle: 'Select a date to view appointments',
+                        subtitle: 'No appointments found for this status',
                       );
                     },
                   ),
@@ -260,43 +271,5 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
     );
   }
 
-  Future<void> _selectDate() async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2030),
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
-              primary: AppColor.primaryColor,
-              onPrimary: AppColor.white,
-              surface: AppColor.white,
-              onSurface: AppColor.black,
-            ),
-            dialogBackgroundColor: AppColor.white,
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-        _dateController.text = '${picked.day} ${_getMonthName(picked.month)} ${picked.year}';
-      });
-      _loadAppointments();
-    }
-  }
-
-  String _getMonthName(int month) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    return months[month - 1];
-  }
 }
 

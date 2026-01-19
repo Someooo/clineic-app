@@ -11,11 +11,13 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
   @override
   Future<Either<String, List<AppointmentEntity>>> getAppointments({
     required int userId,
-    required String appointmentDate,
+    String? appointmentDate,
+    String? status,
   }) async {
     final result = await remoteDataSource.getAppointments(
       userId: userId,
       appointmentDate: appointmentDate,
+      status: status,
     );
     
     return result.fold(
