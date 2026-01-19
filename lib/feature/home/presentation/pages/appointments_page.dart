@@ -133,20 +133,21 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            'Accepted': Text(
-                              'Accepted',
+                          
+                            'In Progress': Text(
+                              'In Progress',
                               style: TextStyle(
-                                color: _selectedStatus == 'Accepted' 
+                                color: _selectedStatus == 'In Progress' 
                                   ? AppColor.primaryColor 
                                   : AppColor.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            'In Progress': Text(
-                              'In Progress',
+                              'Accepted': Text(
+                              'Accepted',
                               style: TextStyle(
-                                color: _selectedStatus == 'In Progress' 
+                                color: _selectedStatus == 'Accepted' 
                                   ? AppColor.primaryColor 
                                   : AppColor.white,
                                 fontSize: 14,
@@ -188,7 +189,7 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                         if (state.appointments.isEmpty) {
                           return const NoDataWidget(
                             title: 'No appointments',
-                            subtitle: 'No appointments found for this date',
+                            subtitle: 'No appointments found',
                           );
                         }
                         return RefreshIndicator(

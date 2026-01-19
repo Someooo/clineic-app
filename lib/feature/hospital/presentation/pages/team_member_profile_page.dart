@@ -64,14 +64,14 @@ class TeamMemberProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                           // Add Appointment Button
-                        AppButton.text(
-                          text: 'Add Appointment',
-                          onPressed: () {
-                            // TODO: Add appointment logic
-                          },
-                          color: Colors.blue,
-                        ),
-                         const SizedBox(height: 14),
+                        // AppButton.text(
+                        //   text: 'Add Appointment',
+                        //   onPressed: () {
+                        //     // TODO: Add appointment logic
+                        //   },
+                        //   color: Colors.blue,
+                        // ),
+                        //  const SizedBox(height: 14),
                         // Profile Header
                         _buildProfileHeader(),
                         const SizedBox(height: 24),
