@@ -1,5 +1,6 @@
 import '../../../../global_imports.dart';
 import '../../../../core/localization/l10n.dart';
+import '../../../../core/services/user_storage_service.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remote;
@@ -85,6 +86,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
         if (apiResponse.data != null) {
           await local.saveUser(apiResponse.data!);
+          
+          // Save user ID to SharedPreferences for easy access in booking requests
+          await UserStorageService.instance.saveUserInfo(
+            userId: apiResponse.data!.id,
+            email: apiResponse.data!.email,
+            userName: apiResponse.data!.fullName,
+          );
         }
 
         final entityResponse = ApiResponse<AuthEntity>(
@@ -121,6 +129,10 @@ class AuthRepositoryImpl implements AuthRepository {
       if (!apiResponse.hasError) {
         await local.deleteToken();
         await local.deleteUser();
+        
+        // Clear user data from SharedPreferences
+        await UserStorageService.instance.clearUserData();
+        
         final entityResponse = apiResponse.map((model) => model.toEntity());
 
         return right(entityResponse);

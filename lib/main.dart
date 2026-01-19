@@ -1,4 +1,5 @@
 import 'global_imports.dart';
+import 'core/services/user_storage_service.dart';
 
 import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
   try {
     await EnvConstant.init();
     await HiveServices().init();
+    await UserStorageService.init(); // Initialize UserStorageService
     await initGetIt();
     await getIt<AppServices>().initAppServices();
     HttpOverrides.global = MyHttpOverrides();

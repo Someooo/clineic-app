@@ -1,5 +1,6 @@
 import '../../../../global_imports.dart';
 import '../../../../core/services/api.service.dart';
+import '../../../../core/services/user_storage_service.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
 
@@ -62,7 +63,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
   }
 
   String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
+    return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
   }
 
   String _formatTime(TimeOfDay time) {
@@ -81,6 +82,15 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
       return;
     }
 
+    // Get patient ID from stored user data
+    final patientId = UserStorageService.instance.getUserId();
+    if (patientId == null) {
+      setState(() {
+        _error = 'User not logged in. Please login first.';
+      });
+      return;
+    }
+
     setState(() {
       _isLoading = true;
       _error = null;
@@ -93,7 +103,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
           'patient': 'self',
           'hospital': widget.hospitalId,
           'doctor_id': widget.doctorId,
-          'patient_id': 1, // This should come from user context/session
+          'patient_id': patientId, // Use actual patient ID from stored user data
           'time': _formatTime(_selectedTime!),
           'date': _formatDate(_selectedDate!),
           'comments': _commentsController.text.trim(),

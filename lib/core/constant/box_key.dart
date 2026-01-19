@@ -9,4 +9,9 @@ class BoxKey {
   static const String languageCode = "languageCode";
   static const String isDarkMode = "isDarkMode";
 
+  // User storage keys for SharedPreferences
+  static const String userIdKey = "user_id";
+  static const String userEmailKey = "user_email";
+  static const String userNameKey = "user_name";
+
 }
