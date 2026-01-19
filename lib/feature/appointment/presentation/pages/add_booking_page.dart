@@ -151,6 +151,7 @@ class _AddBookingViewState extends State<AddBookingView> {
                           color: AppColor.black,
                         ),
                       ),
+                    
                       MedicalProviderListWidget(
                         providers: state.doctors,
                         selectedProvider: _selectedProvider,

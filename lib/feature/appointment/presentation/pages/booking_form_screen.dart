@@ -393,30 +393,31 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                   ],
 
                   // Submit Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton(
-                      onPressed: _isLoading ? null : _submitBooking,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.primaryColor,
-                        foregroundColor: AppColor.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: _isLoading
-                          ? const CircularProgressIndicator(
+                  _isLoading
+                      ? Container(
+                          width: double.infinity,
+                          height: 56,
+                          decoration: BoxDecoration(
+                            color: AppColor.primaryColor.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Center(
+                            child: CircularProgressIndicator(
                               color: AppColor.white,
                               strokeWidth: 2,
-                            )
-                          : Text(
-                              'Book Appointment',
-                              style: AppTextStyle.style16B,
                             ),
-                    ),
-                  ),
+                          ),
+                        )
+                      : Center(
+                        child: AppButton.text(
+                          text: 'Book Appointment',
+                          height: 56,
+                          onPressed: _submitBooking,
+                          color: AppColor.primaryColor,
+                          fontColor: AppColor.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
                 ],
               ),
             ),

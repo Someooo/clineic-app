@@ -409,22 +409,15 @@ class TeamMemberCard extends StatelessWidget {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 4),
-                  Text(
-                    'ID: ${member.id}',
-                    style: AppTextStyle.style12.copyWith(
-                      color: AppColor.grey,
-                    ),
-                  ),
                 ],
               ),
             ),
             // Arrow Icon
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: AppColor.grey,
-            ),
+            // Icon(
+            //   Icons.arrow_forward_ios,
+            //   size: 16,
+            //   color: AppColor.grey,
+            // ),
           ],
         ),
       ),

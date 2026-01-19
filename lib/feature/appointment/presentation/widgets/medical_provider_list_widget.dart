@@ -18,6 +18,7 @@ class MedicalProviderListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+        padding: const EdgeInsets.symmetric(vertical: 10), 
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: providers.length,
@@ -55,7 +56,7 @@ class MedicalProviderCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      
         decoration: BoxDecoration(
           color: AppColor.white,
           borderRadius: BorderRadius.circular(16),
@@ -186,16 +187,16 @@ class MedicalProviderCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColor.secondaryColor.withOpacity(0.1),
+                  color: AppColor.primaryColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: AppColor.secondaryColor.withOpacity(0.3),
+                      color: AppColor.primaryColor.withOpacity(0.3),
                     ),
                   ),
                   child: Text(
                     'Hospital',
                     style: AppTextStyle.style12.copyWith(
-                      color: AppColor.secondaryColor,
+                      color: AppColor.primaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
