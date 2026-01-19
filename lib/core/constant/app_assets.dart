@@ -8,10 +8,14 @@ abstract class AppAssets {
   static const String imagesPlayStore512Alt = 'assets/images/play_store_512-removebg-preview (1).png';
 
   // Fonts
-  static const String fontsAlmaraiBold = 'assets/fonts/Almarai/Almarai-Bold.ttf';
-  static const String fontsAlmaraiExtraBold = 'assets/fonts/Almarai/Almarai-ExtraBold.ttf';
-  static const String fontsAlmaraiLight = 'assets/fonts/Almarai/Almarai-Light.ttf';
-  static const String fontsAlmaraiRegular = 'assets/fonts/Almarai/Almarai-Regular.ttf';
+  static const String fontsCairoBlack = 'assets/fonts/Cairo/static/Cairo-Black.ttf';
+  static const String fontsCairoBold = 'assets/fonts/Cairo/static/Cairo-Bold.ttf';
+  static const String fontsCairoExtraBold = 'assets/fonts/Cairo/static/Cairo-ExtraBold.ttf';
+  static const String fontsCairoExtraLight = 'assets/fonts/Cairo/static/Cairo-ExtraLight.ttf';
+  static const String fontsCairoLight = 'assets/fonts/Cairo/static/Cairo-Light.ttf';
+  static const String fontsCairoMedium = 'assets/fonts/Cairo/static/Cairo-Medium.ttf';
+  static const String fontsCairoRegular = 'assets/fonts/Cairo/static/Cairo-Regular.ttf';
+  static const String fontsCairoSemiBold = 'assets/fonts/Cairo/static/Cairo-SemiBold.ttf';
 
   // Lottie
   static const String lottieError = 'assets/lottie/error.json';

@@ -2,14 +2,14 @@
 class Assets {
   Assets._();
 
-  static const String almaraiAlmaraiBold =
-      'assets/fonts/Almarai/Almarai-Bold.ttf';
-  static const String almaraiAlmaraiExtraBold =
-      'assets/fonts/Almarai/Almarai-ExtraBold.ttf';
-  static const String almaraiAlmaraiLight =
-      'assets/fonts/Almarai/Almarai-Light.ttf';
-  static const String almaraiAlmaraiRegular =
-      'assets/fonts/Almarai/Almarai-Regular.ttf';
+  static const String cairoCairoBlack = 'assets/fonts/Cairo/static/Cairo-Black.ttf';
+  static const String cairoCairoBold = 'assets/fonts/Cairo/static/Cairo-Bold.ttf';
+  static const String cairoCairoExtraBold = 'assets/fonts/Cairo/static/Cairo-ExtraBold.ttf';
+  static const String cairoCairoExtraLight = 'assets/fonts/Cairo/static/Cairo-ExtraLight.ttf';
+  static const String cairoCairoLight = 'assets/fonts/Cairo/static/Cairo-Light.ttf';
+  static const String cairoCairoMedium = 'assets/fonts/Cairo/static/Cairo-Medium.ttf';
+  static const String cairoCairoRegular = 'assets/fonts/Cairo/static/Cairo-Regular.ttf';
+  static const String cairoCairoSemiBold = 'assets/fonts/Cairo/static/Cairo-SemiBold.ttf';
   static const String imagesAppNewIcon = 'assets/images/app_new_icon.png';
   static const String lottieError = 'assets/lottie/error.json';
   static const String lottieNfc = 'assets/lottie/nfc.json';

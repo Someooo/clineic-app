@@ -89,15 +89,29 @@ flutter:
   uses-material-design: true
   generate: true
   fonts:
-    - family: Almarai
+    - family: Cairo
       fonts:
-        - asset: assets/fonts/Almarai/Almarai-Regular.ttf
-        - asset: assets/fonts/Almarai/Almarai-Bold.ttf
+        - asset: assets/fonts/Cairo/static/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo/static/Cairo-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cairo/static/Cairo-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Cairo/static/Cairo-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Cairo/static/Cairo-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Cairo/static/Cairo-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Cairo/static/Cairo-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo/static/Cairo-Black.ttf
+          weight: 900
 
   assets:
     - assets/
     - assets/fonts/
-    - assets/fonts/Almarai/
+    - assets/fonts/Cairo/
+    - assets/fonts/Cairo/static/
     - assets/images/
     - assets/lottie/
     - .env
