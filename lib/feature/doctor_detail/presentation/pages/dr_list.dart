@@ -38,13 +38,7 @@ class DoctorListPage extends StatelessWidget {
                         color: AppColor.white,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Browse all available doctors',
-                      style: AppTextStyle.style14.copyWith(
-                        color: AppColor.white,
-                      ),
-                    ),
+                  
                   ],
                 ),
               ),

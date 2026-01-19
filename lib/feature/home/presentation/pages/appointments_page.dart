@@ -8,11 +8,15 @@ import '../../../../core/widget/status_widget/no_data_widget.dart';
 import '../../../appointment/data/datasources/appointment_remote_data_source.dart';
 import '../../../appointment/data/repositories/appointment_repository_impl.dart';
 import '../../../appointment/domain/usecases/get_appointments_usecase.dart';
+import '../../../appointment/domain/usecases/get_hospital_doctors_usecase.dart';
+import '../../../appointment/data/datasources/medical_provider_remote_data_source.dart';
+import '../../../appointment/data/repositories/medical_provider_repository_impl.dart';
 import '../../../appointment/presentation/bloc/appointment_bloc.dart';
 import '../../../appointment/presentation/bloc/appointment_event.dart';
 import '../../../appointment/presentation/bloc/appointment_state.dart';
 import '../../../appointment/presentation/widgets/appointment_card.dart';
 import '../../../appointment/presentation/widgets/add_appointment_icon.dart';
+import '../../../appointment/presentation/pages/add_booking_page.dart';
 import '../../../../core/widget/segmented_control/app_segmented_control.dart';
 
 class AppointmentsPage extends StatefulWidget {
@@ -104,7 +108,20 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                             ),
                             AddAppointmentIcon(
                               onPressed: () {
-                                // TODO: Add appointment logic
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddBookingPage(
+                                      getHospitalDoctorsUseCase: GetHospitalDoctorsUseCase(
+                                        repository: MedicalProviderRepositoryImpl(
+                                          remoteDataSource: MedicalProviderRemoteDataSourceImpl(
+                                            client: http.Client(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
                               },
                               iconSize: 28,
                             ),
