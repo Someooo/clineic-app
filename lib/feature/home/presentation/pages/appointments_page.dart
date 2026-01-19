@@ -12,6 +12,7 @@ import '../../../appointment/presentation/bloc/appointment_bloc.dart';
 import '../../../appointment/presentation/bloc/appointment_event.dart';
 import '../../../appointment/presentation/bloc/appointment_state.dart';
 import '../../../appointment/presentation/widgets/appointment_card.dart';
+import '../../../appointment/presentation/widgets/add_appointment_icon.dart';
 
 class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});
@@ -95,11 +96,22 @@ class _AppointmentsPageState extends State<AppointmentsPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Appointments',
-                          style: AppTextStyle.style24B.copyWith(
-                            color: AppColor.white,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Appointments',
+                              style: AppTextStyle.style24B.copyWith(
+                                color: AppColor.white,
+                              ),
+                            ),
+                            AddAppointmentIcon(
+                              onPressed: () {
+                                // TODO: Add appointment logic
+                              },
+                              iconSize: 28,
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 16),
                         // Date Picker
