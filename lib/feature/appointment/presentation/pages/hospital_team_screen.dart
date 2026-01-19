@@ -2,6 +2,7 @@ import '../../../../global_imports.dart';
 import '../../../../core/services/api.service.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import 'booking_form_screen.dart';
 
 class HospitalTeamScreen extends StatefulWidget {
   final String hospitalName;
@@ -22,6 +23,7 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
   List<TeamMember> _teamMembers = [];
   bool _isLoading = false;
   String? _error;
+  TeamMember? _selectedDoctor;
 
   @override
   void initState() {
@@ -83,57 +85,92 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Column(
+        body: Stack(
           children: [
-            // Header Section
-            Container(
-              width: double.infinity,
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          '${widget.hospitalName} Team',
-                          style: AppTextStyle.style24B.copyWith(
-                            color: AppColor.white,
+            Column(
+              children: [
+                // Header Section
+                Container(
+                  width: double.infinity,
+                  child: SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 16,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${widget.hospitalName} Team',
+                              style: AppTextStyle.style24B.copyWith(
+                                color: AppColor.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                          IconButton(
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              color: AppColor.white,
+                              size: 28,
+                            ),
+                          ),
+                        ],
                       ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: AppColor.white,
-                          size: 28,
-                        ),
+                    ),
+                  ),
+                ),
+                // White Content Area
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF2F7FA),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
                       ),
-                    ],
+                    ),
+                    child: _buildContent(),
+                  ),
+                ),
+              ],
+            ),
+            // Forward Button
+            if (_selectedDoctor != null)
+              Positioned(
+                bottom: 30,
+                right: 20,
+                child: GestureDetector(
+                  onTap: _navigateToBookingForm,
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [AppColor.tealColor, AppColor.blueColor],
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      color: AppColor.white,
+                      size: 28,
+                    ),
                   ),
                 ),
               ),
-            ),
-            // White Content Area
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF2F7FA),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
-                  ),
-                ),
-                child: _buildContent(),
-              ),
-            ),
           ],
         ),
       ),
@@ -230,10 +267,33 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
         itemCount: _teamMembers.length,
         itemBuilder: (context, index) {
           final member = _teamMembers[index];
-          return TeamMemberCard(member: member);
+          return TeamMemberCard(
+            member: member,
+            isSelected: _selectedDoctor?.id == member.id,
+            onTap: () {
+              setState(() {
+                _selectedDoctor = member;
+              });
+            },
+          );
         },
       ),
     );
+  }
+
+  void _navigateToBookingForm() {
+    if (_selectedDoctor != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookingFormScreen(
+            hospitalId: widget.profileId,
+            doctorId: _selectedDoctor!.id,
+            doctorName: _selectedDoctor!.name,
+          ),
+        ),
+      );
+    }
   }
 }
 
@@ -262,28 +322,40 @@ class TeamMember {
 
 class TeamMemberCard extends StatelessWidget {
   final TeamMember member;
+  final bool isSelected;
+  final VoidCallback onTap;
 
   const TeamMemberCard({
     super.key,
     required this.member,
+    this.isSelected = false,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        color: AppColor.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Padding(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: AppColor.white,
+          borderRadius: BorderRadius.circular(12),
+          border: isSelected
+              ? Border.all(
+                  color: AppColor.primaryColor,
+                  width: 2,
+                )
+              : null,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
@@ -355,6 +427,7 @@ class TeamMemberCard extends StatelessWidget {
           ],
         ),
       ),
+      )
     );
   }
 }
