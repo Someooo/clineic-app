@@ -185,47 +185,46 @@ class _AddBookingViewState extends State<AddBookingView> {
                   ],
                 ),
               ),
-              // Floating Action Button
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  transitionBuilder: (Widget child, Animation<double> animation) {
-                    return ScaleTransition(
-                      scale: animation,
-                      child: FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: _selectedProvider != null && _selectedProvider!.isHospital
-                      ? FloatingActionButton(
-                          key: const ValueKey('fab_visible'),
-                          onPressed: () {
-                            // Navigate to hospital team screen
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => HospitalTeamScreen(
-                                  hospitalName: _selectedProvider!.fullName,
-                                  profileId: _selectedProvider!.id,
-                                ),
-                              ),
-                            );
-                          },
-                          backgroundColor: AppColor.primaryColor,
-                          elevation: 8,
-                          child: const Icon(
-                            Icons.arrow_forward,
-                            color: AppColor.white,
-                            size: 24,
+              // Forward Button
+              if (_selectedProvider != null && _selectedProvider!.isHospital)
+                Positioned(
+                  bottom: 30,
+                  right: 20,
+                  child: GestureDetector(
+                    onTap: () {
+                      // Navigate to hospital team screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HospitalTeamScreen(
+                            hospitalName: _selectedProvider!.fullName,
+                            profileId: _selectedProvider!.id,
                           ),
-                        )
-                      : const SizedBox.shrink(key: ValueKey('fab_hidden')),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColor.primaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward,
+                        color: AppColor.white,
+                        size: 28,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
             ],
           );
         } else if (state is MedicalProviderError) {

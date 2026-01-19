@@ -152,9 +152,10 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
                     height: 56,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [AppColor.tealColor, AppColor.blueColor],
-                      ),
+                      color: AppColor.primaryColor,
+                      // gradient: LinearGradient(
+                      //   colors: [AppColor.tealColor, AppColor.blueColor],
+                      // ),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.2),
