@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../domain/entities/medical_provider_entity.dart';
+import '../../../../core/utils/color.dart';
+import '../../../../core/utils/text_style.dart';
 
 class MedicalProviderListWidget extends StatelessWidget {
   final List<MedicalProviderEntity> providers;
+  final MedicalProviderEntity? selectedProvider;
+  final Function(MedicalProviderEntity) onProviderSelected;
 
   const MedicalProviderListWidget({
     super.key,
     required this.providers,
+    this.selectedProvider,
+    required this.onProviderSelected,
   });
 
   @override
@@ -18,7 +24,15 @@ class MedicalProviderListWidget extends StatelessWidget {
       separatorBuilder: (context, index) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
         final provider = providers[index];
-        return MedicalProviderCard(provider: provider);
+        final isSelected = selectedProvider?.id == provider.id;
+        
+        return MedicalProviderCard(
+          provider: provider,
+          isSelected: isSelected,
+          onTap: () {
+            onProviderSelected(provider);
+          },
+        );
       },
     );
   }
@@ -26,142 +40,189 @@ class MedicalProviderListWidget extends StatelessWidget {
 
 class MedicalProviderCard extends StatelessWidget {
   final MedicalProviderEntity provider;
+  final bool isSelected;
+  final VoidCallback onTap;
 
   const MedicalProviderCard({
     super.key,
     required this.provider,
+    this.isSelected = false,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: provider.avatar.isNotEmpty
-                  ? NetworkImage(provider.avatar)
-                  : null,
-              child: provider.avatar.isEmpty
-                  ? const Icon(Icons.person, size: 30)
-                  : null,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColor.white,
+          borderRadius: BorderRadius.circular(16),
+          border: isSelected
+              ? Border.all(
+                  color: AppColor.primaryColor,
+                  width: 2,
+                )
+              : null,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    provider.fullName,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
-                    ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColor.tealColor.withOpacity(0.2),
+                      AppColor.blueColor.withOpacity(0.2),
+                    ],
                   ),
-                  if (provider.subHeading.isNotEmpty) ...[
-                    const SizedBox(height: 4),
+                ),
+                child: ClipOval(
+                  child: provider.avatar.isNotEmpty
+                      ? Image.network(
+                          provider.avatar,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              Icons.person,
+                              color: AppColor.primaryColor,
+                              size: 24,
+                            );
+                          },
+                        )
+                      : Icon(
+                          Icons.person,
+                          color: AppColor.primaryColor,
+                          size: 24,
+                        ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
-                      provider.subHeading,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
+                      provider.fullName,
+                      style: AppTextStyle.style16B.copyWith(
+                        color: AppColor.black,
                       ),
                     ),
-                  ],
-                  if (provider.location.isNotEmpty) ...[
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on,
-                          size: 14,
-                          color: Colors.grey,
+                    if (provider.subHeading.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        provider.subHeading,
+                        style: AppTextStyle.style14.copyWith(
+                          color: AppColor.grey,
                         ),
-                        const SizedBox(width: 4),
-                        Expanded(
-                          child: Text(
-                            provider.location,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    if (provider.location.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            size: 14,
+                            color: AppColor.grey,
+                          ),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              provider.location,
+                              style: AppTextStyle.style12.copyWith(
+                                color: AppColor.grey,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                  if (provider.availableDays.isNotEmpty) ...[
-                    const SizedBox(height: 4),
-                    Wrap(
-                      children: provider.availableDays.map((day) {
-                        return Container(
-                          margin: const EdgeInsets.only(right: 4),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 6,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            day,
-                            style: const TextStyle(
-                              fontSize: 10,
-                              color: Colors.blue,
+                        ],
+                      ),
+                    ],
+                    if (provider.availableDays.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      Wrap(
+                        children: provider.availableDays.map((day) {
+                          return Container(
+                            margin: const EdgeInsets.only(right: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
                             ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
+                            decoration: BoxDecoration(
+                              color: AppColor.primaryColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              day,
+                              style: AppTextStyle.style12.copyWith(
+                                color: AppColor.primaryColor,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ],
-                ],
-              ),
-            ),
-            if (provider.isHospital)
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  'Hospital',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              )
-            else
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  'Doctor',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Colors.orange,
-                    fontWeight: FontWeight.w500,
-                  ),
                 ),
               ),
-          ],
+              if (provider.isHospital)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColor.secondaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: AppColor.secondaryColor.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Text(
+                    'Hospital',
+                    style: AppTextStyle.style12.copyWith(
+                      color: AppColor.secondaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              else
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.orange.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Text(
+                    'Doctor',
+                    style: AppTextStyle.style12.copyWith(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
