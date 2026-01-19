@@ -8,6 +8,7 @@ import '../bloc/medical_provider_state.dart';
 import '../widgets/medical_provider_list_widget.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import 'hospital_team_screen.dart';
 
 class AddBookingPage extends StatelessWidget {
   final GetHospitalDoctorsUseCase getHospitalDoctorsUseCase;
@@ -199,12 +200,20 @@ class _AddBookingViewState extends State<AddBookingView> {
                       ),
                     );
                   },
-                  child: _selectedProvider != null
+                  child: _selectedProvider != null && _selectedProvider!.isHospital
                       ? FloatingActionButton(
                           key: const ValueKey('fab_visible'),
                           onPressed: () {
-                            // Handle next button press
-                            Navigator.pop(context, _selectedProvider);
+                            // Navigate to hospital team screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HospitalTeamScreen(
+                                  hospitalName: _selectedProvider!.fullName,
+                                  profileId: _selectedProvider!.id,
+                                ),
+                              ),
+                            );
                           },
                           backgroundColor: AppColor.primaryColor,
                           elevation: 8,
