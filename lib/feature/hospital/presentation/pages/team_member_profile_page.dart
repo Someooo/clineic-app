@@ -1,4 +1,5 @@
 import '../../../../global_imports.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import '../../domain/entities/team_entity.dart';
 
 class TeamMemberProfilePage extends StatelessWidget {
@@ -24,38 +25,9 @@ class TeamMemberProfilePage extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              // Header Section
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                child: Row(
-                    textDirection: Directionality.of(context),
-                    children: [
-                      if (Localizations.localeOf(context).languageCode == 'en')
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Team Member Profile',
-                          style: AppTextStyle.style24B.copyWith(
-                            color: AppColor.white,
-                            decoration: TextDecoration.none,
-                          ),
-                          textAlign: Localizations.localeOf(context).languageCode == 'en' 
-                              ? TextAlign.left 
-                              : TextAlign.right,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      if (Localizations.localeOf(context).languageCode == 'ar')
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                    ],
-                ),
+              CustomGradientAppBar(
+                title: 'Team Member Profile',
+                showBackButton: true,
               ),
               
               // White Content Area

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import '../../../../core/widget/status_widget/no_data_widget.dart';
 import '../../../../global_imports.dart';
 import '../cubit/home_cubit.dart';
@@ -26,44 +27,9 @@ class SpecialitiesPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // Header Section
-            Container(
-              width: double.infinity,
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: AppColor.white,
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.specialities,
-                              style: AppTextStyle.style24B.copyWith(
-                                color: AppColor.white,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            CustomGradientAppBar(
+              title: AppLocalizations.of(context)!.specialities,
+              showBackButton: true,
             ),
             // White Content Area
             Expanded(

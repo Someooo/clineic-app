@@ -1,4 +1,5 @@
 import '../../../../global_imports.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import '../cubit/team_cubit.dart';
 import '../widget/team_card.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
@@ -25,52 +26,9 @@ class HospitalTeamPage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // Header Section
-            Container(
-              width: double.infinity,
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        textDirection: Directionality.of(context),
-                        children: [
-                          if (Localizations.localeOf(context).languageCode == 'en')
-                            IconButton(
-                              icon: const Icon(Icons.arrow_back, color: Colors.white),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              'Hospital Team',
-                              style: AppTextStyle.style24B.copyWith(
-                                color: AppColor.white,
-                                decoration: TextDecoration.none,
-                              ),
-                              textAlign: Localizations.localeOf(context).languageCode == 'en' 
-                                  ? TextAlign.left 
-                                  : TextAlign.right,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          if (Localizations.localeOf(context).languageCode == 'ar')
-                            IconButton(
-                              icon: const Icon(Icons.arrow_back, color: Colors.white),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            CustomGradientAppBar(
+              title: 'Hospital Team',
+              showBackButton: true,
             ),
             // White Content Area
             Expanded(

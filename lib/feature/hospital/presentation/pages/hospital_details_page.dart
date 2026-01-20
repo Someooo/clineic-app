@@ -1,4 +1,5 @@
 import '../../../../global_imports.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import '../../domain/entities/hospital_entity.dart';
 import 'hospital_team_page.dart';
 
@@ -19,65 +20,9 @@ class HospitalDetailsPage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Header Section
-          Container(
-            width: double.infinity,
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 16,
-                ),
-                child: Row(
-                    textDirection: Directionality.of(context),
-                    children: [
-                      if (Localizations.localeOf(context).languageCode == 'en')
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back, color: AppColor.white),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: Localizations.localeOf(context).languageCode == 'en' 
-                              ? CrossAxisAlignment.start 
-                              : CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              hospital.fullName,
-                              style: AppTextStyle.style24B.copyWith(
-                                color: AppColor.white,
-                                decoration: TextDecoration.none,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: Localizations.localeOf(context).languageCode == 'en' 
-                                  ? TextAlign.left 
-                                  : TextAlign.right,
-                            ),
-                          if (hospital.subHeading != null &&
-                              hospital.subHeading!.isNotEmpty) ...[
-                            const SizedBox(height: 4),
-                            Text(
-                              hospital.subHeading!,
-                              style: AppTextStyle.style14.copyWith(
-                                color: AppColor.white.withOpacity(0.9),
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                          ],
-                          ]
-                      )
-                    ), // Closing Expanded widget
-                      if (Localizations.localeOf(context).languageCode == 'ar')
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back_ios, color: AppColor.white),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                    ],
-                  ),
-              ),
-            ),
+          CustomGradientAppBar(
+            title: hospital.fullName,
+            showBackButton: true,
           ),
           // White Content Area
           Expanded(

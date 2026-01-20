@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import '../../../../global_imports.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
 import '../../domain/entities/doctor_hospital_entity.dart';
@@ -23,24 +24,36 @@ class DoctorDetailPage extends StatelessWidget {
     return BlocProvider(
       create:
           (context) => getIt<DoctorDetailCubit>()..getDoctorDetail(doctorId),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(doctorName, style: AppTextStyle.headLine1),
-          backgroundColor: Colors.transparent,
-          foregroundColor: AppColor.white,
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [AppColor.tealColor, AppColor.blueColor],
-              ),
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [AppColor.tealColor, AppColor.blueColor],
           ),
         ),
-        backgroundColor: AppColor.white,
-        body: BlocBuilder<DoctorDetailCubit, DoctorDetailState>(
+        child: Column(
+          children: [
+            CustomGradientAppBar(
+              title: doctorName,
+              showBackButton: true,
+            ),
+            Expanded(
+              child: Material(
+                color: AppColor.white,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: AppColor.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                  ),
+                  child: BlocBuilder<DoctorDetailCubit, DoctorDetailState>(
           builder: (context, state) {
             if (state.status == 'loading') {
               return const Center(child: CircularProgressIndicator());
@@ -102,6 +115,13 @@ class DoctorDetailPage extends StatelessWidget {
               ),
             );
           },
+        ),
+                  ),
+                ),
+              ),
+           
+          ],
+          
         ),
       ),
     );

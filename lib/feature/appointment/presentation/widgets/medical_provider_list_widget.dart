@@ -119,6 +119,7 @@ class MedicalProviderCard extends StatelessWidget {
                       provider.fullName,
                       style: AppTextStyle.style16B.copyWith(
                         color: AppColor.black,
+                        decoration: TextDecoration.none,
                       ),
                     ),
                     if (provider.subHeading.isNotEmpty) ...[
@@ -127,6 +128,7 @@ class MedicalProviderCard extends StatelessWidget {
                         provider.subHeading,
                         style: AppTextStyle.style14.copyWith(
                           color: AppColor.grey,
+                          decoration: TextDecoration.none,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -147,6 +149,7 @@ class MedicalProviderCard extends StatelessWidget {
                               provider.location,
                               style: AppTextStyle.style12.copyWith(
                                 color: AppColor.grey,
+                                decoration: TextDecoration.none,
                               ),
                             ),
                           ),
@@ -171,6 +174,7 @@ class MedicalProviderCard extends StatelessWidget {
                               day,
                               style: AppTextStyle.style12.copyWith(
                                 color: AppColor.primaryColor,
+                                decoration: TextDecoration.none,
                               ),
                             ),
                           );
@@ -198,6 +202,7 @@ class MedicalProviderCard extends StatelessWidget {
                     style: AppTextStyle.style12.copyWith(
                       color: AppColor.primaryColor,
                       fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                 )
@@ -219,6 +224,7 @@ class MedicalProviderCard extends StatelessWidget {
                     style: AppTextStyle.style12.copyWith(
                       color: Colors.orange,
                       fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                 ),

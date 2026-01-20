@@ -8,6 +8,7 @@ import '../bloc/medical_provider_state.dart';
 import '../widgets/medical_provider_list_widget.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import 'hospital_team_screen.dart';
 import 'booking_form_screen.dart';
 
@@ -29,42 +30,12 @@ class AddBookingPage extends StatelessWidget {
           colors: [AppColor.tealColor, AppColor.blueColor],
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          children: [
-            // Header Section
-            Container(
-              width: double.infinity,
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Add Booking',
-                        style: AppTextStyle.style24B.copyWith(
-                          color: AppColor.white,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: AppColor.white,
-                          size: 28,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+      child: Column(
+        children: [
+          CustomGradientAppBar(
+            title: 'Add Booking',
+            showBackButton: true,
+          ),
             // White Content Area
             Expanded(
               child: Container(
@@ -86,8 +57,8 @@ class AddBookingPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
+   
   }
 }
 
@@ -132,6 +103,7 @@ class _AddBookingViewState extends State<AddBookingView> {
                         'Hospitals',
                         style: AppTextStyle.style18B.copyWith(
                           color: AppColor.black,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                       MedicalProviderListWidget(
@@ -150,6 +122,7 @@ class _AddBookingViewState extends State<AddBookingView> {
                         'Doctors',
                         style: AppTextStyle.style18B.copyWith(
                           color: AppColor.black,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                     
@@ -179,6 +152,7 @@ class _AddBookingViewState extends State<AddBookingView> {
                               style: TextStyle(
                                 fontSize: 16,
                                 color: AppColor.grey,
+                                decoration: TextDecoration.none,
                               ),
                             ),
                           ],
@@ -258,6 +232,7 @@ class _AddBookingViewState extends State<AddBookingView> {
                   'Error',
                   style: AppTextStyle.style20B.copyWith(
                     color: AppColor.black,
+                    decoration: TextDecoration.none,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -265,6 +240,7 @@ class _AddBookingViewState extends State<AddBookingView> {
                   state.message,
                   style: AppTextStyle.style14.copyWith(
                     color: AppColor.grey,
+                    decoration: TextDecoration.none,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -286,7 +262,9 @@ class _AddBookingViewState extends State<AddBookingView> {
                   ),
                   child: Text(
                     'Try Again',
-                    style: AppTextStyle.style14B,
+                    style: AppTextStyle.style14B.copyWith(
+                      decoration: TextDecoration.none,
+                    ),
                   ),
                 ),
               ],

@@ -2,6 +2,7 @@ import '../../../../global_imports.dart';
 import '../../../../core/services/api.service.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import 'booking_form_screen.dart';
 
 class HospitalTeamScreen extends StatefulWidget {
@@ -83,89 +84,38 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
           colors: [AppColor.tealColor, AppColor.blueColor],
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            Column(
+      child: Column(
+        children: [
+          CustomGradientAppBar(
+            title: '${widget.hospitalName} Team',
+            showBackButton: true,
+          ),
+          Expanded(
+            child: Stack(
               children: [
-                // Header Section
+                // White Content Area
                 Container(
                   width: double.infinity,
-                  child: SafeArea(
-                    bottom: false,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 16,
-                      ),
-                      child: Row(
-                        textDirection: Directionality.of(context),
-                        children: [
-                          if (Localizations.localeOf(context).languageCode == 'en')
-                            Expanded(
-                              child: Text(
-                                '${widget.hospitalName} Team',
-                                style: AppTextStyle.style24B.copyWith(
-                                  color: AppColor.white,
-                                  decoration: TextDecoration.none,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: AppColor.white,
-                              size: 28,
-                            ),
-                          ),
-                          if (Localizations.localeOf(context).languageCode == 'ar')
-                            Expanded(
-                              child: Text(
-                                '${widget.hospitalName} Team',
-                                style: AppTextStyle.style24B.copyWith(
-                                  color: AppColor.white,
-                                  decoration: TextDecoration.none,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.right,
-                              ),
-                            ),
-                        ],
-                      ),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF2F7FA),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
                     ),
                   ),
+                  child: _buildContent(),
                 ),
-                // White Content Area
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF2F7FA),
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(24),
-                        topRight: Radius.circular(24),
-                      ),
-                    ),
-                    child: _buildContent(),
-                  ),
-                ),
-              ],
-            ),
-            // Forward Button
-            if (_selectedDoctor != null)
-              Positioned(
-                bottom: 30,
-                right: 20,
-                child: GestureDetector(
-                  onTap: _navigateToBookingForm,
-                  child: Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
+                // Forward Button
+                if (_selectedDoctor != null)
+                  Positioned(
+                    bottom: 30,
+                    right: 20,
+                    child: GestureDetector(
+                      onTap: _navigateToBookingForm,
+                      child: Container(
+                        width: 56,
+                        height: 56,
+                        decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColor.primaryColor,
                       // gradient: LinearGradient(
@@ -187,8 +137,10 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
                   ),
                 ),
               ),
-          ],
-        ),
+            ],
+          ),
+          ),
+        ],
       ),
     );
   }
@@ -219,6 +171,7 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
               'Error',
               style: AppTextStyle.style20B.copyWith(
                 color: AppColor.black,
+                decoration: TextDecoration.none,
               ),
             ),
             const SizedBox(height: 8),
@@ -226,6 +179,7 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
               _error!,
               style: AppTextStyle.style14.copyWith(
                 color: AppColor.grey,
+                decoration: TextDecoration.none,
               ),
               textAlign: TextAlign.center,
             ),
@@ -245,7 +199,9 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
               ),
               child: Text(
                 'Try Again',
-                style: AppTextStyle.style14B,
+                style: AppTextStyle.style14B.copyWith(
+                  decoration: TextDecoration.none,
+                ),
               ),
             ),
           ],
@@ -269,6 +225,7 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
               style: TextStyle(
                 fontSize: 16,
                 color: AppColor.grey,
+                decoration: TextDecoration.none,
               ),
             ),
           ],
@@ -413,6 +370,7 @@ class TeamMemberCard extends StatelessWidget {
                     member.name,
                     style: AppTextStyle.style16B.copyWith(
                       color: AppColor.black,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                   if (member.specialization != null) ...[
@@ -421,6 +379,7 @@ class TeamMemberCard extends StatelessWidget {
                       member.specialization!,
                       style: AppTextStyle.style14.copyWith(
                         color: AppColor.grey,
+                        decoration: TextDecoration.none,
                       ),
                     ),
                   ],

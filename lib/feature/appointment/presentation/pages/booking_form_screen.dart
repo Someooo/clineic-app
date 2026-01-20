@@ -3,6 +3,7 @@ import '../../../../core/services/api.service.dart';
 import '../../../../core/services/user_storage_service.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 
 class BookingFormScreen extends StatefulWidget {
   final int hospitalId;
@@ -136,8 +137,8 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Booking Successful'),
-        content: Text('Your appointment has been booked successfully!\nAppointment ID: $appointmentId'),
+        title: const Text('Booking Successful', style: TextStyle(decoration: TextDecoration.none)),
+        content: Text('Your appointment has been booked successfully!\nAppointment ID: $appointmentId', style: const TextStyle(decoration: TextDecoration.none)),
         actions: [
           TextButton(
             onPressed: () {
@@ -145,7 +146,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
               Navigator.of(context).pop(); // Go back to hospital team
               Navigator.of(context).pop(); // Go back to hospital list
             },
-            child: const Text('OK'),
+            child: const Text('OK', style: TextStyle(decoration: TextDecoration.none)),
           ),
         ],
       ),
@@ -162,39 +163,31 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
           colors: [AppColor.tealColor, AppColor.blueColor],
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        
-          title: Text(
-            'Book Appointment',
-            style: AppTextStyle.headLine1.copyWith(
-              color: AppColor.white,
-            ),
+      child: Column(
+        children: [
+          CustomGradientAppBar(
+            title: 'Book Appointment',
+            showBackButton: true,
           ),
-          leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(
-              Icons.arrow_back,
-              color: AppColor.white,
-              size: 28,
-            ),
-          ),
-        ),
-        body: Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFFF2F7FA),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Form(
+          Expanded(
+            child: Material(
+              color: const Color(0xFFF2F7FA),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF2F7FA),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,6 +230,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                                 widget.doctorName,
                                 style: AppTextStyle.style16B.copyWith(
                                   color: AppColor.black,
+                                  decoration: TextDecoration.none,
                                 ),
                               ),
                               const SizedBox(height: 4),
@@ -244,6 +238,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                                 'Doctor ID: ${widget.doctorId}',
                                 style: AppTextStyle.style12.copyWith(
                                   color: AppColor.grey,
+                                  decoration: TextDecoration.none,
                                 ),
                               ),
                             ],
@@ -259,6 +254,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                     'Select Date',
                     style: AppTextStyle.style16B.copyWith(
                       color: AppColor.black,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -287,6 +283,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                                 : 'Select Date',
                             style: AppTextStyle.style14.copyWith(
                               color: _selectedDate != null ? AppColor.black : AppColor.grey,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                           const Spacer(),
@@ -305,6 +302,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                     'Select Time',
                     style: AppTextStyle.style16B.copyWith(
                       color: AppColor.black,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -333,6 +331,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                                 : 'Select Time',
                             style: AppTextStyle.style14.copyWith(
                               color: _selectedTime != null ? AppColor.black : AppColor.grey,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                           const Spacer(),
@@ -351,6 +350,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                     'Comments (Optional)',
                     style: AppTextStyle.style16B.copyWith(
                       color: AppColor.black,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -394,6 +394,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                               _error!,
                               style: AppTextStyle.style12.copyWith(
                                 color: AppColor.red,
+                                decoration: TextDecoration.none,
                               ),
                             ),
                           ),
@@ -432,9 +433,13 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                 ],
               ),
             ),
-          ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
+     
     );
   }
 }
