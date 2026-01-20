@@ -28,22 +28,33 @@ class TeamMemberProfilePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        'Team Member Profile',
-                        style: AppTextStyle.style24B.copyWith(
-                          color: AppColor.white,
-                          decoration: TextDecoration.none,
+                    textDirection: Directionality.of(context),
+                    children: [
+                      if (Localizations.localeOf(context).languageCode == 'en')
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Team Member Profile',
+                          style: AppTextStyle.style24B.copyWith(
+                            color: AppColor.white,
+                            decoration: TextDecoration.none,
+                          ),
+                          textAlign: Localizations.localeOf(context).languageCode == 'en' 
+                              ? TextAlign.left 
+                              : TextAlign.right,
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      if (Localizations.localeOf(context).languageCode == 'ar')
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back, color: Colors.white),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                    ],
                 ),
               ),
               

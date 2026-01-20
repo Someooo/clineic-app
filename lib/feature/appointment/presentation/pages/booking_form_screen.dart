@@ -167,18 +167,19 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
+        
+          title: Text(
+            'Book Appointment',
+            style: AppTextStyle.headLine1.copyWith(
+              color: AppColor.white,
+            ),
+          ),
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
             icon: const Icon(
               Icons.arrow_back,
               color: AppColor.white,
               size: 28,
-            ),
-          ),
-          title: Text(
-            'Book Appointment',
-            style: AppTextStyle.headLine1.copyWith(
-              color: AppColor.white,
             ),
           ),
         ),

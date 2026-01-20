@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/extension/space_extension.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import '../../../auth/data/datasource/auth_local_data_source.dart';
 import '../../../../global_imports.dart';
 import '../widget/category_card.dart';
@@ -56,7 +57,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
     ];
 
     return Container(
-      decoration: BoxDecoration(
+       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -65,78 +66,34 @@ class _HomeContentPageState extends State<HomeContentPage> {
       ),
       child: Column(
         children: [
-          // Teal Header Section
-          Container(
-            width: double.infinity,
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 16,
+          FutureBuilder<AuthUserModel?>(
+            future: _userFuture,
+            builder: (context, snapshot) {
+              final fullName = snapshot.data?.fullName;
+              final title = (fullName != null &&
+                      fullName.trim().isNotEmpty)
+                  ? fullName
+                  : t.welcomeUserDenis;
+              
+              return CustomGradientAppBar.withDrawer(
+                title: title,
+                icon: const Icon(Icons.grid_view,
+                color: AppColor.white,
+                size: 28,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              FutureBuilder<AuthUserModel?>(
-                                future: _userFuture,
-                                builder: (context, snapshot) {
-                                  final fullName = snapshot.data?.fullName;
-                                  final text = (fullName != null &&
-                                          fullName.trim().isNotEmpty)
-                                      ? fullName
-                                      : t.welcomeUserDenis;
-                                  return Text(
-                                    text,
-                                    style: AppTextStyle.style24B.copyWith(
-                                      color: AppColor.white,
-                                    ),
-                                  );
-                                },
-                              ),
-                              // 8.gap,
-                              // Text(
-                              //   'welcomeSubtitle'.tr(),
-                              //   style: AppTextStyle.style14.copyWith(
-                              //     color: AppColor.white,
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        ),
-                        Builder(
-                          builder:
-                              (context) => IconButton(
-                                onPressed: () {
-                                  Scaffold.of(context).openDrawer();
-                                },
-                                icon: const Icon(
-                                  Icons.grid_view,
-                                  color: AppColor.white,
-                                  size: 28,
-                                ),
-                              ),
-                        ),
-                      ],
-                    ),
-                    20.gap,
-                  ],
-                ),
-              ),
-            ),
+                onDrawerPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
+            },
           ),
           // White Content Area
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
-                color: Color(0xFFF2F7FA),
+                // color: Color(0xFFF2F7FA),|
+                          color: Color(0xFFF2F7FA),
+
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
@@ -151,7 +108,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                     // Categories Section
                     Row(
                       children: [
-                           Icon(
+                        Icon(
                           Icons.medical_services,
                           color:  Colors.blue,
                           size: 20,

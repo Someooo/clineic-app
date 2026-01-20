@@ -100,17 +100,20 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
                         vertical: 16,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        textDirection: Directionality.of(context),
                         children: [
-                          Expanded(
-                            child: Text(
-                              '${widget.hospitalName} Team',
-                              style: AppTextStyle.style24B.copyWith(
-                                color: AppColor.white,
+                          if (Localizations.localeOf(context).languageCode == 'en')
+                            Expanded(
+                              child: Text(
+                                '${widget.hospitalName} Team',
+                                style: AppTextStyle.style24B.copyWith(
+                                  color: AppColor.white,
+                                  decoration: TextDecoration.none,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
                           IconButton(
                             onPressed: () => Navigator.pop(context),
                             icon: const Icon(
@@ -119,6 +122,18 @@ class _HospitalTeamScreenState extends State<HospitalTeamScreen> {
                               size: 28,
                             ),
                           ),
+                          if (Localizations.localeOf(context).languageCode == 'ar')
+                            Expanded(
+                              child: Text(
+                                '${widget.hospitalName} Team',
+                                style: AppTextStyle.style24B.copyWith(
+                                  color: AppColor.white,
+                                  decoration: TextDecoration.none,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
                         ],
                       ),
                     ),

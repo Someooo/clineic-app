@@ -39,22 +39,34 @@ class HospitalTeamPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        textDirection: Directionality.of(context),
                         children: [
-                          IconButton(
-                            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                            onPressed: () => Navigator.pop(context),
-                          ),
+                          if (Localizations.localeOf(context).languageCode == 'en')
+                            IconButton(
+                              icon: const Icon(Icons.arrow_back, color: Colors.white),
+                              onPressed: () => Navigator.pop(context),
+                            ),
                           const SizedBox(width: 8),
-                          Text(
-                            'Hospital Team',
-                            style: AppTextStyle.style24B.copyWith(
-                              color: AppColor.white,
-                              decoration: TextDecoration.none,
+                          Expanded(
+                            child: Text(
+                              'Hospital Team',
+                              style: AppTextStyle.style24B.copyWith(
+                                color: AppColor.white,
+                                decoration: TextDecoration.none,
+                              ),
+                              textAlign: Localizations.localeOf(context).languageCode == 'en' 
+                                  ? TextAlign.left 
+                                  : TextAlign.right,
                             ),
                           ),
+                          const SizedBox(width: 8),
+                          if (Localizations.localeOf(context).languageCode == 'ar')
+                            IconButton(
+                              icon: const Icon(Icons.arrow_back, color: Colors.white),
+                              onPressed: () => Navigator.pop(context),
+                            ),
                         ],
                       ),
-                  
                     ],
                   ),
                 ),

@@ -32,17 +32,21 @@ class HospitalsPage extends StatelessWidget {
                     vertical: 16,
                   ),
                   child: Row(
+                    textDirection: Directionality.of(context),
                     children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: AppColor.white,
+                      if (Localizations.localeOf(context).languageCode == 'en')
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: AppColor.white,
+                          ),
+                          onPressed: () => Navigator.of(context).pop(),
                         ),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: Localizations.localeOf(context).languageCode == 'en' 
+                              ? CrossAxisAlignment.start 
+                              : CrossAxisAlignment.end,
                           children: [
                             Text(
                               AppLocalizations.of(context)!.listOfHospitals,
@@ -50,10 +54,21 @@ class HospitalsPage extends StatelessWidget {
                                 color: AppColor.white,
                                 decoration: TextDecoration.none,
                               ),
+                              textAlign: Localizations.localeOf(context).languageCode == 'en' 
+                                  ? TextAlign.left 
+                                  : TextAlign.right,
                             ),
                           ],
                         ),
                       ),
+                      if (Localizations.localeOf(context).languageCode == 'ar')
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: AppColor.white,
+                          ),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
                     ],
                   ),
                 ),

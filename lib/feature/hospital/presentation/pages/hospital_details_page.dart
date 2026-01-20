@@ -30,24 +30,31 @@ class HospitalDetailsPage extends StatelessWidget {
                   vertical: 16,
                 ),
                 child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back, color: AppColor.white),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            hospital.fullName,
-                            style: AppTextStyle.style24B.copyWith(
-                              color: AppColor.white,
-                              decoration: TextDecoration.none,
+                    textDirection: Directionality.of(context),
+                    children: [
+                      if (Localizations.localeOf(context).languageCode == 'en')
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back, color: AppColor.white),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: Localizations.localeOf(context).languageCode == 'en' 
+                              ? CrossAxisAlignment.start 
+                              : CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              hospital.fullName,
+                              style: AppTextStyle.style24B.copyWith(
+                                color: AppColor.white,
+                                decoration: TextDecoration.none,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: Localizations.localeOf(context).languageCode == 'en' 
+                                  ? TextAlign.left 
+                                  : TextAlign.right,
                             ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
                           if (hospital.subHeading != null &&
                               hospital.subHeading!.isNotEmpty) ...[
                             const SizedBox(height: 4),
@@ -59,11 +66,16 @@ class HospitalDetailsPage extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                          ]
+                      )
+                    ), // Closing Expanded widget
+                      if (Localizations.localeOf(context).languageCode == 'ar')
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back_ios, color: AppColor.white),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                    ],
+                  ),
               ),
             ),
           ),
