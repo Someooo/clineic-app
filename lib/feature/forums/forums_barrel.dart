@@ -1,0 +1,12 @@
+export 'data/datasource/forums_remote_data_source.dart';
+export 'data/datasource/forums_remote_data_source_impl.dart';
+export 'data/endpoint/forums_endpoint.dart';
+export 'data/model/forum_model.dart';
+export 'data/repository/forums_repository_impl.dart';
+export 'di/forums_di.dart';
+export 'domain/entities/forum_entity.dart';
+export 'domain/repository/forums_repository.dart';
+export 'domain/usecases/get_forums_listing_usecase.dart';
+export 'presentation/cubit/forums_cubit.dart';
+export 'presentation/pages/forums_page.dart';
+export 'presentation/widgets/forum_card.dart';

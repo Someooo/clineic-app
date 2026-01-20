@@ -9,6 +9,7 @@ import '../doctor_detail/presentation/cubit/doctor_list_cubit.dart';
 import 'presentation/cubit/home_cubit.dart';
 import 'presentation/pages/appointments_page.dart';
 import 'presentation/pages/home_content_page.dart';
+import '../forums/forums.dart';
 import 'presentation/widget/sidebar.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   /// Index 0: Favorites (left)
   /// Index 1: Home (center)
   /// Index 2: Appointments (right)
+  /// Index 3: Forum (far right)
   List<Widget> get _pages => [
     BlocProvider(
       create: (context) => getIt<DoctorListCubit>()..init(),
@@ -39,6 +41,7 @@ class _HomePageState extends State<HomePage> {
       child: const HomeContentPage(),
     ),
     const AppointmentsPage(),
+    const ForumsPageWrapper(),
   ];
 
   void _onNavTap(int index) {
@@ -58,12 +61,14 @@ class _HomePageState extends State<HomePage> {
         index: _currentIndex,
         height: 65,
         items: [
+         
           _buildNavItem(icon: Icons.person, isSelected: _currentIndex == 0),
           _buildNavItem(icon: Icons.home, isSelected: _currentIndex == 1),
           _buildNavItem(
             icon: Icons.calendar_month,
             isSelected: _currentIndex == 2,
           ),
+          _buildNavItem(icon: Icons.forum, isSelected: _currentIndex == 3),
         ],
         color: Colors.white,
         buttonBackgroundColor: Colors.blue,

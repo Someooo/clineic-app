@@ -1,0 +1,49 @@
+import 'package:dartz/dartz.dart';
+import '../../../../core/errors/failure.dart';
+import '../../domain/entities/forum_entity.dart';
+import '../../domain/repository/forums_repository.dart';
+import '../datasource/forums_remote_data_source.dart';
+import '../model/forum_model.dart';
+
+class ForumsRepositoryImpl implements ForumsRepository {
+  final ForumsRemoteDataSource remoteDataSource;
+
+  ForumsRepositoryImpl({required this.remoteDataSource});
+
+  @override
+  Future<Either<Failure, List<ForumEntity>>> getForumsListing({
+    required int pageNumber,
+    required int showUsers,
+    required String orderBy,
+    required String search,
+    required String specialities,
+  }) async {
+    final result = await remoteDataSource.getForumsListing(
+      pageNumber: pageNumber,
+      showUsers: showUsers,
+      orderBy: orderBy,
+      search: search,
+      specialities: specialities,
+    );
+
+    return result.fold(
+      (failure) => Left(failure),
+      (forumModels) {
+        final forumEntities = forumModels.map(_mapToEntity).toList();
+        return Right(forumEntities);
+      },
+    );
+  }
+
+  ForumEntity _mapToEntity(ForumModel model) {
+    return ForumEntity(
+      image: model.image,
+      title: model.title,
+      content: model.content,
+      id: model.id,
+      postDate: model.postDate,
+      answers: model.answers,
+      count: model.count,
+    );
+  }
+}
