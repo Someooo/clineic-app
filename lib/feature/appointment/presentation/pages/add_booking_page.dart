@@ -9,6 +9,7 @@ import '../widgets/medical_provider_list_widget.dart';
 import '../../../../core/utils/color.dart';
 import '../../../../core/utils/text_style.dart';
 import 'hospital_team_screen.dart';
+import 'booking_form_screen.dart';
 
 class AddBookingPage extends StatelessWidget {
   final GetHospitalDoctorsUseCase getHospitalDoctorsUseCase;
@@ -187,22 +188,36 @@ class _AddBookingViewState extends State<AddBookingView> {
                 ),
               ),
               // Forward Button
-              if (_selectedProvider != null && _selectedProvider!.isHospital)
+              if (_selectedProvider != null)
                 Positioned(
                   bottom: 30,
                   right: 20,
                   child: GestureDetector(
                     onTap: () {
-                      // Navigate to hospital team screen
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HospitalTeamScreen(
-                            hospitalName: _selectedProvider!.fullName,
-                            profileId: _selectedProvider!.id,
+                      if (_selectedProvider!.isHospital) {
+                        // Navigate to hospital team screen (Case 1)
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HospitalTeamScreen(
+                              hospitalName: _selectedProvider!.fullName,
+                              profileId: _selectedProvider!.id,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        // Navigate directly to booking form screen (Case 2)
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BookingFormScreen(
+                              hospitalId: _selectedProvider!.id,
+                              doctorId: _selectedProvider!.id,
+                              doctorName: _selectedProvider!.fullName,
+                            ),
+                          ),
+                        );
+                      }
                     },
                     child: Container(
                       width: 56,
