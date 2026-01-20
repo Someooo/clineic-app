@@ -1,5 +1,6 @@
 import '../../../../core/extension/space_extension.dart';
 import '../../../../core/utils/border_radius.dart';
+import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import '../../../../core/widget/app_widget/custom_text_field.dart';
 import '../../../../global_imports.dart';
 import '../cubit/profile_settings_cubit.dart';
@@ -83,40 +84,9 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         ),
         child: Column(
           children: [
-            // Header Section
-            Container(
-              width: double.infinity,
-              child: SafeArea(
-                bottom: false,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 16,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: AppColor.white,
-                          size: 24,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Profile Settings',
-                          style: AppTextStyle.style24B.copyWith(
-                            color: AppColor.white,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            CustomGradientAppBar(
+              title: 'Profile Settings',
+              showBackButton: true,
             ),
             // White Content Area
             Expanded(

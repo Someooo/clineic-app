@@ -12,6 +12,8 @@ class CustomGradientAppBar extends StatelessWidget {
   final bool automaticallyImplyLeading;
   final double? elevation;
   final double? toolbarHeight;
+  final bool showBackButton;
+  final VoidCallback? onBackPressed;
 
   const CustomGradientAppBar({
     super.key,
@@ -23,6 +25,8 @@ class CustomGradientAppBar extends StatelessWidget {
     this.automaticallyImplyLeading = true,
     this.elevation,
     this.toolbarHeight,
+    this.showBackButton = false,
+    this.onBackPressed,
   });
 
   factory CustomGradientAppBar.withDrawer({
@@ -33,10 +37,12 @@ class CustomGradientAppBar extends StatelessWidget {
     return CustomGradientAppBar(
       title: title,
       icon: icon,
-      onIconPressed: onDrawerPressed ?? () {
-        // Default behavior - open drawer
-        // This will be handled by the Builder widget in the build method
-      },
+      onIconPressed:
+          onDrawerPressed ??
+          () {
+            // Default behavior - open drawer
+            // This will be handled by the Builder widget in the build method
+          },
     );
   }
 
@@ -76,24 +82,66 @@ class CustomGradientAppBar extends StatelessWidget {
                                 title,
                                 style: AppTextStyle.style24B.copyWith(
                                   color: AppColor.white,
+                                  decoration: TextDecoration.none,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        if (leading != null) leading!,
+                        // if (showBackButton)
+                        //   Material(
+                        //     color: Colors.transparent,
+                        //     child: InkWell(
+                        //       onTap: onBackPressed ?? () => Navigator.of(context).pop(),
+                        //       splashColor: Colors.transparent,
+                        //       highlightColor: Colors.transparent,
+                        //       child: Icon(
+                        //         Localizations.localeOf(context).languageCode == 'ar'
+                        //             ?Icons.arrow_back_ios
+                        //             :Icons.arrow_forward_ios ,
+                        //         color: AppColor.white,
+                        //         size: 24,
+                        //       ),
+                        //     ),
+                        //   )
+                        if (showBackButton)
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap:
+                                  onBackPressed ??
+                                  () => Navigator.of(context).pop(),
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              child: Icon(
+                                Directionality.of(context) == TextDirection.rtl
+                                    ? Icons
+                                        .home
+                                    : Icons
+                                        .home,
+                                color: AppColor.white,
+                                size: 24,
+                              ),
+                            ),
+                          )
+                        else if (leading != null)
+                          leading!,
                         if (icon != null)
                           Builder(
-                            builder: (context) => IconButton(
-                              onPressed: onIconPressed ?? () {
-                                if (onIconPressed == null && 
-                                    icon is Icon && 
-                                    (icon as Icon).icon == Icons.grid_view) {
-                                  Scaffold.of(context).openDrawer();
-                                }
-                              },
-                              icon: icon!,
-                            ),
+                            builder:
+                                (context) => IconButton(
+                                  onPressed:
+                                      onIconPressed ??
+                                      () {
+                                        if (onIconPressed == null &&
+                                            icon is Icon &&
+                                            (icon as Icon).icon ==
+                                                Icons.grid_view) {
+                                          Scaffold.of(context).openDrawer();
+                                        }
+                                      },
+                                  icon: icon!,
+                                ),
                           ),
                         if (actions != null) ...actions!,
                       ],
