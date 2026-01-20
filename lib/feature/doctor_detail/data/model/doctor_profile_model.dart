@@ -38,11 +38,29 @@ class DoctorProfileModel {
       totalRating: (json['total_rating'] as num?)?.toInt(),
       location: json['location'] as String?,
       specialities: _toStringList(json['specialities']),
-      services: _toStringList(json['services']),
+      services: _parseServices(json['services']),
       availableDays: _parseAvailableDays(json['available_days']),
       workingTime: json['working_time'] as String?,
       votes: (json['votes'] as num?)?.toInt(),
     );
+  }
+
+  static List<String> _parseServices(dynamic value) {
+    if (value is List) {
+      return value
+          .map((item) {
+            if (item is Map<String, dynamic>) {
+              return item['title'] as String? ?? '';
+            }
+            if (item is String) {
+              return item.trim();
+            }
+            return '';
+          })
+          .where((title) => title.isNotEmpty)
+          .toList();
+    }
+    return [];
   }
 
   static List<String> _toStringList(dynamic value) {

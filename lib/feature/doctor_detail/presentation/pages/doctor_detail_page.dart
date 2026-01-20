@@ -85,6 +85,18 @@ class DoctorDetailPage extends StatelessWidget {
                 children: [
                   _buildProfileHeader(detail.profile),
                   const SizedBox(height: 20),
+                  // Services Section
+                  if (detail.profile.services.isNotEmpty) ...[
+                    Text(
+                      'Services',
+                      style: AppTextStyle.style18B.copyWith(
+                        color: AppColor.black,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    _buildServicesList(detail.profile.services),
+                    const SizedBox(height: 20),
+                  ],
                   Text(
                     'Hospitals',
                     style: AppTextStyle.style18B.copyWith(
@@ -392,6 +404,71 @@ class DoctorDetailPage extends StatelessWidget {
                     .toList(),
           ),
       ],
+    );
+  }
+
+  Widget _buildServicesList(List<String> services) {
+    return Column(
+      children: services.map((service) {
+        return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColor.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                offset: const Offset(0, 2),
+                blurRadius: 8,
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: AppColor.tealColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.medical_services,
+                  color: AppColor.tealColor,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      service,
+                      style: AppTextStyle.style16B.copyWith(
+                        color: AppColor.black,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Professional medical service',
+                      style: AppTextStyle.style12.copyWith(
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: AppColor.grey,
+              ),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 }
