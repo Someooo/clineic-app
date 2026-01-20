@@ -4,6 +4,7 @@ import '../../../../core/widget/app_widget/custom_text_field.dart';
 import '../../../../global_imports.dart';
 import '../cubit/profile_settings_cubit.dart';
 import '../cubit/profile_settings_state.dart';
+import '../../../../core/utils/color.dart';
 
 /// Profile Settings Screen
 /// 
@@ -72,59 +73,117 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<ProfileSettingsCubit>()..loadProfileSettings(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Profile Settings', style: AppTextStyle.headLine1),
-          backgroundColor: AppColor.backgroundColor,
-        ),
-        body: BlocListener<ProfileSettingsCubit, ProfileSettingsState>(
-          listener: (context, state) {
-            // Handle state changes
-            if (state.isSuccess) {
-              // Show success message
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text('Profile settings saved successfully'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            } else if (state.errorMessage != null) {
-              // Show error message
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage!),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-
-            // Update form fields when settings are loaded
-            if (state.settings != null && !state.isLoading) {
-              final settings = state.settings!;
-              setState(() {
-                // Update controllers with data from API response
-                // Data source: ProfileSettingsState.settings (from GET /v1/profile/setting)
-                _firstNameController.text = settings.firstName ?? '';
-                _lastNameController.text = settings.lastName ?? '';
-                _emailController.text = settings.email ?? '';
-                _phoneNumberController.text = settings.phoneNumber ?? '';
-                _addressController.text = settings.address ?? '';
-                _latitudeController.text = settings.latitude ?? '';
-                _longitudeController.text = settings.longitude ?? '';
-                _notificationPreferences = settings.notificationPreferences;
-              });
-            }
-          },
-          child: BlocBuilder<ProfileSettingsCubit, ProfileSettingsState>(
-            builder: (context, state) {
-              if (state.isLoading && state.settings == null) {
-                // Initial loading
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              return _buildForm(context, state);
-            },
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [AppColor.tealColor, AppColor.blueColor],
           ),
+        ),
+        child: Column(
+          children: [
+            // Header Section
+            Container(
+              width: double.infinity,
+              child: SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 16,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: AppColor.white,
+                          size: 24,
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Profile Settings',
+                          style: AppTextStyle.style24B.copyWith(
+                            color: AppColor.white,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // White Content Area
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF2F7FA),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: BlocListener<ProfileSettingsCubit, ProfileSettingsState>(
+                    listener: (context, state) {
+                      // Handle state changes
+                      if (state.isSuccess) {
+                        // Show success message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Profile settings saved successfully'),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      } else if (state.errorMessage != null) {
+                        // Show error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.errorMessage!),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+
+                      // Update form fields when settings are loaded
+                      if (state.settings != null && !state.isLoading) {
+                        final settings = state.settings!;
+                        setState(() {
+                          // Update controllers with data from API response
+                          // Data source: ProfileSettingsState.settings (from GET /v1/profile/setting)
+                          _firstNameController.text = settings.firstName ?? '';
+                          _lastNameController.text = settings.lastName ?? '';
+                          _emailController.text = settings.email ?? '';
+                          _phoneNumberController.text = settings.phoneNumber ?? '';
+                          _addressController.text = settings.address ?? '';
+                          _latitudeController.text = settings.latitude ?? '';
+                          _longitudeController.text = settings.longitude ?? '';
+                          _notificationPreferences = settings.notificationPreferences;
+                        });
+                      }
+                    },
+                    child: BlocBuilder<ProfileSettingsCubit, ProfileSettingsState>(
+                      builder: (context, state) {
+                        if (state.isLoading && state.settings == null) {
+                          // Initial loading
+                          return const Center(child: CircularProgressIndicator());
+                        }
+
+                        return _buildForm(context, state);
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -132,16 +191,14 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
 
   Widget _buildForm(BuildContext context, ProfileSettingsState state) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20.0),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 400),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+      child: Material(
+        color: Colors.transparent,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
                 // Title
                 // Text(
                 //   'Profile Settings',
@@ -394,7 +451,6 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
             ),
           ),
         ),
-      ),
     );
   }
 }
