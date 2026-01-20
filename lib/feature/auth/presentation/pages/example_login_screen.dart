@@ -133,7 +133,7 @@ class _ExampleLoginScreenState extends State<ExampleLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Example Login'),
+        title: const Text('Example Login', style: AppTextStyle.headLine1),
         actions: [
           IconButton(
             onPressed: _showStoredUserInfo,

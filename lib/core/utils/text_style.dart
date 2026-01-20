@@ -65,4 +65,7 @@ abstract class AppTextStyle extends TextStyle {
       TextStyle(fontSize: 32, color: Colors.black);
   static const TextStyle style20Black =
       TextStyle(fontSize: 22, color: Colors.black);
+  
+  static const TextStyle headLine1 =
+      TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black);
 }

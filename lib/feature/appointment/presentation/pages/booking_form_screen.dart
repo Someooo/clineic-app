@@ -177,7 +177,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
           ),
           title: Text(
             'Book Appointment',
-            style: AppTextStyle.style20B.copyWith(
+            style: AppTextStyle.headLine1.copyWith(
               color: AppColor.white,
             ),
           ),

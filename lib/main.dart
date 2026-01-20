@@ -35,7 +35,7 @@ Future<void> main() async {
   
   ErrorWidget.builder = (FlutterErrorDetails details) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Oops! An error occurred')),
+      appBar: AppBar(title: const Text('Oops! An error occurred', style: AppTextStyle.headLine1)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

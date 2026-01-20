@@ -74,7 +74,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
       create: (context) => getIt<ProfileSettingsCubit>()..loadProfileSettings(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Profile Settings'),
+          title: const Text('Profile Settings', style: AppTextStyle.headLine1),
           backgroundColor: AppColor.backgroundColor,
         ),
         body: BlocListener<ProfileSettingsCubit, ProfileSettingsState>(

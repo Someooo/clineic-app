@@ -57,7 +57,7 @@ class AppScaffold extends StatelessWidget {
                       : title != null
                           ? Text(
                               title!,
-                              style: AppTextStyle.style16B.copyWith(
+                              style: AppTextStyle.headLine1.copyWith(
                                 color: Colors.black,
                               ),
                             )

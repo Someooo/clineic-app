@@ -25,7 +25,7 @@ class DoctorDetailPage extends StatelessWidget {
           (context) => getIt<DoctorDetailCubit>()..getDoctorDetail(doctorId),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(doctorName),
+          title: Text(doctorName, style: AppTextStyle.headLine1),
           backgroundColor: Colors.transparent,
           foregroundColor: AppColor.white,
           elevation: 0,

@@ -21,7 +21,7 @@ class AuthLoginPage extends StatelessWidget {
         end: Alignment.centerRight,
       ),
       appBar: AppBar(
-        title: Text(t.appName),
+        title: Text(t.appName, style: AppTextStyle.headLine1),
         backgroundColor: Colors.transparent,
         elevation: 0,
         flexibleSpace: Container(
