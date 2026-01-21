@@ -73,7 +73,7 @@ class ForumCard extends StatelessWidget {
                         style: AppTextStyle.style16B.copyWith(
                           color: AppColor.black,
                         ),
-                        maxLines: 2,
+                        maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
                       8.gap,
@@ -118,35 +118,10 @@ class ForumCard extends StatelessWidget {
               style: AppTextStyle.style14.copyWith(
                 color: Colors.grey[700],
               ),
-              maxLines: 3,
+              maxLines: 5,
               overflow: TextOverflow.ellipsis,
             ),
-            12.gap,
-            // Footer
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF8FAFB),
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'ID: ${forum.id}',
-                    style: AppTextStyle.style12.copyWith(
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  Text(
-                    '${forum.count} views',
-                    style: AppTextStyle.style12.copyWith(
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          
           ],
         ),
       ),
