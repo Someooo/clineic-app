@@ -96,6 +96,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   color: Color(0xFFF2F7FA),
+              
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
