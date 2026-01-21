@@ -9,6 +9,7 @@ class DoctorCard extends StatelessWidget {
   final bool isBookmarked;
   final VoidCallback? onTap;
   final VoidCallback? onBookmarkTap;
+  final Future<void> Function(int doctorId)? onRemoveFromWishlist;
 
   const DoctorCard({
     super.key,
@@ -16,6 +17,7 @@ class DoctorCard extends StatelessWidget {
     this.isBookmarked = false,
     this.onTap,
     this.onBookmarkTap,
+    this.onRemoveFromWishlist,
   });
 
   List<String> _parseAvailableDays(dynamic value) {
@@ -117,7 +119,13 @@ class DoctorCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: onBookmarkTap,
+                  onPressed: () async {
+                    if (isBookmarked && onRemoveFromWishlist != null) {
+                      await onRemoveFromWishlist!(doctor.id);
+                    } else if (onBookmarkTap != null) {
+                      onBookmarkTap!();
+                    }
+                  },
                   icon: Icon(
                     isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                     color: isBookmarked ? AppColor.primaryColor : AppColor.grey,

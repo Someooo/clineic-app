@@ -47,4 +47,35 @@ class WishlistRepositoryImpl implements WishlistRepository {
       return Left(ServerFailure(message: 'No internet connection'));
     }
   }
+
+  @override
+  Future<Either<Failure, WishlistEntity>> removeFromWishlist({
+    required int userId,
+    required int doctorId,
+    required String column,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final request = WishlistRequestModel(
+          user_id: userId,
+          id: doctorId,
+          column: column,
+        );
+        
+        final response = await remoteDataSource.removeFromWishlist(request);
+        
+        final entity = WishlistEntity(
+          authentication: response.authentication,
+          type: response.type,
+          message: response.message,
+        );
+        
+        return Right(entity);
+      } catch (e) {
+        return Left(ServerFailure(message: 'Failed to remove from wishlist: $e'));
+      }
+    } else {
+      return Left(ServerFailure(message: 'No internet connection'));
+    }
+  }
 }

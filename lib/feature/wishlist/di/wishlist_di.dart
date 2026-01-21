@@ -6,6 +6,7 @@ import '../data/repository/wishlist_get_repository_impl.dart';
 import '../domain/repository/wishlist_repository.dart';
 import '../domain/repository/wishlist_get_repository.dart';
 import '../domain/usecases/add_to_wishlist_usecase.dart';
+import '../domain/usecases/remove_from_wishlist_usecase.dart';
 import '../domain/usecases/get_wishlist_usecase.dart';
 import '../presentation/cubit/wishlist_cubit.dart';
 import '../presentation/cubit/wishlist_get_cubit.dart';
@@ -40,13 +41,20 @@ void wishlistDI() {
     () => AddToWishlistUseCase(repository: getIt()),
   );
 
+  getIt.registerLazySingleton<RemoveFromWishlistUseCase>(
+    () => RemoveFromWishlistUseCase(repository: getIt()),
+  );
+
   getIt.registerLazySingleton<GetWishlistUseCase>(
     () => GetWishlistUseCase(repository: getIt()),
   );
 
   // Cubit
   getIt.registerFactory<WishlistCubit>(
-    () => WishlistCubit(addToWishlistUseCase: getIt()),
+    () => WishlistCubit(
+      addToWishlistUseCase: getIt(),
+      removeFromWishlistUseCase: getIt(),
+    ),
   );
 
   getIt.registerFactory<WishlistGetCubit>(

@@ -191,6 +191,23 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     column: 'saved_doctors',
                                   );
                                 },
+                                onRemoveFromWishlist: (doctorId) async {
+                                  // Update bookmark state immediately for better UX
+                                  setState(() {
+                                    _bookmarkedDoctors.remove(doctorId);
+                                    _lastBookmarkedDoctorId = doctorId;
+                                  });
+                                  
+                                  // Save to persistent storage
+                                  await _saveBookmarkedDoctors();
+                                  
+                                  // Call API
+                                  await context.read<WishlistCubit>().removeFromWishlist(
+                                    userId: 7, // You can get this from user session
+                                    doctorId: doctorId,
+                                    column: 'saved_doctors',
+                                  );
+                                },
                               );
                             },
                           );

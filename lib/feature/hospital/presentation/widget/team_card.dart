@@ -4,6 +4,7 @@ import '../../../../global_imports.dart';
 import '../../domain/entities/team_entity.dart';
 import '../pages/team_member_profile_page.dart';
 import '../../../wishlist/presentation/cubit/wishlist_cubit.dart';
+import '../../../../core/services/user_storage_service.dart';
 
 class TeamCard extends StatefulWidget {
   final TeamEntity team;
@@ -55,19 +56,40 @@ class _TeamCardState extends State<TeamCard> {
 
   Future<void> _toggleBookmark() async {
     final isBookmarked = _bookmarkedTeamMembers.contains(widget.team.id);
+    final userId = UserStorageService.instance.getUserId();
+    
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please login to manage favorites'),
+          backgroundColor: AppColor.red,
+          duration: const Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
     
     if (isBookmarked) {
+      // Remove from wishlist
       setState(() {
         _bookmarkedTeamMembers.remove(widget.team.id);
       });
+      
+      // Call API to remove from wishlist
+      await context.read<WishlistCubit>().removeFromWishlist(
+        userId: userId,
+        doctorId: widget.team.id,
+        column: 'saved_doctors',
+      );
     } else {
+      // Add to wishlist
       setState(() {
         _bookmarkedTeamMembers.add(widget.team.id);
       });
       
       // Call API to add to wishlist
       await context.read<WishlistCubit>().addToWishlist(
-        userId: 7, // You can get this from user session
+        userId: userId,
         doctorId: widget.team.id,
         column: 'saved_doctors',
       );
@@ -133,7 +155,7 @@ class _TeamCardState extends State<TeamCard> {
             GestureDetector(
               onTap: _toggleBookmark,
               child: Icon(
-                isBookmarked ? Icons.bookmark : Icons.bookmark_outlined,
+                isBookmarked ? Icons.bookmark : Icons.bookmark,
                 color: isBookmarked ? AppColor.primaryColor : AppColor.grey,
                 size: 20,
               ),

@@ -1,5 +1,6 @@
 import '../../../../global_imports.dart';
 import '../cubit/wishlist_get_cubit.dart';
+import '../cubit/wishlist_cubit.dart';
 import '../../../doctor_detail/presentation/widget/doctor_card.dart';
 import '../../../doctor_detail/presentation/pages/doctor_detail_page.dart';
 import '../../../doctor_detail/domain/entities/doctor_list_entity.dart';
@@ -72,8 +73,31 @@ class _WishlistPageState extends State<WishlistPage> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: BlocBuilder<WishlistGetCubit, WishlistGetState>(
-                  builder: (context, state) {
+                child: BlocConsumer<WishlistCubit, WishlistState>(
+                  listener: (context, wishlistState) {
+                    if (wishlistState is WishlistLoaded) {
+                      // Show success message for add/remove operations
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(wishlistState.wishlistEntity.message),
+                          backgroundColor: AppColor.green,
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    } else if (wishlistState is WishlistError) {
+                      // Show error message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(wishlistState.message),
+                          backgroundColor: AppColor.red,
+                          duration: const Duration(seconds: 3),
+                        ),
+                      );
+                    }
+                  },
+                  builder: (context, wishlistState) {
+                    return BlocBuilder<WishlistGetCubit, WishlistGetState>(
+                      builder: (context, state) {
                     if (state is WishlistGetLoading) {
                       return const Center(child: CircularProgressIndicator());
                     }
@@ -174,15 +198,39 @@ class _WishlistPageState extends State<WishlistPage> {
                                 ),
                               );
                             },
-                            onBookmarkTap: () {
-                              // Optionally implement remove from wishlist functionality
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Remove from favorites functionality can be implemented here'),
-                                  backgroundColor: AppColor.primaryColor,
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
+                            onRemoveFromWishlist: (doctorId) async {
+                              final userId = UserStorageService.instance.getUserId();
+                              if (userId != null) {
+                                // Call the remove from wishlist API
+                                await context.read<WishlistCubit>().removeFromWishlist(
+                                  userId: userId,
+                                  doctorId: doctorId,
+                                  column: 'saved_doctors',
+                                );
+                                
+                                // Refresh the wishlist after removal
+                                context.read<WishlistGetCubit>().getWishlist(
+                                  profileId: userId,
+                                  type: 'doctors',
+                                );
+                                
+                                // Show success message
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Removed from favorites'),
+                                    backgroundColor: AppColor.green,
+                                    duration: const Duration(seconds: 2),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Please login to remove favorites'),
+                                    backgroundColor: AppColor.red,
+                                    duration: const Duration(seconds: 3),
+                                  ),
+                                );
+                              }
                             },
                           );
                         },
@@ -190,6 +238,8 @@ class _WishlistPageState extends State<WishlistPage> {
                     }
 
                     return const SizedBox.shrink();
+                      },
+                    );
                   },
                 ),
               ),

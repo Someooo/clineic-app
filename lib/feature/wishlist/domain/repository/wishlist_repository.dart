@@ -8,4 +8,10 @@ abstract class WishlistRepository {
     required int doctorId,
     required String column,
   });
+
+  Future<Either<Failure, WishlistEntity>> removeFromWishlist({
+    required int userId,
+    required int doctorId,
+    required String column,
+  });
 }

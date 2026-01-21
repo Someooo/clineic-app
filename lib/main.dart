@@ -1,5 +1,7 @@
 import 'global_imports.dart';
 import 'core/services/user_storage_service.dart';
+import 'feature/wishlist/presentation/cubit/wishlist_cubit.dart';
+import 'feature/wishlist/presentation/cubit/wishlist_get_cubit.dart';
 
 import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -94,7 +96,12 @@ class _MyAppState extends State<MyApp> {
         ThemeCubit()
           ..init()),
 
-        BlocProvider(create: (context) => getIt<ConnectionCubit>())],
+        BlocProvider(create: (context) => getIt<ConnectionCubit>()),
+        
+        // Wishlist providers
+        BlocProvider(create: (context) => getIt<WishlistCubit>()),
+        BlocProvider(create: (context) => getIt<WishlistGetCubit>()),
+      ],
       child: LocaleScope(
         controller: _localeController,
         child: AnimatedBuilder(

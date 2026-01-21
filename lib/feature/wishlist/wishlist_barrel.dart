@@ -11,6 +11,7 @@ export 'domain/entities/wishlist_doctor_entity.dart';
 export 'domain/repository/wishlist_repository.dart';
 export 'domain/repository/wishlist_get_repository.dart';
 export 'domain/usecases/add_to_wishlist_usecase.dart';
+export 'domain/usecases/remove_from_wishlist_usecase.dart';
 export 'domain/usecases/get_wishlist_usecase.dart';
 export 'presentation/cubit/wishlist_cubit.dart';
 export 'presentation/cubit/wishlist_get_cubit.dart';
