@@ -3,8 +3,9 @@ import '../../../../core/utils/text_style.dart';
 import '../../../../global_imports.dart';
 import '../../domain/entities/team_entity.dart';
 import '../pages/team_member_profile_page.dart';
+import '../../../wishlist/presentation/cubit/wishlist_cubit.dart';
 
-class TeamCard extends StatelessWidget {
+class TeamCard extends StatefulWidget {
   final TeamEntity team;
   final VoidCallback? onTap;
 
@@ -15,12 +16,75 @@ class TeamCard extends StatelessWidget {
   });
 
   @override
+  State<TeamCard> createState() => _TeamCardState();
+}
+
+class _TeamCardState extends State<TeamCard> {
+  final Set<int> _bookmarkedTeamMembers = {};
+  static const String _bookmarkedTeamMembersKey = 'bookmarked_team_members';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBookmarkedTeamMembers();
+  }
+
+  Future<void> _loadBookmarkedTeamMembers() async {
+    try {
+      final box = getIt<Box>(instanceName: BoxKey.appBox);
+      final bookmarkedData = box.get(_bookmarkedTeamMembersKey);
+      if (bookmarkedData != null) {
+        final List<dynamic> bookmarkedList = bookmarkedData;
+        setState(() {
+          _bookmarkedTeamMembers.addAll(bookmarkedList.cast<int>());
+        });
+      }
+    } catch (e) {
+      logger.e('Error loading bookmarked team members: $e');
+    }
+  }
+
+  Future<void> _saveBookmarkedTeamMembers() async {
+    try {
+      final box = getIt<Box>(instanceName: BoxKey.appBox);
+      await box.put(_bookmarkedTeamMembersKey, _bookmarkedTeamMembers.toList());
+    } catch (e) {
+      logger.e('Error saving bookmarked team members: $e');
+    }
+  }
+
+  Future<void> _toggleBookmark() async {
+    final isBookmarked = _bookmarkedTeamMembers.contains(widget.team.id);
+    
+    if (isBookmarked) {
+      setState(() {
+        _bookmarkedTeamMembers.remove(widget.team.id);
+      });
+    } else {
+      setState(() {
+        _bookmarkedTeamMembers.add(widget.team.id);
+      });
+      
+      // Call API to add to wishlist
+      await context.read<WishlistCubit>().addToWishlist(
+        userId: 7, // You can get this from user session
+        doctorId: widget.team.id,
+        column: 'saved_doctors',
+      );
+    }
+    
+    await _saveBookmarkedTeamMembers();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final isBookmarked = _bookmarkedTeamMembers.contains(widget.team.id);
+    
     return GestureDetector(
-      onTap: onTap ?? () {
+      onTap: widget.onTap ?? () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => TeamMemberProfilePage(teamMember: team),
+            builder: (context) => TeamMemberProfilePage(teamMember: widget.team),
           ),
         );
       },
@@ -44,11 +108,11 @@ class TeamCard extends StatelessWidget {
               radius: 36,
               backgroundColor: AppColor.grey.withOpacity(0.2),
               backgroundImage:
-                  team.image.isNotEmpty
-                      ? NetworkImage(team.image)
+                  widget.team.image.isNotEmpty
+                      ? NetworkImage(widget.team.image)
                       : null,
               child:
-                  team.image.isEmpty
+                  widget.team.image.isEmpty
                       ? Icon(
                           Icons.person,
                           color: AppColor.tealColor,
@@ -59,17 +123,20 @@ class TeamCard extends StatelessWidget {
             const SizedBox(width: 16),
             Expanded(
               child: Text(
-                team.name,
+                widget.team.name,
                 style: AppTextStyle.style18B.copyWith(
                   color: AppColor.black,
                   decoration: TextDecoration.none,
                 ),
               ),
             ),
-          const  Icon(
-              Icons.bookmark_outlined,
-              color: AppColor.grey,
-              size: 16,
+            GestureDetector(
+              onTap: _toggleBookmark,
+              child: Icon(
+                isBookmarked ? Icons.bookmark : Icons.bookmark_outlined,
+                color: isBookmarked ? AppColor.primaryColor : AppColor.grey,
+                size: 20,
+              ),
             ),
           ],
         ),

@@ -3,6 +3,7 @@ import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
 import '../cubit/team_cubit.dart';
 import '../widget/team_card.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
+import '../../../wishlist/presentation/cubit/wishlist_cubit.dart';
 
 class HospitalTeamPage extends StatelessWidget {
   final int profileId;
@@ -14,8 +15,15 @@ class HospitalTeamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => getIt<TeamCubit>()..getHospitalTeamList(profileId: profileId),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<TeamCubit>()..getHospitalTeamList(profileId: profileId),
+        ),
+        BlocProvider(
+          create: (context) => getIt<WishlistCubit>(),
+        ),
+      ],
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

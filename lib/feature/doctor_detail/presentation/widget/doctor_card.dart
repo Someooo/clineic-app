@@ -87,7 +87,7 @@ class DoctorCard extends StatelessWidget {
                       doctor.avatar == null
                           ? Icon(
                             Icons.person,
-                            color: AppColor.tealColor,
+                            color: AppColor.primaryColor,
                             size: 32,
                           )
                           : null,
