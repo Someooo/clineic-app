@@ -10,4 +10,6 @@ class ForumsEndpoint {
   }) {
     return '$_baseUrl/forums/get_listing?page_number=$pageNumber&show_users=$showUsers&orderby=$orderBy&search=$search&specialities=$specialities';
   }
+
+  static const String postAnswer = '$_baseUrl/forums/post_answer';
 }

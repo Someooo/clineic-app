@@ -4,6 +4,7 @@ import '../../domain/entities/forum_entity.dart';
 import '../../domain/repository/forums_repository.dart';
 import '../datasource/forums_remote_data_source.dart';
 import '../model/forum_model.dart';
+import '../model/forum_answer_response_model.dart';
 
 class ForumsRepositoryImpl implements ForumsRepository {
   final ForumsRemoteDataSource remoteDataSource;
@@ -32,6 +33,24 @@ class ForumsRepositoryImpl implements ForumsRepository {
         final forumEntities = forumModels.map(_mapToEntity).toList();
         return Right(forumEntities);
       },
+    );
+  }
+
+  @override
+  Future<Either<Failure, String>> postAnswer({
+    required int userId,
+    required int forumId,
+    required String forumAnswer,
+  }) async {
+    final result = await remoteDataSource.postAnswer(
+      userId: userId,
+      forumId: forumId,
+      forumAnswer: forumAnswer,
+    );
+
+    return result.fold(
+      (failure) => Left(failure),
+      (response) => Right(response.message),
     );
   }
 

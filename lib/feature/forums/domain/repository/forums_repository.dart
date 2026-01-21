@@ -10,4 +10,10 @@ abstract class ForumsRepository {
     required String search,
     required String specialities,
   });
+
+  Future<Either<Failure, String>> postAnswer({
+    required int userId,
+    required int forumId,
+    required String forumAnswer,
+  });
 }

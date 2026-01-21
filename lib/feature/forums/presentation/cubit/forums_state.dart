@@ -43,3 +43,19 @@ class ForumsError extends ForumsState {
   @override
   int get hashCode => message.hashCode;
 }
+
+class ForumsAnswerPosted extends ForumsState {
+  final String message;
+
+  const ForumsAnswerPosted({required this.message});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ForumsAnswerPosted && 
+           other.message == message;
+  }
+
+  @override
+  int get hashCode => message.hashCode;
+}

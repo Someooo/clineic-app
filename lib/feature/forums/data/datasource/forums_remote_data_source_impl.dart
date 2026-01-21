@@ -1,6 +1,8 @@
 import '../../../../global_imports.dart';
 import '../endpoint/forums_endpoint.dart';
 import '../model/forum_model.dart';
+import '../model/forum_answer_request_model.dart';
+import '../model/forum_answer_response_model.dart';
 import 'forums_remote_data_source.dart';
 
 class ForumsRemoteDataSourceImpl implements ForumsRemoteDataSource {
@@ -45,6 +47,30 @@ class ForumsRemoteDataSourceImpl implements ForumsRemoteDataSource {
       }
     } catch (e, stackTrace) {
       return handleRepoDataError<List<ForumModel>>(e, stackTrace);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ForumAnswerResponseModel>> postAnswer({
+    required int userId,
+    required int forumId,
+    required String forumAnswer,
+  }) async {
+    try {
+      final request = ForumAnswerRequestModel(
+        user_id: userId,
+        forum_id: forumId,
+        forum_answer: forumAnswer,
+      );
+      
+      final response = await apiServices.postData(
+        ForumsEndpoint.postAnswer,
+        request.toJson(),
+      );
+
+      return Right(ForumAnswerResponseModel.fromJson(response));
+    } catch (e, stackTrace) {
+      return handleRepoDataError<ForumAnswerResponseModel>(e, stackTrace);
     }
   }
 }
