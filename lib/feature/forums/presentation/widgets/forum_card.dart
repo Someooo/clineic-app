@@ -66,7 +66,7 @@ class ForumCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Answers & Discussion',
+                          'Answers:',
                           style: AppTextStyle.style18B.copyWith(
                             color: AppColor.black,
                           ),
