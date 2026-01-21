@@ -1,5 +1,6 @@
 import 'global_imports.dart';
 import 'core/services/user_storage_service.dart';
+import 'core/services/notification_service.dart';
 import 'feature/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'feature/wishlist/presentation/cubit/wishlist_get_cubit.dart';
 import 'feature/forums/presentation/cubit/forums_cubit.dart';
@@ -30,6 +31,10 @@ Future<void> main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    
+    // Initialize OneSignal through NotificationService
+    await NotificationService.init();
+    
     await EnvConstant.init();
     await HiveServices().init();
     await UserStorageService.init(); // Initialize UserStorageService
