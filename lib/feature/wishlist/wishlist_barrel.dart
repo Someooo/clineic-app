@@ -1,0 +1,10 @@
+export 'data/datasource/wishlist_remote_datasource.dart';
+export 'data/endpoint/wishlist_endpoint.dart';
+export 'data/model/wishlist_request_model.dart';
+export 'data/model/wishlist_response_model.dart';
+export 'data/repository/wishlist_repository_impl.dart';
+export 'domain/entities/wishlist_entity.dart';
+export 'domain/repository/wishlist_repository.dart';
+export 'domain/usecases/add_to_wishlist_usecase.dart';
+export 'presentation/cubit/wishlist_cubit.dart';
+export 'di/wishlist_di.dart';
