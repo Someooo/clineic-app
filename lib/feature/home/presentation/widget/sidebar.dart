@@ -42,7 +42,22 @@ class CustomSidebar extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 children: [
+                 
                   _MenuItem(
+                    icon: Icons.person,
+                    title: t.profile,
+                    onTap: () {
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileSettingsScreen()));
+                    },
+                  ),
+                    _MenuItem(
+                    icon: Icons.language,
+                    title: t.changeLanguage,
+                    onTap: () {
+                      LocaleController.of(context).toggle();
+                    },
+                  ),
+                   _MenuItem(
                     icon: Icons.favorite,
                     title: 'My Favorites',
                     onTap: () {
@@ -57,34 +72,9 @@ class CustomSidebar extends StatelessWidget {
                       );
                     },
                   ),
-                  _MenuItem(
-                    icon: Icons.person,
-                    title: t.profile,
-                    onTap: () {
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfileSettingsScreen()));
-                    },
-                  ),
-                  _MenuItem(
-                    icon: Icons.language,
-                    title: t.changeLanguage,
-                    onTap: () {
-                      LocaleController.of(context).toggle();
-                    },
-                  ),
-                  _MenuItem(
-                    icon: Icons.privacy_tip,
-                    title: t.privacyPolicy,
-                    onTap: () {
-                      // TODO: Navigate to Privacy Policy
-                    },
-                  ),
-                  _MenuItem(
-                    icon: Icons.contact_support,
-                    title: t.contactUs,
-                    onTap: () {
-                      // TODO: Navigate to Contact Us
-                    },
-                  ),
+                
+              
+                 
                   const SizedBox(height: 8),
                   const Divider(height: 1),
                   const SizedBox(height: 8),
