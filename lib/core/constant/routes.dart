@@ -12,4 +12,5 @@ abstract class AppRoutes {
   static const profileSettings = "/profile-settings";
   static const hospitals = "/hospitals";
   static const specialities = "/specialities";
+  static const wishlist = "/wishlist";
 }

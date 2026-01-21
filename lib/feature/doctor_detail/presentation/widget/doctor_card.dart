@@ -101,6 +101,7 @@ class DoctorCard extends StatelessWidget {
                         doctor.fullName,
                         style: AppTextStyle.style18B.copyWith(
                           color: AppColor.black,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -109,6 +110,7 @@ class DoctorCard extends StatelessWidget {
                             AppLocalizations.of(context)!.generalPractitioner,
                         style: AppTextStyle.style14.copyWith(
                           color: AppColor.grey,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                     ],
@@ -148,6 +150,7 @@ class DoctorCard extends StatelessWidget {
                       doctor.location.toString(),
                       style: AppTextStyle.style14.copyWith(
                         color: AppColor.grey,
+                        decoration: TextDecoration.none,
                       ),
                     ),
                   ),
@@ -174,6 +177,7 @@ class DoctorCard extends StatelessWidget {
                               day,
                               style: AppTextStyle.style12.copyWith(
                                 color: AppColor.black,
+                                decoration: TextDecoration.none,
                               ),
                             ),
                             backgroundColor: AppColor.grey.withOpacity(0.1),
@@ -200,11 +204,17 @@ class DoctorCard extends StatelessWidget {
         children: [
           Text(
             '$label: ',
-            style: AppTextStyle.style12.copyWith(color: AppColor.grey),
+            style: AppTextStyle.style12.copyWith(
+              color: AppColor.grey,
+              decoration: TextDecoration.none,
+            ),
           ),
           Text(
             value,
-            style: AppTextStyle.style12.copyWith(color: AppColor.black),
+            style: AppTextStyle.style12.copyWith(
+              color: AppColor.black,
+              decoration: TextDecoration.none,
+            ),
           ),
         ],
       ),
@@ -215,7 +225,10 @@ class DoctorCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: AppTextStyle.style12.copyWith(color: AppColor.grey)),
+        Text(label, style: AppTextStyle.style12.copyWith(
+          color: AppColor.grey,
+          decoration: TextDecoration.none,
+        )),
         const SizedBox(height: 6),
         Wrap(
           spacing: 6,
@@ -228,6 +241,7 @@ class DoctorCard extends StatelessWidget {
                         item,
                         style: AppTextStyle.style12.copyWith(
                           color: AppColor.black,
+                          decoration: TextDecoration.none,
                         ),
                       ),
                       backgroundColor: AppColor.grey.withOpacity(0.1),

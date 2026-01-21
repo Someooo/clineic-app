@@ -4,6 +4,8 @@ import '../../../../core/utils/color.dart';
 import '../../../../core/localization/locale_controller.dart';
 import '../../../../global_imports.dart';
 import '../../../profile/presentation/pages/profile_settings_screen.dart';
+import '../../../wishlist/presentation/pages/wishlist_page.dart';
+import '../../../wishlist/presentation/cubit/wishlist_get_cubit.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
 
 class CustomSidebar extends StatelessWidget {
@@ -40,6 +42,21 @@ class CustomSidebar extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 children: [
+                  _MenuItem(
+                    icon: Icons.favorite,
+                    title: 'My Favorites',
+                    onTap: () {
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (context) => getIt<WishlistGetCubit>(),
+                            child: const WishlistPage(),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                   _MenuItem(
                     icon: Icons.person,
                     title: t.profile,

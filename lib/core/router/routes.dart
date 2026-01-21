@@ -6,6 +6,8 @@ import '../../feature/home/home.dart';
 import '../../feature/hospital/presentation/pages/hospitals_page.dart';
 import '../../feature/home/presentation/pages/specialities_page.dart';
 import '../../feature/profile/presentation/pages/profile_settings_screen.dart';
+import '../../feature/wishlist/presentation/pages/wishlist_page.dart';
+import '../../feature/wishlist/presentation/cubit/wishlist_get_cubit.dart';
 
 GoRouter goRouters = GoRouter(
   navigatorKey: GlobalContext.navigatorKey,
@@ -37,6 +39,13 @@ GoRouter goRouters = GoRouter(
     GoRoute(
       path: AppRoutes.profileSettings,
       builder: (context, state) => const ProfileSettingsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.wishlist,
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt<WishlistGetCubit>(),
+        child: const WishlistPage(),
+      ),
     ),
   ],
 );

@@ -85,7 +85,7 @@ class _ProfileSettingsScreenState extends State<ProfileSettingsScreen> {
         child: Column(
           children: [
             CustomGradientAppBar(
-              title: 'Profile Settings',
+              title: 'Profile ',
               showBackButton: true,
             ),
             // White Content Area
