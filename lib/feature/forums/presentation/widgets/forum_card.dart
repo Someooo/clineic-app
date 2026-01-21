@@ -19,7 +19,21 @@ class ForumCard extends StatelessWidget {
   void _showAnswerBottomSheet(BuildContext context) {
     final TextEditingController answerController = TextEditingController();
     final forumsCubit = context.read<ForumsCubit>();
+    final userId = UserStorageService.instance.getUserId();
     bool isSubmitting = false;
+    
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please login to view and post answers'),
+          backgroundColor: AppColor.red,
+        ),
+      );
+      return;
+    }
+
+    // Fetch answers first
+    forumsCubit.getAnswers(forumId: forum.id, userId: userId);
     
     showModalBottomSheet(
       context: context,
@@ -29,120 +43,308 @@ class ForumCard extends StatelessWidget {
       ),
       builder: (sheetContext) => StatefulBuilder(
         builder: (context, setState) {
-          return Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
-              left: 20.w,
-              right: 20.w,
-              top: 20.h,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Post Answer',
-                      style: AppTextStyle.style18B.copyWith(
-                        color: AppColor.black,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () => Navigator.of(sheetContext).pop(),
-                      icon: Icon(Icons.close, color: AppColor.grey),
-                    ),
-                  ],
-                ),
-                20.gap,
-                TextField(
-                  controller: answerController,
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    hintText: 'Write your answer here...',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: AppColor.grey.withOpacity(0.3)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: AppColor.primaryColor),
-                    ),
-                    contentPadding: EdgeInsets.all(16.w),
+          return StreamBuilder<ForumsState>(
+            stream: forumsCubit.stream,
+            initialData: forumsCubit.state,
+            builder: (context, snapshot) {
+              final state = snapshot.data!;
+              
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
+                    left: 20.w,
+                    right: 20.w,
+                    top: 20.h,
                   ),
-                ),
-                20.gap,
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: isSubmitting ? null : () async {
-                      if (answerController.text.trim().isEmpty) {
-                        ScaffoldMessenger.of(sheetContext).showSnackBar(
-                          SnackBar(
-                            content: Text('Please enter your answer'),
-                            backgroundColor: AppColor.red,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    // Header
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Answers & Discussion',
+                          style: AppTextStyle.style18B.copyWith(
+                            color: AppColor.black,
                           ),
-                        );
-                        return;
-                      }
-
-                      final userId = UserStorageService.instance.getUserId();
-                      if (userId == null) {
-                        ScaffoldMessenger.of(sheetContext).showSnackBar(
-                          SnackBar(
-                            content: Text('Please login to post answers'),
-                            backgroundColor: AppColor.red,
-                          ),
-                        );
-                        return;
-                      }
-
-                      setState(() {
-                        isSubmitting = true;
-                      });
-
-                      Navigator.of(sheetContext).pop();
-                      
-                      await forumsCubit.postAnswer(
-                        userId: userId,
-                        forumId: forum.id,
-                        forumAnswer: answerController.text.trim(),
-                      );
-
-                      // Auto-refresh forums after posting answer
-                      forumsCubit.refreshForums();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isSubmitting ? AppColor.grey : AppColor.primaryColor,
-                      foregroundColor: AppColor.white,
-                      padding: EdgeInsets.symmetric(vertical: 16.h),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
+                        ),
+                        IconButton(
+                          onPressed: () => Navigator.of(sheetContext).pop(),
+                          icon: Icon(Icons.close, color: AppColor.grey),
+                        ),
+                      ],
                     ),
-                    child: isSubmitting
-                        ? SizedBox(
-                            width: 20.w,
-                            height: 20.w,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(AppColor.white),
+                    20.gap,
+                    
+                    // Loading state
+                    if (state is ForumsLoading)
+                      Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    
+                    // Error state
+                    else if (state is ForumsError)
+                      Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.error, color: AppColor.red, size: 48.w),
+                            16.gap,
+                            Text(
+                              'Error loading answers',
+                              style: AppTextStyle.style16B.copyWith(
+                                color: AppColor.red,
+                              ),
                             ),
-                          )
-                        : Text(
-                            'Submit Answer',
-                            style: AppTextStyle.style16B,
+                            8.gap,
+                            Text(
+                              state.message,
+                              style: AppTextStyle.style14.copyWith(
+                                color: AppColor.grey,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            16.gap,
+                            ElevatedButton(
+                              onPressed: () {
+                                forumsCubit.getAnswers(forumId: forum.id, userId: userId);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.primaryColor,
+                                foregroundColor: AppColor.white,
+                              ),
+                              child: Text('Retry'),
+                            ),
+                          ],
+                        ),
+                      )
+                    
+                    // Answers loaded state
+                    else if (state is ForumsAnswersLoaded) ...[
+                      // Answers section
+                      if (state.answers.isNotEmpty) ...[
+                        // Text(
+                        //   'Existing Answers (${state.answers.length})',
+                        //   style: AppTextStyle.style16B.copyWith(
+                        //     color: AppColor.black,
+                        //   ),
+                        // ),
+                        // 16.gap,
+                        // Show all answers with scroll
+                        Container(
+                          constraints: BoxConstraints(maxHeight: 300.h),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: state.answers.map((answer) => Padding(
+                                padding: EdgeInsets.only(bottom: 16.h),
+                                child: Container(
+                                  padding: EdgeInsets.all(16.w),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[50],
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 16.r,
+                                            backgroundImage: NetworkImage(answer.userImage),
+                                            child: answer.userImage.isEmpty
+                                                ? Icon(Icons.person, size: 16.w)
+                                                : null,
+                                          ),
+                                          8.gap,
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  answer.userName,
+                                                  style: AppTextStyle.style12B.copyWith(
+                                                    color: AppColor.black,
+                                                  ),
+                                                ),
+                                                if (answer.verifyUser == 1)
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.verified,
+                                                        size: 12.w,
+                                                        color: Colors.blue,
+                                                      ),
+                                                      2.gap,
+                                                      Text(
+                                                        'Verified',
+                                                        style: AppTextStyle.style12.copyWith(
+                                                          color: Colors.blue,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      6.gap,
+                                      Text(
+                                        answer.answer,
+                                        style: AppTextStyle.style12.copyWith(
+                                          color: Colors.grey[700],
+                                        ),
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )).toList(),
+                            ),
                           ),
+                        ),
+                        20.gap,
+                      ] else ...[
+                        Center(
+                          child: Text(
+                            'No answers yet. Be the first to answer!',
+                            style: AppTextStyle.style14.copyWith(
+                              color: AppColor.grey,
+                            ),
+                          ),
+                        ),
+                        20.gap,
+                      ],
+                      
+                      // Post answer section
+                      Container(
+                        padding: EdgeInsets.all(16.w),
+                        decoration: BoxDecoration(
+                          // color: AppColor.primaryColor.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(color: AppColor.primaryColor.withOpacity(0.2)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Post Your Answer',
+                              style: AppTextStyle.style16B.copyWith(
+                                color: AppColor.primaryColor,
+                              ),
+                            ),
+                            12.gap,
+                            TextField(
+                              controller: answerController,
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                hintText: 'Write your answer here...',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  borderSide: BorderSide(color: AppColor.grey.withOpacity(0.3)),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  borderSide: BorderSide(color: AppColor.primaryColor),
+                                ),
+                                contentPadding: EdgeInsets.all(12.w),
+                              ),
+                            ),
+                            12.gap,
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: isSubmitting ? null : () async {
+                                  if (answerController.text.trim().isEmpty) {
+                                    ScaffoldMessenger.of(sheetContext).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Please enter your answer'),
+                                        backgroundColor: AppColor.red,
+                                      ),
+                                    );
+                                    return;
+                                  }
+
+                                  setState(() {
+                                    isSubmitting = true;
+                                  });
+
+                                  await forumsCubit.postAnswer(
+                                    userId: userId,
+                                    forumId: forum.id,
+                                    forumAnswer: answerController.text.trim(),
+                                  );
+
+                                  // Clear the text field and refresh answers
+                                  answerController.clear();
+                                  forumsCubit.getAnswers(forumId: forum.id, userId: userId);
+                                  forumsCubit.refreshForums(); // Refresh main forums list
+                                  
+                                  setState(() {
+                                    isSubmitting = false;
+                                  });
+
+                                  ScaffoldMessenger.of(sheetContext).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Answer posted successfully!'),
+                                      backgroundColor: AppColor.green,
+                                    ),
+                                  );
+
+                                  // Auto-close bottom sheet after successful post
+                                  Navigator.of(sheetContext).pop();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: isSubmitting ? AppColor.grey : AppColor.primaryColor,
+                                  foregroundColor: AppColor.white,
+                                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                  ),
+                                ),
+                                child: isSubmitting
+                                    ? SizedBox(
+                                        width: 16.w,
+                                        height: 16.w,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          valueColor: AlwaysStoppedAnimation<Color>(AppColor.white),
+                                        ),
+                                      )
+                                    : Text(
+                                        'Submit Answer',
+                                        style: AppTextStyle.style14B,
+                                      ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                    
+                    // Fallback loading
+                    if (state is! ForumsAnswersLoaded && state is! ForumsError && state is! ForumsLoading)
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    
+                    20.gap,
+                    ],
                   ),
                 ),
-                20.gap,
-              ],
-            ),
+              );
+            },
           );
         },
       ),
-    );
+    ).then((_) {
+      // Auto-refresh forums when bottom sheet closes
+      forumsCubit.refreshForums();
+    });
   }
 
   @override
@@ -264,7 +466,7 @@ class ForumCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Answer icon
+                    // Answer icon - now opens unified bottom sheet
                     GestureDetector(
                       onTap: () => _showAnswerBottomSheet(context),
                       child: Container(

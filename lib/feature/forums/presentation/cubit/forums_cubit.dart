@@ -2,16 +2,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/entities/forum_entity.dart';
 import '../../domain/usecases/get_forums_listing_usecase.dart';
 import '../../domain/usecases/post_answer_usecase.dart';
+import '../../domain/usecases/get_answers_usecase.dart';
+import '../../data/model/forum_answer_model.dart';
 
 part 'forums_state.dart';
 
 class ForumsCubit extends Cubit<ForumsState> {
   final GetForumsListingUseCase getForumsListingUseCase;
   final PostAnswerUseCase postAnswerUseCase;
+  final GetAnswersUseCase getAnswersUseCase;
 
   ForumsCubit({
     required this.getForumsListingUseCase,
     required this.postAnswerUseCase,
+    required this.getAnswersUseCase,
   }) : super(const ForumsInitial());
 
   Future<void> loadForums() async {
@@ -64,6 +68,23 @@ class ForumsCubit extends Cubit<ForumsState> {
     result.fold(
       (failure) => emit(ForumsError(message: failure.message)),
       (message) => emit(ForumsAnswerPosted(message: message)),
+    );
+  }
+
+  Future<void> getAnswers({
+    required int forumId,
+    required int userId,
+  }) async {
+    emit(const ForumsLoading());
+    
+    final result = await getAnswersUseCase.call(
+      forumId: forumId,
+      userId: userId,
+    );
+
+    result.fold(
+      (failure) => emit(ForumsError(message: failure.message)),
+      (answers) => emit(ForumsAnswersLoaded(answers: answers)),
     );
   }
 }

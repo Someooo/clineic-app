@@ -6,6 +6,7 @@ import '../data/repository/forums_repository_impl.dart';
 import '../domain/repository/forums_repository.dart';
 import '../domain/usecases/get_forums_listing_usecase.dart';
 import '../domain/usecases/post_answer_usecase.dart';
+import '../domain/usecases/get_answers_usecase.dart';
 import '../presentation/cubit/forums_cubit.dart';
 
 Future<void> forumsDI(GetIt getIt) async {
@@ -27,11 +28,16 @@ Future<void> forumsDI(GetIt getIt) async {
     () => PostAnswerUseCase(repository: getIt<ForumsRepository>()),
   );
 
+  getIt.registerLazySingleton<GetAnswersUseCase>(
+    () => GetAnswersUseCase(repository: getIt<ForumsRepository>()),
+  );
+
   // Presentation layer
   getIt.registerFactory<ForumsCubit>(
     () => ForumsCubit(
       getForumsListingUseCase: getIt<GetForumsListingUseCase>(),
       postAnswerUseCase: getIt<PostAnswerUseCase>(),
+      getAnswersUseCase: getIt<GetAnswersUseCase>(),
     ),
   );
 }

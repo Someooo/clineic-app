@@ -59,3 +59,19 @@ class ForumsAnswerPosted extends ForumsState {
   @override
   int get hashCode => message.hashCode;
 }
+
+class ForumsAnswersLoaded extends ForumsState {
+  final List<ForumAnswerModel> answers;
+
+  const ForumsAnswersLoaded({required this.answers});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ForumsAnswersLoaded && 
+           other.answers == answers;
+  }
+
+  @override
+  int get hashCode => answers.hashCode;
+}

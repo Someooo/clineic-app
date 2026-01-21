@@ -1,5 +1,5 @@
 class ForumsEndpoint {
-  static const String _baseUrl = 'https://clinic.code-pro.io/api/v1';
+  static const String _baseUrl = '/api/v1';
   
   static String getForumsListing({
     required int pageNumber,
@@ -12,4 +12,5 @@ class ForumsEndpoint {
   }
 
   static const String postAnswer = '$_baseUrl/forums/post_answer';
+  static const String getAnswers = '$_baseUrl/forums/get_answers';
 }

@@ -3,6 +3,7 @@ import '../endpoint/forums_endpoint.dart';
 import '../model/forum_model.dart';
 import '../model/forum_answer_request_model.dart';
 import '../model/forum_answer_response_model.dart';
+import '../model/forum_answer_model.dart';
 import 'forums_remote_data_source.dart';
 
 class ForumsRemoteDataSourceImpl implements ForumsRemoteDataSource {
@@ -71,6 +72,41 @@ class ForumsRemoteDataSourceImpl implements ForumsRemoteDataSource {
       return Right(ForumAnswerResponseModel.fromJson(response));
     } catch (e, stackTrace) {
       return handleRepoDataError<ForumAnswerResponseModel>(e, stackTrace);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ForumAnswerModel>>> getAnswers({
+    required int forumId,
+    required int userId,
+  }) async {
+    try {
+      final url = '${ForumsEndpoint.getAnswers}?id=$forumId&user_id=$userId';
+      
+      final response = await apiServices.getData(url);
+
+      // Check if response is a direct array (like logs show)
+      if (response is List) {
+        final answers = response.map((json) => ForumAnswerModel.fromJson(json)).toList();
+        return Right(answers);
+      }
+      
+      // Check if response has status/data structure
+      final status = response['status'] as String?;
+      final data = response['data'] as List<dynamic>?;
+      final message = response['message'] as String?;
+
+      if (status == 'success' && data != null) {
+        final answers = data.map((json) => ForumAnswerModel.fromJson(json)).toList();
+        return Right(answers);
+      } else if (message == 'No Record' || response['type'] == 'error') {
+        // Handle "No Record" as empty answers list
+        return Right([]);
+      } else {
+        return Left(ServerFailure(message: message ?? 'Unknown error'));
+      }
+    } catch (e, stackTrace) {
+      return handleRepoDataError<List<ForumAnswerModel>>(e, stackTrace);
     }
   }
 }

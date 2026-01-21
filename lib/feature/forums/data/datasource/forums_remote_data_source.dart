@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/errors/failure.dart';
 import '../model/forum_model.dart';
+import '../model/forum_answer_model.dart';
 import '../model/forum_answer_response_model.dart';
 
 abstract class ForumsRemoteDataSource {
@@ -16,5 +17,10 @@ abstract class ForumsRemoteDataSource {
     required int userId,
     required int forumId,
     required String forumAnswer,
+  });
+
+  Future<Either<Failure, List<ForumAnswerModel>>> getAnswers({
+    required int forumId,
+    required int userId,
   });
 }
