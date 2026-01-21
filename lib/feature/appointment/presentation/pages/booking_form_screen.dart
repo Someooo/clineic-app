@@ -30,6 +30,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
   TimeOfDay? _selectedTime;
   bool _isLoading = false;
   String? _error;
+  int _sessionType = 0; // 0 for physical, 1 for online
 
   @override
   void dispose() {
@@ -108,6 +109,7 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
           'time': _formatTime(_selectedTime!),
           'date': _formatDate(_selectedDate!),
           'comments': _commentsController.text.trim(),
+          'session_type': _sessionType,
         },
       );
 
@@ -185,261 +187,330 @@ class _BookingFormScreenState extends State<BookingFormScreen> {
                     topRight: Radius.circular(24),
                   ),
                 ),
-                child: Padding(
+                child: SingleChildScrollView(
                   padding: const EdgeInsets.all(20),
                   child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Doctor Info
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Row(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Doctor Info
                         Container(
-                          width: 50,
-                          height: 50,
+                          padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColor.primaryColor.withOpacity(0.1),
+                            color: AppColor.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
-                          child: const Icon(
-                            Icons.person,
-                            color: AppColor.primaryColor,
-                            size: 24,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
                             children: [
-                              Text(
-                                widget.doctorName,
-                                style: AppTextStyle.style16B.copyWith(
-                                  color: AppColor.black,
-                                  decoration: TextDecoration.none,
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColor.primaryColor.withOpacity(0.1),
+                                ),
+                                child: const Icon(
+                                  Icons.person,
+                                  color: AppColor.primaryColor,
+                                  size: 24,
                                 ),
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Doctor ID: ${widget.doctorId}',
-                                style: AppTextStyle.style12.copyWith(
-                                  color: AppColor.grey,
-                                  decoration: TextDecoration.none,
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.doctorName,
+                                      style: AppTextStyle.style16B.copyWith(
+                                        color: AppColor.black,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Doctor ID: ${widget.doctorId}',
+                                      style: AppTextStyle.style12.copyWith(
+                                        color: AppColor.grey,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
+                        const SizedBox(height: 24),
 
-                  // Date Picker
-                  Text(
-                    'Select Date',
-                    style: AppTextStyle.style16B.copyWith(
-                      color: AppColor.black,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: _selectDate,
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppColor.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: _selectedDate == null ? AppColor.grey : AppColor.primaryColor,
+                        // Date Picker
+                        Text(
+                          'Select Date',
+                          style: AppTextStyle.style16B.copyWith(
+                            color: AppColor.black,
+                            decoration: TextDecoration.none,
+                          ),
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.calendar_today,
-                            color: AppColor.primaryColor,
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            _selectedDate != null
-                                ? _formatDate(_selectedDate!)
-                                : 'Select Date',
-                            style: AppTextStyle.style14.copyWith(
-                              color: _selectedDate != null ? AppColor.black : AppColor.grey,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                            color: AppColor.grey,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Time Picker
-                  Text(
-                    'Select Time',
-                    style: AppTextStyle.style16B.copyWith(
-                      color: AppColor.black,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: _selectTime,
-                    child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppColor.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: _selectedTime == null ? AppColor.grey : AppColor.primaryColor,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.access_time,
-                            color: AppColor.primaryColor,
-                          ),
-                          const SizedBox(width: 12),
-                          Text(
-                            _selectedTime != null
-                                ? _formatTime(_selectedTime!)
-                                : 'Select Time',
-                            style: AppTextStyle.style14.copyWith(
-                              color: _selectedTime != null ? AppColor.black : AppColor.grey,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                            color: AppColor.grey,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Comments
-                  Text(
-                    'Comments (Optional)',
-                    style: AppTextStyle.style16B.copyWith(
-                      color: AppColor.black,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _commentsController,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      hintText: 'Add any additional comments...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: AppColor.grey),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: AppColor.primaryColor),
-                      ),
-                      filled: true,
-                      fillColor: AppColor.white,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Error Message
-                  if (_error != null) ...[
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppColor.red.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.error_outline,
-                            color: AppColor.red,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              _error!,
-                              style: AppTextStyle.style12.copyWith(
-                                color: AppColor.red,
-                                decoration: TextDecoration.none,
+                        const SizedBox(height: 8),
+                        GestureDetector(
+                          onTap: _selectDate,
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColor.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: _selectedDate == null ? AppColor.grey : AppColor.primaryColor,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-
-                  // Submit Button
-                  _isLoading
-                      ? Container(
-                          width: double.infinity,
-                          height: 56,
-                          decoration: BoxDecoration(
-                            color: AppColor.primaryColor.withOpacity(0.5),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Center(
-                            child: CircularProgressIndicator(
-                              color: AppColor.white,
-                              strokeWidth: 2,
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.calendar_today,
+                                  color: AppColor.primaryColor,
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  _selectedDate != null
+                                      ? _formatDate(_selectedDate!)
+                                      : 'Select Date',
+                                  style: AppTextStyle.style14.copyWith(
+                                    color: _selectedDate != null ? AppColor.black : AppColor.grey,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: AppColor.grey,
+                                ),
+                              ],
                             ),
                           ),
-                        )
-                      : Center(
-                        child: AppButton.text(
-                          text: 'Book Appointment',
-                          height: 56,
-                          onPressed: _submitBooking,
-                          color: AppColor.primaryColor,
-                          fontColor: AppColor.white,
-                          borderRadius: BorderRadius.circular(12),
                         ),
-                      ),
-                ],
-              ),
-            ),
+                        const SizedBox(height: 20),
+
+                        // Time Picker
+                        Text(
+                          'Select Time',
+                          style: AppTextStyle.style16B.copyWith(
+                            color: AppColor.black,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        GestureDetector(
+                          onTap: _selectTime,
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColor.white,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: _selectedTime == null ? AppColor.grey : AppColor.primaryColor,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.access_time,
+                                  color: AppColor.primaryColor,
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  _selectedTime != null
+                                      ? _formatTime(_selectedTime!)
+                                      : 'Select Time',
+                                  style: AppTextStyle.style14.copyWith(
+                                    color: _selectedTime != null ? AppColor.black : AppColor.grey,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                const Spacer(),
+                                const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: AppColor.grey,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Session Type Selection
+                        Text(
+                          'Session Type',
+                          style: AppTextStyle.style16B.copyWith(
+                            color: AppColor.black,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: AppColor.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              RadioListTile<int>(
+                                title: Text(
+                                  'Physical',
+                                  style: AppTextStyle.style14.copyWith(
+                                    color: AppColor.black,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                value: 0,
+                                groupValue: _sessionType,
+                                onChanged: (int? value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      _sessionType = value;
+                                    });
+                                  }
+                                },
+                                activeColor: AppColor.primaryColor,
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                              RadioListTile<int>(
+                                title: Text(
+                                  'Online',
+                                  style: AppTextStyle.style14.copyWith(
+                                    color: AppColor.black,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                value: 1,
+                                groupValue: _sessionType,
+                                onChanged: (int? value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      _sessionType = value;
+                                    });
+                                  }
+                                },
+                                activeColor: AppColor.primaryColor,
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Comments
+                        Text(
+                          'Comments (Optional)',
+                          style: AppTextStyle.style16B.copyWith(
+                            color: AppColor.black,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          controller: _commentsController,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: 'Add any additional comments...',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: AppColor.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: AppColor.primaryColor),
+                            ),
+                            filled: true,
+                            fillColor: AppColor.white,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Error Message
+                        if (_error != null) ...[
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: AppColor.red.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.error_outline,
+                                  color: AppColor.red,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    _error!,
+                                    style: AppTextStyle.style12.copyWith(
+                                      color: AppColor.red,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+
+                        // Submit Button
+                        _isLoading
+                            ? Container(
+                                width: double.infinity,
+                                height: 56,
+                                decoration: BoxDecoration(
+                                  color: AppColor.primaryColor.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColor.white,
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              )
+                            : Center(
+                                child: AppButton.text(
+                                  text: 'Book Appointment',
+                                  height: 56,
+                                  onPressed: _submitBooking,
+                                  color: AppColor.primaryColor,
+                                  fontColor: AppColor.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-     
+          ),
+        ],
+      ),
     );
   }
 }

@@ -3,6 +3,8 @@ import 'core/services/user_storage_service.dart';
 import 'feature/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'feature/wishlist/presentation/cubit/wishlist_get_cubit.dart';
 import 'feature/forums/presentation/cubit/forums_cubit.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,6 +27,9 @@ Future<void> main() async {
 
   // Initialize dependencies before running app
   try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     await EnvConstant.init();
     await HiveServices().init();
     await UserStorageService.init(); // Initialize UserStorageService
