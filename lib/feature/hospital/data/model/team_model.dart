@@ -10,7 +10,7 @@ class TeamModel {
   final String medicalVerified;
   final String isVerified;
   final String? subHeading;
-  final String specialities;
+  final String? specialities;
   final String featured;
   final List<String> bookingsDays;
   final String currentDay;
@@ -28,7 +28,7 @@ class TeamModel {
     this.medicalVerified = "no",
     this.isVerified = "yes",
     this.subHeading,
-    this.specialities = "",
+    this.specialities,
     this.featured = "",
     this.bookingsDays = const [],
     this.currentDay = "",
@@ -49,7 +49,7 @@ class TeamModel {
       medicalVerified: json['medilcal_verified'] as String? ?? "no", // Note: typo in API
       isVerified: json['is_verified'] as String? ?? "yes",
       subHeading: json['sub_heading'] as String?,
-      specialities: json['specialities'] as String? ?? "",
+      specialities: _parseSpecialities(json['specialities']),
       featured: json['featured'] as String? ?? "",
       bookingsDays: (json['bookings_days'] as List<dynamic>?)
           ?.map((e) => e.toString())
@@ -58,6 +58,22 @@ class TeamModel {
       votes: json['votes'] as String?,
       startingPrice: json['starting_price'] as String? ?? "",
     );
+  }
+
+  /// Helper method to parse specialities field that can be either String or Map
+  static String? _parseSpecialities(dynamic specialities) {
+    if (specialities == null) return null;
+    
+    if (specialities is String) {
+      return specialities.isEmpty ? null : specialities;
+    }
+    
+    if (specialities is Map<String, dynamic>) {
+      // If it's a map, extract the name field
+      return specialities['name'] as String?;
+    }
+    
+    return null;
   }
 
   /// Convert TeamModel to JSON

@@ -66,8 +66,8 @@ class TeamCard extends StatelessWidget {
                 ),
               ),
             ),
-            Icon(
-              Icons.arrow_forward_ios,
+          const  Icon(
+              Icons.bookmark_outlined,
               color: AppColor.grey,
               size: 16,
             ),

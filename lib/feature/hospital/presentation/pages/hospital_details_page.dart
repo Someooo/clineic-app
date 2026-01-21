@@ -1,5 +1,6 @@
 import '../../../../global_imports.dart';
 import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
+import '../../../../core/widget/button/app_button.dart';
 import '../../domain/entities/hospital_entity.dart';
 import 'hospital_team_page.dart';
 
@@ -190,42 +191,20 @@ class HospitalDetailsPage extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ElevatedButton(
+      child: AppButton.text(
+        color: AppColor.primaryColor,
+        text: 'Team Hospital',
+       
         onPressed: () {
-          // Navigate to hospital team page
-          // Using hospital.id as userId for the API call
+         
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => HospitalTeamPage(profileId: hospital.id),
             ),
           );
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColor.white,
-          foregroundColor: AppColor.primaryColor,
-          elevation: 2,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.groups,
-              size: 20,
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              'Team Hospital',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+        
+        height: 48,
       ),
     );
   }
