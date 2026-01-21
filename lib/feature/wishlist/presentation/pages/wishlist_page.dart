@@ -4,6 +4,7 @@ import '../../../doctor_detail/presentation/widget/doctor_card.dart';
 import '../../../doctor_detail/presentation/pages/doctor_detail_page.dart';
 import '../../../doctor_detail/domain/entities/doctor_list_entity.dart';
 import '../../../../core/widget/app_widget/custom_gradient_app_bar.dart';
+import '../../../../core/services/user_storage_service.dart';
 
 class WishlistPage extends StatefulWidget {
   const WishlistPage({super.key});
@@ -16,13 +17,27 @@ class _WishlistPageState extends State<WishlistPage> {
   @override
   void initState() {
     super.initState();
-    // Load wishlist when page initializes
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    
+    // Get the logged-in user's ID dynamically
+    final userId = UserStorageService.instance.getUserId();
+    if (userId != null) {
+      // Load wishlist for the current user
       context.read<WishlistGetCubit>().getWishlist(
-        profileId: 7, // You can get this from user session
+        profileId: userId,
         type: 'doctors',
       );
-    });
+    } else {
+      // Handle case where user is not logged in
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Please login to view your favorites'),
+            backgroundColor: AppColor.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      });
+    }
   }
 
   @override
@@ -87,10 +102,21 @@ class _WishlistPageState extends State<WishlistPage> {
                             const SizedBox(height: 16),
                             ElevatedButton(
                               onPressed: () {
-                                context.read<WishlistGetCubit>().getWishlist(
-                                  profileId: 7,
-                                  type: 'doctors',
-                                );
+                                final userId = UserStorageService.instance.getUserId();
+                                if (userId != null) {
+                                  context.read<WishlistGetCubit>().getWishlist(
+                                    profileId: userId,
+                                    type: 'doctors',
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Please login to view your favorites'),
+                                      backgroundColor: AppColor.red,
+                                      duration: const Duration(seconds: 3),
+                                    ),
+                                  );
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColor.primaryColor,
